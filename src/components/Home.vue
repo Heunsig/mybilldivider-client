@@ -1,5 +1,34 @@
 <template>
-  <v-ons-page>
+  <div>
+    <v-list two-line>
+      <v-list-tile>
+        <v-list-tile-content>
+          <v-list-tile-title>Sales Tax Rate (%)</v-list-tile-title>
+          <v-list-tile-sub-title>{{ salesTaxRate }}</v-list-tile-sub-title>
+        </v-list-tile-content>
+        <v-list-tile-action>
+          <v-btn icon ripple @click="dialog = true">
+              <v-icon color="grey lighten-1">mode_edit</v-icon>
+          </v-btn>
+        </v-list-tile-action>
+      </v-list-tile>
+    </v-list>
+
+    <v-dialog v-model="dialog" persistent max-width="290">
+      <v-card>
+        <v-card-title class="headline">Edit Sales Tax Rate</v-card-title>
+        <v-card-text>
+          <v-text-field label="Sales Tax Rate" type="number" v-model="salesTaxRate"></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat @click.native="dialog = false">Disagree</v-btn>
+          <v-btn color="green darken-1" flat @click.native="dialog = false">Agree</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
+  <!-- <v-ons-page>
     <v-ons-list>
       <v-ons-list-header>Sales Tax Rate</v-ons-list-header>
       <v-ons-list-item>
@@ -16,10 +45,15 @@
         </div>
       </v-ons-list-item>
     </v-ons-list>
-  </v-ons-page>
+  </v-ons-page> -->
 </template>
 <script>
   export default {
+    data () {
+      return {
+        dialog: false
+      }
+    },
     computed: {
       salesTaxRate: {
         get () {

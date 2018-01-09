@@ -1,5 +1,104 @@
 <template>
-  <v-ons-page>
+  <div>
+    <v-btn block color="primary" dark @click="dialogAddingItem = true">Add item</v-btn>
+    <template v-if="menu.length">
+      <v-container fluid grid-list-xs>
+        <v-layout row wrap>
+          <template v-for="(item, i) in menu">
+            <v-flex xs12>
+              <v-card>
+                <v-card-text>
+                  <v-list>
+                    <v-list-tile avatar>
+                      <v-list-tile-avatar>
+                        <v-icon class="grey lighten-1 white--text">local_dining</v-icon>
+                      </v-list-tile-avatar>
+                      <v-list-tile-content>
+                        <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+                        <!-- <v-list-tile-sub-title>Total: $ {{ totalPriceWithoutSalesTax(person).toFixed(2) }}</v-list-tile-sub-title> -->
+                      </v-list-tile-content>
+                      <v-list-tile-action>
+                        $ {{ item.price }}
+                      </v-list-tile-action>
+                      <v-list-tile-action>
+                        <v-btn icon ripple @click="">
+                          <v-icon color="grey lighten-1">edit</v-icon>
+                        </v-btn>
+                      </v-list-tile-action>
+                    </v-list-tile>
+                  </v-list>
+                  <v-card flat>
+                    <v-card-text>
+                      <div class="text-xs-center">
+                        <v-chip label v-for="(name, i) in item.people" :key="i">{{ name }}</v-chip>
+                      </div>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-btn flat @click="openDialogAddingPeople(item)">
+                          With
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+      <!-- <v-divider v-if="i != menu.length - 1"></v-divider> -->
+                </v-card-text>
+              </v-card>              
+            </v-flex>
+          </template>
+        </v-layout>
+      </v-container>
+    </template>
+    <template v-else>
+      <v-card flat>
+        <v-card-text>
+          <p class="text-xs-center body-2">Please add item</p>
+        </v-card-text>
+      </v-card>
+    </template>
+
+    <v-dialog v-model="dialogAddingItem" persistent max-width="290">
+      <v-card>
+        <v-card-title class="headline">Add item</v-card-title>
+        <v-card-text>
+          <v-container grid-list-xs>
+            <v-layout wrap>
+              <v-flex>
+                <v-text-field label="Item name" v-model="item.name"></v-text-field>      
+              </v-flex>
+              <v-flex>
+                <v-text-field label="Item price" type="number" v-model="item.price"></v-text-field>      
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat @click.native="closeDialogAddingItem">Disagree</v-btn>
+          <v-btn color="green darken-1" flat @click.native="addItem">Agree</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialogAddingPeople" persistent max-width="290">
+      <v-card>
+        <v-card-title class="headline">Add People</v-card-title>
+        <v-card-text>
+          <v-container grid-list-xs>
+            <v-layout wrap>
+              <v-flex>
+                <v-checkbox v-for="(person, i) in people" :key="i" :label="person.name" v-model="selectedItem.people" :value="person.name"></v-checkbox>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <!-- <v-btn color="green darken-1" flat @click.native="dialogAddingPeople = false">Disagree</v-btn> -->
+          <v-btn color="green darken-1" flat @click.native="dialogAddingPeople = false">Agree</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
+  <!-- <v-ons-page>
     <div style="background:white;padding: 5px 0;text-align:center;">
       <v-ons-button @click.native="dialogAddingItem = true" style="width:90%">Add menu</v-ons-button>
     </div>
@@ -33,7 +132,6 @@
       </p>
     </div>
 
-    <!-- Dialog for adding item -->
     <v-ons-alert-dialog modifier="rowfooter"
       :visible.sync="dialogAddingItem"
     >
@@ -53,9 +151,7 @@
         <button class="alert-dialog-button" @click="addItem">Ok</button>
       </template>
     </v-ons-alert-dialog>
-    <!-- /Dialog for adding item -->
   
-    <!-- Dialog for adding people to item -->
     <v-ons-alert-dialog modifier="rowfooter"
       :visible.sync="dialogAddingPeople"
     >
@@ -81,8 +177,7 @@
         <button class="alert-dialog-button" @click="dialogAddingPeople = false">Ok</button>
       </template>
     </v-ons-alert-dialog>
-    <!-- /Dialog for adding people to item -->
-  </v-ons-page>
+  </v-ons-page> -->
 </template>
 <script>
   export default {
@@ -104,6 +199,14 @@
       },
       people () {
         return this.$store.getters.getPeople
+      },
+      peopleNameList () {
+        let nameList = []
+        this.$store.getters.getPeople.forEach(person => {
+          nameList.push(person.name)
+        })
+
+        return nameList
       }
     },
     methods: {

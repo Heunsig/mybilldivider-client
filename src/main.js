@@ -4,19 +4,19 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-import VueOnsen from 'vue-onsenui' // This already imports 'onsenui'
-// import Vuetify from 'vuetify'
+// import VueOnsen from 'vue-onsenui' // This already imports 'onsenui'
+import Vuetify from 'vuetify'
 
 // Webpack CSS import
-import 'onsenui/css/onsenui.css'
-import 'onsenui/css/onsen-css-components.css'
+// import 'onsenui/css/onsenui.css'
+// import 'onsenui/css/onsen-css-components.css'
 
 // index.js or main.js
-// import 'vuetify/dist/vuetify.min.css'
+import 'vuetify/dist/vuetify.min.css'
 
 Vue.config.productionTip = false
-Vue.use(VueOnsen)
-// Vue.use(Vuetify)
+// Vue.use(VueOnsen)
+Vue.use(Vuetify)
 // Vue.use(Framework7)
 
 /* eslint-disable no-new */

@@ -1,5 +1,5 @@
 <template>
-  <v-ons-page>
+  <!-- <v-ons-page>
     <v-ons-toolbar>
       <div class="center">
         I can split
@@ -11,7 +11,38 @@
     >
     </v-ons-tabbar>
 
-  </v-ons-page>
+  </v-ons-page> -->
+  <v-app>
+    <v-tabs dark grow>
+      <v-toolbar app color="cyan" dark class="ics-toolbar">
+        <v-toolbar-side-icon></v-toolbar-side-icon>
+        <v-toolbar-title>I can split</v-toolbar-title>
+        <v-tabs-bar class="cyan" slot="extension">
+          <v-tabs-slider color="yellow"></v-tabs-slider>
+          <v-tabs-item
+            v-for="(tab, i) in tabs"
+            :key="i"
+            :href="'#tab-' + (i + 1)"
+          >
+            {{ tab.label }}
+          </v-tabs-item>
+        </v-tabs-bar>
+      </v-toolbar>
+      <v-tabs-items class="ics-tabItems">
+        <v-tabs-content
+          v-for="i in tabs.length"
+          :key="i"
+          :id="'tab-' + i"
+        >
+          <v-card flat>
+            <v-card-text>
+              <div :is="tabs[i-1].component"></div>
+            </v-card-text>
+          </v-card>
+        </v-tabs-content>
+      </v-tabs-items>
+    </v-tabs>
+  </v-app>
 </template>
 
 <script>
@@ -24,72 +55,55 @@ import Result from '@/components/Result'
 export default {
   data () {
     return {
-      // salesTaxRate: '',
-      // people: [],
-      // person: {
-        // name: '',
-        // menu: []
-      // },
-      // dialogAddPerson: false,
       tabs: [
         {
-          icon: 'ion-home',
           label: 'Home',
-          page: Home,
-          key: 'home'
+          component: 'Home'
         },
         {
-          icon: 'ion-ios-person',
-          label: 'People',
-          page: People,
-          key: 'addPeople'
+          label: 'Add people',
+          component: 'People'
         },
         {
-          icon: 'ion-ios-paper',
           label: 'In person',
-          page: PriceEachPerson,
-          key: 'managePeople'
+          component: 'PriceEachPerson'
         },
         {
-          icon: 'ion-pizza',
-          label: 'In Menu',
-          page: PriceSharedMenu,
-          key: 'sharedMenu'
-        },
-        {
-          icon: 'ion-social-usd',
-          label: 'Result',
-          page: Result,
-          key: 'resultPage'
+          label: 'Shared menu',
+          component: 'PriceSharedMenu'
         }
+        // {
+        //   label: 'Result',
+        //   component: 'Result'
+        // }
       ]
     }
   },
-  methods: {
-    // openDialogAddingPerson () {
-    //   this.person = {
-    //     name: '',
-    //     menu: []
-    //   }
-    //   this.dialogAddPerson = true
-    // },
-    // confirmAddingPerson () {
-    //   this.people.push(this.person)
-    //   this.dialogAddPerson = false
-    // },
-    // closeAddingPerson () {
-    //   this.person = {
-    //     name: '',
-    //     menu: []
-    //   }
-    //   this.dialogAddPerson = false
-    // },
-    // addMenu (person) {
-    //   person.menu.push({price: ''})
-    // }
+  components: {
+    Home,
+    People,
+    PriceEachPerson,
+    PriceSharedMenu,
+    Result
   }
 }
 </script>
-
-<style>
+<style scoped>
+.ics-toolbar{
+  position: fixed;
+  z-index: 2;
+}
+.ics-tabItems{
+  padding-top: 98px;
+}
+@media screen and (max-width: 420px) {
+  .ics-tabItems{
+    padding-top: 112px;
+  }
+}
+@media screen and (min-width: 960px) {
+  .ics-tabItems{
+    padding-top: 128px;
+  }
+}
 </style>
