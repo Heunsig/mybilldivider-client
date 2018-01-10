@@ -5,13 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    salesTaxRate: '',
+    salesTax: '',
     people: [],
     menu: []
   },
   getters: {
     getSalesTaxRate (state) {
-      return state.salesTaxRate
+      return state.salesTax
     },
     getPeople (state) {
       return state.people
@@ -21,14 +21,21 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    setSalesTaxRate (state, salesTaxRate) {
-      state.salesTaxRate = salesTaxRate
+    setSalesTaxRate (state, salesTax) {
+      state.salesTax = salesTax
     },
     addPerson (state, person) {
       state.people.push(person)
     },
-    addMenu (state, menu) {
-      state.menu.push(menu)
+    addItemToMenu (state, item) {
+      state.menu.push(item)
+    },
+    deleteItemFromMenu (state, item) {
+      state.menu.forEach((obj, i) => {
+        if (obj === item) {
+          state.menu.splice(i, 1)
+        }
+      })
     },
     addPeopleToItem (state, addingItem) {
       state.menu.forEach(item => {

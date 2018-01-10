@@ -71,11 +71,11 @@ export default {
         {
           label: 'Shared menu',
           component: 'PriceSharedMenu'
+        },
+        {
+          label: 'Result',
+          component: 'Result'
         }
-        // {
-        //   label: 'Result',
-        //   component: 'Result'
-        // }
       ]
     }
   },

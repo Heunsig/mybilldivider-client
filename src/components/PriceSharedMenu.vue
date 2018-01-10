@@ -2,45 +2,55 @@
   <div>
     <v-btn block color="primary" dark @click="dialogAddingItem = true">Add item</v-btn>
     <template v-if="menu.length">
-      <v-container fluid grid-list-xs>
+      <v-container fluid class="ics-grid">
         <v-layout row wrap>
           <template v-for="(item, i) in menu">
             <v-flex xs12>
               <v-card>
-                <v-card-text>
+                  <v-card-actions>
+                    <v-btn icon @click="openDialogDeletingItem(item)">
+                      <v-icon>delete</v-icon>
+                    </v-btn>
+                    <v-btn icon @click="openDialogEditingItem(item)">
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                  </v-card-actions>
                   <v-list>
                     <v-list-tile avatar>
                       <v-list-tile-avatar>
-                        <v-icon class="grey lighten-1 white--text">local_dining</v-icon>
+                        <v-icon>local_dining</v-icon>
                       </v-list-tile-avatar>
                       <v-list-tile-content>
                         <v-list-tile-title>{{ item.name }}</v-list-tile-title>
                         <!-- <v-list-tile-sub-title>Total: $ {{ totalPriceWithoutSalesTax(person).toFixed(2) }}</v-list-tile-sub-title> -->
                       </v-list-tile-content>
-                      <v-list-tile-action>
-                        $ {{ item.price }}
-                      </v-list-tile-action>
-                      <v-list-tile-action>
-                        <v-btn icon ripple @click="">
-                          <v-icon color="grey lighten-1">edit</v-icon>
-                        </v-btn>
-                      </v-list-tile-action>
+                    </v-list-tile>
+                    <v-list-tile avatar>
+                      <v-list-tile-avatar>
+                        <v-icon>attach_money</v-icon>
+                      </v-list-tile-avatar>
+                      <v-list-tile-content>
+                        <v-list-tile-title>
+                          Total: $ {{ parseFloat(item.price).toFixed(2) }}
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                          Each Pay: $ {{ dividedPrice(item).toFixed(2) }}
+                        </v-list-tile-sub-title>
+                      </v-list-tile-content>
                     </v-list-tile>
                   </v-list>
                   <v-card flat>
-                    <v-card-text>
-                      <div class="text-xs-center">
+                    <v-card-actions>
+                      <v-btn block @click="openDialogAddingPeople(item)">Share</v-btn>
+                    </v-card-actions>
+                    <v-card-text v-if="item.people.length">
+                      <div class="text-xs-left">
                         <v-chip label v-for="(name, i) in item.people" :key="i">{{ name }}</v-chip>
                       </div>
                     </v-card-text>
-                    <v-card-actions>
-                      <v-btn flat @click="openDialogAddingPeople(item)">
-                          With
-                      </v-btn>
-                    </v-card-actions>
                   </v-card>
       <!-- <v-divider v-if="i != menu.length - 1"></v-divider> -->
-                </v-card-text>
+                <!-- </v-card-text> -->
               </v-card>              
             </v-flex>
           </template>
@@ -72,13 +82,36 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat @click.native="closeDialogAddingItem">Disagree</v-btn>
-          <v-btn color="green darken-1" flat @click.native="addItem">Agree</v-btn>
+          <v-btn color="green darken-1" flat @click.native="closeDialog">Disagree</v-btn>
+          <v-btn color="green darken-1" flat @click.native="addItemToMenu">Agree</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogAddingPeople" persistent max-width="290">
+    <v-dialog v-model="dialogEditingItem" persistent max-width="290">
+      <v-card>
+        <v-card-title class="headline">Edit item</v-card-title>
+        <v-card-text>
+          <v-container grid-list-xs>
+            <v-layout wrap>
+              <v-flex>
+                <v-text-field label="Item name" v-model="selectedItem.name"></v-text-field>      
+              </v-flex>
+              <v-flex>
+                <v-text-field label="Item price" type="number" v-model="selectedItem.price"></v-text-field>      
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat @click.native="closeDialog">Disagree</v-btn>
+          <v-btn color="green darken-1" flat @click.native="dialogEditingItem = false">Agree</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    
+    <v-dialog v-model="dialogAddingPeople" scrollable persistent max-width="290">
       <v-card>
         <v-card-title class="headline">Add People</v-card-title>
         <v-card-text>
@@ -92,8 +125,19 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <!-- <v-btn color="green darken-1" flat @click.native="dialogAddingPeople = false">Disagree</v-btn> -->
+          <v-btn color="green darken-1" flat @click.native="closeDialog">Disagree</v-btn>
           <v-btn color="green darken-1" flat @click.native="dialogAddingPeople = false">Agree</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialogDeletingItem">
+      <v-card>
+        <v-card-title>Do you keep to delete the item?</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat @click.native="closeDialog">Disagree</v-btn>
+          <v-btn color="green darken-1" flat @click.native="deleteItemFromMenu">Agree</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -190,7 +234,9 @@
         },
         selectedItem: {},
         dialogAddingItem: false,
-        dialogAddingPeople: false
+        dialogAddingPeople: false,
+        dialogDeletingItem: false,
+        dialogEditingItem: false
       }
     },
     computed: {
@@ -210,23 +256,49 @@
       }
     },
     methods: {
-      addItem () {
-        this.$store.commit('addMenu', this.item)
+      addItemToMenu () {
+        this.item.price = this.item.price || 0
+        this.$store.commit('addItemToMenu', this.item)
 
         this.item = { name: '', price: '', people: [] }
         this.dialogAddingItem = false
       },
-      closeDialogAddingItem () {
-        this.item = { name: '', price: '', people: [] }
-        this.dialogAddingItem = false
-      },
+      // closeDialogAddingItem () {
+      //   this.item = { name: '', price: '', people: [] }
+      //   this.dialogAddingItem = false
+      // },
       openDialogAddingPeople (item) {
         this.selectedItem = item
         this.dialogAddingPeople = true
       },
-      splitPrice (item) {
+      openDialogDeletingItem (item) {
+        this.selectedItem = item
+        this.dialogDeletingItem = true
+      },
+      openDialogEditingItem (item) {
+        this.selectedItem = item
+        this.dialogEditingItem = true
+      },
+      deleteItemFromMenu () {
+        this.$store.commit('deleteItemFromMenu', this.selectedItem)
+        this.selectedItem = {}
+        this.dialogDeletingItem = false
+      },
+      closeDialog () {
+        this.selectedItem = {}
+        this.item = { name: '', price: '', people: [] }
+        this.dialogAddingItem = false
+        this.dialogAddingPeople = false
+        this.dialogEditingItem = false
+      },
+      dividedPrice (item) {
         return item.price / (item.people.length || 1)
       }
     }
   }
 </script>
+<style scoped>
+  .container.ics-grid{padding: 3px;}
+  .container.ics-grid > .layout:only-child{margin: -8px;}
+  .container.ics-grid > .layout > .flex{padding: 8px;}
+</style>
