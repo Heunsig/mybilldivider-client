@@ -26,9 +26,6 @@
                     <v-btn icon @click="openDialogDeletingPerson(person)">
                       <v-icon>delete</v-icon>
                     </v-btn>
-                     <!-- <v-btn icon ripple @click="openDialogForItem(person)">
-                       <v-icon color="grey lighten-1">add_circle</v-icon>
-                     </v-btn> -->
                    </v-list-tile-action>
                 </v-list-tile>
               </v-list>
@@ -58,26 +55,7 @@
                   <v-icon>add</v-icon>
                 </v-btn>
               </v-card-actions>
-              <!-- <v-list>
-                <v-list-tile avatar v-for="(item, i) in person.menu" :key="i">
-                  <v-list-tile-avatar>
-                    <v-icon v-if="i == 0">local_dining</v-icon>
-                  </v-list-tile-avatar>
-                  <v-list-tile-content>
-                    <v-list-tile-title>{{ item.name }}  </v-list-tile-title>
-                  </v-list-tile-content>
-                  <v-list-tile-action>
-                    $ {{ parseFloat(item.price).toFixed(2) }}
-                  </v-list-tile-action>
-                  <v-list-tile-action>
-                    <v-btn icon ripple @click="openDialogForItem(person, item)">
-                      <v-icon color="grey lighten-1">edit</v-icon>
-                    </v-btn>
-                  </v-list-tile-action>
-                </v-list-tile>
-              </v-list>               -->
             </v-card>
-            <!-- <v-divider v-if="i != people.length - 1"></v-divider> -->
           </v-flex>
         </template>
       </v-layout>
@@ -151,49 +129,6 @@
       </v-card>
     </v-dialog>
   </div>
-  <!-- <v-ons-page>
-    <div v-if='people.length'>
-      <v-ons-list>
-        <div v-for="(person, index) in people" :key="index">
-          <v-ons-list-header>A person who eats togehter</v-ons-list-header>
-          <v-ons-list-item>
-            <div class="left">
-              <v-ons-icon icon="ion-ios-person" class="list-item__icon"></v-ons-icon>
-            </div>
-            <div class="center">
-              <span class="list-item__title">{{ person.name }}</span>
-              <span class="list-item__subtitle">Total: $ {{ totalPriceWithoutSalesTax(person).toFixed(2) }}</span>
-            </div>
-            <div class="right">
-              <v-ons-button modifier="quiet" @click.native="addItemToMenu(person)">Add price</v-ons-button>  
-            </div>
-          </v-ons-list-item>
-          <div v-for="(item, index) in person.menu" :key="index" style="border:bottom:1px solid red;">
-            <v-ons-list-item modifier="nodivider">
-              <div class="left">
-                <v-ons-icon icon="ion-social-usd"></v-ons-icon>
-              </div>
-              <div class="center">
-                <v-ons-row>
-                  <v-ons-col style="margin-right:8px;">
-                    <v-ons-input placeholder="Item name" v-model="item.name"></v-ons-input>
-                  </v-ons-col>
-                  <v-ons-col width="40%">
-                    <v-ons-input placeholder="Item price" type="number" v-model="item.price"></v-ons-input>
-                  </v-ons-col>
-                </v-ons-row>
-              </div>
-            </v-ons-list-item>
-          </div>
-        </div>
-      </v-ons-list>
-    </div>
-    <div v-else>
-      <p style="text-align:center;">
-        Please add people first
-      </p>
-    </div>
-  </v-ons-page> -->
 </template>
 <script>
   export default {
@@ -240,11 +175,6 @@
         this.dialog = false
       },
       addItemToMenu () {
-        // let item = {
-        //   name: '',
-        //   price: ''
-        // }
-
         this.selectedPerson.menu.push(this.item)
         this.item = {name: '', price: ''}
         this.dialog = false

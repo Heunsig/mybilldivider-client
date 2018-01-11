@@ -5,7 +5,6 @@
         <template v-for="(person, i) in people">
           <v-flex xs12>
             <v-card>
-              <!-- <v-card-text> -->
                 <v-list>
                   <v-list-tile avatar class="ics-dashedBorder">
                     <v-list-tile-avatar>
@@ -52,17 +51,6 @@
                               $ {{item.price}}
                             </div>
                           </li>
-                          <!-- <v-list-tile avatar class="ics-detailItemsInSubTotal">
-                            <v-list-tile-avatar>
-                              <v-icon small>subdirectory_arrow_right</v-icon>
-                            </v-list-tile-avatar>
-                            <v-list-tile-content class="ics-detailItemsInSubTotal-child">
-                              sdaf
-                            </v-list-tile-content>
-                            <v-list-tile-action class="ics-detailItemsInSubTotal-child">
-                              + $ {{ 11.00 }}
-                            </v-list-tile-action>
-                          </v-list-tile> -->
                           <v-list-tile avatar>
                             <v-list-tile-avatar></v-list-tile-avatar>
                             <v-list-tile-content>
@@ -99,7 +87,6 @@
                     </v-card>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
-              <!-- </v-card-text> -->
             </v-card>
           </v-flex>
         </template>
@@ -120,76 +107,6 @@
       </v-card>
     </v-dialog>
   </div>
- <!--  <v-ons-page>
-    <div v-if="people.length">
-      <v-ons-list>
-        <div v-for="(person, index) in people" :key="index">
-          <v-ons-list-header>A person who eats togehter</v-ons-list-header>
-          <v-ons-list-item>
-            <div class="center">
-              <span class="list-item__title">{{ person.name }}</span>
-              <span class="list-item__subtitle">
-                Total: $ {{ pureTotalPrice(person) }}
-              </span>
-            </div>
-          </v-ons-list-item>
-          <v-ons-list-item>
-            <v-ons-row>
-              <v-ons-col width="30%">Tip(%)</v-ons-col>
-              <v-ons-col>
-                <v-ons-input 
-                  placeholder="Input Tip" 
-                  type="number" 
-                  float 
-                  v-model="person.tip"
-                ></v-ons-input>
-              </v-ons-col>
-            </v-ons-row>
-            <v-ons-row>
-              <v-ons-col>
-                $ {{ tip(pureTotalPrice(person), person.tip).toFixed(2) }}
-              </v-ons-col>
-            </v-ons-row>
-          </v-ons-list-item>
-          <v-ons-list-item>
-            <div class="left">Tip(%)</div>
-            <div class="center">
-              <v-ons-input placeholder="Input Tip" type="number" float
-                v-model="person.tip"
-              ></v-ons-input>
-            </div>
-          </v-ons-list-item>
-          <v-ons-list-item>
-            <div class="right">
-              $ {{ tip(pureTotalPrice(person), person.tip).toFixed(2) }}
-            </div>
-          </v-ons-list-item>
-          <v-ons-list-item>
-            <div class="left">Tax</div>
-            <div class="center">
-              {{ salesTaxRate }} %
-            </div>
-          </v-ons-list-item>
-          <v-ons-list-item>
-            <div class="right">
-              $ {{ salesTaxPrice(pureTotalPrice(person)).toFixed(2) }}
-            </div>
-          </v-ons-list-item>
-          <v-ons-list-item>
-            <div class="left">Total</div>
-            <div class="right">
-              $ {{ (pureTotalPrice(person) + tip(pureTotalPrice(person), person.tip) + salesTaxPrice(pureTotalPrice(person))).toFixed(2) }}
-            </div>
-          </v-ons-list-item>
-        </div>
-      </v-ons-list>
-    </div>
-    <div v-else>
-      <p style="text-align:center">
-        No result
-      </p>
-    </div>
-  </v-ons-page> -->
 </template>
 <script>
   export default {
@@ -276,8 +193,6 @@
   .ics-tipIcon{margin-right: 5px;}
 
   .ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}
-
-  /*.ics-detailItemsInSubTotal{padding-left: 50px;}*/
 
   .ics-subTotalDetail{
     display:flex;
