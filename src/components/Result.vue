@@ -44,6 +44,14 @@
                               $ {{ subTotalPrice(person) }}
                             </v-list-tile-action>
                           </v-list-tile>
+                          <li class="ics-subTotalDetail" v-for="item in getItemList(person)">
+                            <div class="ics-subTotalDetail-label">
+                              {{item.name}}
+                            </div>
+                            <div class="ics-subTotalDetail-price">
+                              $ {{item.price}}
+                            </div>
+                          </li>
                           <!-- <v-list-tile avatar class="ics-detailItemsInSubTotal">
                             <v-list-tile-avatar>
                               <v-icon small>subdirectory_arrow_right</v-icon>
@@ -233,7 +241,25 @@
       },
       salesTaxPrice (price) {
         return price * (this.salesTax / 100)
+      },
+      getItemList (person) {
+        let list = []
+
+        person.menu.forEach(item => {
+          list.push({name: item.name, price: item.price})
+        })
+
+        this.menu.forEach(item => {
+          item.people.forEach(name => {
+            if (person.name === name) {
+              list.push({name: item.name + ' ( $ ' + item.price + ' / ' + item.people.length + ' )', price: parseFloat((item.price) / item.people.length)})
+            }
+          })
+        })
+
+        return list
       }
+
     }
   }
 </script>
@@ -251,8 +277,27 @@
 
   .ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}
 
-  .ics-detailItemsInSubTotal{padding-left: 50px;}
-  .ics-detailItemsInSubTotal .list__tile.list__tile--avatar{font-size:12px;}
-  .list__tile{border:1px solid red;}
+  /*.ics-detailItemsInSubTotal{padding-left: 50px;}*/
+
+  .ics-subTotalDetail{
+    display:flex;
+    padding-left: 80px;
+    padding-right: 16px; 
+    margin:3px 0;
+  }
+  .ics-subTotalDetail-label{
+    flex:3 1 auto;
+    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    font-size: 12px;
+  }
+  .ics-subTotalDetail-price{
+    flex:1 1 auto;
+    text-align: right;
+    min-width: 56px;
+    font-size: 12px;
+  }
+  
 
 </style>
