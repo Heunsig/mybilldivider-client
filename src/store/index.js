@@ -43,6 +43,13 @@ export default new Vuex.Store({
           item.people = addingItem.people
         }
       })
+    },
+    deletePersonFromPeople (state, person) {
+      state.people.forEach((obj, i) => {
+        if (obj === person) {
+          state.people.splice(i, 1)
+        }
+      })
     }
   }
 })

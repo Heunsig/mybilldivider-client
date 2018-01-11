@@ -7,7 +7,7 @@
             <v-card>
               <!-- <v-card-text> -->
                 <v-list>
-                  <v-list-tile avatar>
+                  <v-list-tile avatar class="ics-dashedBorder">
                     <v-list-tile-avatar>
                       <v-icon>person</v-icon>
                     </v-list-tile-avatar>
@@ -15,11 +15,11 @@
                       <v-list-tile-title>{{ person.name }}</v-list-tile-title>
                     </v-list-tile-content>
                   </v-list-tile>
-                  <v-list-tile avatar>
+                  <v-list-tile avatar class="ics-dashedBorder">
                     <v-spacer></v-spacer>
                     <v-list-tile-action>
-                      <v-btn small flat color="warning" @click="openDialogSettingTip(person)">
-                        <v-icon left>local_atm</v-icon>Tip ({{ person.tip || 0}} %)
+                      <v-btn small flat color="warning" class="ics-tipButton" @click="openDialogSettingTip(person)">
+                        <v-icon left class="ics-tipIcon">local_atm</v-icon>Tip ({{ person.tip || 0}} %)
                       </v-btn>
                     </v-list-tile-action>
                     <v-list-tile-action>
@@ -44,6 +44,17 @@
                               $ {{ subTotalPrice(person) }}
                             </v-list-tile-action>
                           </v-list-tile>
+                          <!-- <v-list-tile avatar class="ics-detailItemsInSubTotal">
+                            <v-list-tile-avatar>
+                              <v-icon small>subdirectory_arrow_right</v-icon>
+                            </v-list-tile-avatar>
+                            <v-list-tile-content class="ics-detailItemsInSubTotal-child">
+                              sdaf
+                            </v-list-tile-content>
+                            <v-list-tile-action class="ics-detailItemsInSubTotal-child">
+                              + $ {{ 11.00 }}
+                            </v-list-tile-action>
+                          </v-list-tile> -->
                           <v-list-tile avatar>
                             <v-list-tile-avatar></v-list-tile-avatar>
                             <v-list-tile-content>
@@ -91,7 +102,7 @@
       <v-card>
         <v-card-title class="headline">Tip Rate</v-card-title>
         <v-card-text>
-          <v-text-field label="Input name" v-model="selectedPerson.tip"></v-text-field>
+          <v-text-field label="Input tip" v-model="selectedPerson.tip"></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -234,4 +245,14 @@
   .expansion-panel{box-shadow: none;}
 
   .stressedFont{font-size: 15; font-weight:bold;}
+  
+  .ics-tipButton{margin-right: 8px;}
+  .ics-tipIcon{margin-right: 5px;}
+
+  .ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}
+
+  .ics-detailItemsInSubTotal{padding-left: 50px;}
+  .ics-detailItemsInSubTotal .list__tile.list__tile--avatar{font-size:12px;}
+  .list__tile{border:1px solid red;}
+
 </style>

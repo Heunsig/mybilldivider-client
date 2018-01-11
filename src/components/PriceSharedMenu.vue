@@ -7,25 +7,29 @@
           <template v-for="(item, i) in menu">
             <v-flex xs12>
               <v-card>
-                  <v-card-actions>
-                    <v-btn icon @click="openDialogDeletingItem(item)">
-                      <v-icon>delete</v-icon>
-                    </v-btn>
-                    <v-btn icon @click="openDialogEditingItem(item)">
-                      <v-icon>edit</v-icon>
-                    </v-btn>
-                  </v-card-actions>
                   <v-list>
-                    <v-list-tile avatar>
+                    <v-list-tile avatar class="ics-dashedBorder">
                       <v-list-tile-avatar>
                         <v-icon>local_dining</v-icon>
                       </v-list-tile-avatar>
                       <v-list-tile-content>
-                        <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-                        <!-- <v-list-tile-sub-title>Total: $ {{ totalPriceWithoutSalesTax(person).toFixed(2) }}</v-list-tile-sub-title> -->
+                        <v-list-tile-title>
+                          {{ item.name }}
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>Total: $ {{ parseFloat(item.price).toFixed(2) }}</v-list-tile-sub-title>
                       </v-list-tile-content>
+                      <v-list-tile-action class="ics-listActions">
+                        <v-btn icon @click="openDialogEditingItem(item)">
+                          <v-icon>edit</v-icon>
+                        </v-btn>
+                      </v-list-tile-action>
+                      <v-list-tile-action class="ics-listActions">
+                        <v-btn icon @click="openDialogDeletingItem(item)">
+                          <v-icon>delete</v-icon>
+                        </v-btn>
+                      </v-list-tile-action>
                     </v-list-tile>
-                    <v-list-tile avatar>
+                    <!-- <v-list-tile avatar>
                       <v-list-tile-avatar>
                         <v-icon>attach_money</v-icon>
                       </v-list-tile-avatar>
@@ -37,18 +41,28 @@
                           Each Pay: $ {{ dividedPrice(item).toFixed(2) }}
                         </v-list-tile-sub-title>
                       </v-list-tile-content>
-                    </v-list-tile>
+                    </v-list-tile> -->
                   </v-list>
                   <v-card flat>
-                    <v-card-actions>
+                    <!-- <v-subheader class="ics-subheader">Added items</v-subheader> -->
+                    <div class="ics-customSubheader">
+                      <div>Sharing people ({{item.people.length || 0}})</div>
+                      <div v-if="item.people.length">Each person pay: $ {{ dividedPrice(item).toFixed(2) }}</div>
+                    </div>
+                    <!-- <v-card-actions>
                       <v-btn block @click="openDialogAddingPeople(item)">Share</v-btn>
-                    </v-card-actions>
+                    </v-card-actions> -->
                     <v-card-text v-if="item.people.length">
                       <div class="text-xs-left">
-                        <v-chip label v-for="(name, i) in item.people" :key="i">{{ name }}</v-chip>
+                        <v-chip disabled label v-for="(name, i) in item.people" :key="i">{{ name }}</v-chip>
                       </div>
                     </v-card-text>
                   </v-card>
+                  <v-card-actions>
+                    <v-btn icon small absolute bottom right dark fab color="primary" @click="openDialogAddingPeople(item)">
+                      <v-icon>person_add</v-icon>
+                    </v-btn>
+                  </v-card-actions>
       <!-- <v-divider v-if="i != menu.length - 1"></v-divider> -->
                 <!-- </v-card-text> -->
               </v-card>              
@@ -300,5 +314,20 @@
 <style scoped>
   .container.ics-grid{padding: 3px;}
   .container.ics-grid > .layout:only-child{margin: -8px;}
-  .container.ics-grid > .layout > .flex{padding: 8px;}
+  .container.ics-grid > .layout > .flex{padding: 20px 8px 8px 8px;}
+  
+  .ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}
+  .ics-customSubheader{
+    /*align-items: center;*/
+    /*height: 22px;*/
+    margin: 10px 0;
+    color: rgba(0,0,0,.54);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0 16px;
+  }
+
+  .ics-listActions{min-width: 35px;}
+  /*.ics-buttonEditingName{width: auto; height: auto;}
+  .ics-buttonEditingName .icon{font-size: 17px;}*/
 </style>

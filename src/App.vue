@@ -16,7 +16,7 @@
     <v-tabs dark grow>
       <v-toolbar app color="cyan" dark class="ics-toolbar">
         <v-toolbar-side-icon></v-toolbar-side-icon>
-        <v-toolbar-title>I can split</v-toolbar-title>
+        <v-toolbar-title>Split Hero</v-toolbar-title>
         <v-tabs-bar class="cyan" slot="extension">
           <v-tabs-slider color="yellow"></v-tabs-slider>
           <v-tabs-item
@@ -47,7 +47,7 @@
 
 <script>
 import Home from '@/components/Home'
-import People from '@/components/People'
+// import People from '@/components/People'
 import PriceEachPerson from '@/components/PriceEachPerson'
 import PriceSharedMenu from '@/components/PriceSharedMenu'
 import Result from '@/components/Result'
@@ -60,12 +60,12 @@ export default {
           label: 'Home',
           component: 'Home'
         },
+        // {
+        //   label: 'Add people',
+        //   component: 'People'
+        // },
         {
-          label: 'Add people',
-          component: 'People'
-        },
-        {
-          label: 'In person',
+          label: 'Each person',
           component: 'PriceEachPerson'
         },
         {
@@ -81,7 +81,7 @@ export default {
   },
   components: {
     Home,
-    People,
+    // People,
     PriceEachPerson,
     PriceSharedMenu,
     Result
@@ -91,7 +91,7 @@ export default {
 <style scoped>
 .ics-toolbar{
   position: fixed;
-  z-index: 2;
+  z-index: 5;
 }
 .ics-tabItems{
   padding-top: 98px;
