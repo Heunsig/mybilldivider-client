@@ -1,17 +1,4 @@
 <template>
-  <!-- <v-ons-page>
-    <v-ons-toolbar>
-      <div class="center">
-        I can split
-      </div>
-    </v-ons-toolbar>
-
-    <v-ons-tabbar swipeable
-      :tabs="tabs"
-    >
-    </v-ons-tabbar>
-
-  </v-ons-page> -->
   <v-app>
     <v-tabs dark grow>
       <v-toolbar app color="cyan" dark class="ics-toolbar">
@@ -47,7 +34,6 @@
 
 <script>
 import Home from '@/components/Home'
-// import People from '@/components/People'
 import PriceEachPerson from '@/components/PriceEachPerson'
 import PriceSharedMenu from '@/components/PriceSharedMenu'
 import Result from '@/components/Result'
@@ -60,10 +46,6 @@ export default {
           label: 'Home',
           component: 'Home'
         },
-        // {
-        //   label: 'Add people',
-        //   component: 'People'
-        // },
         {
           label: 'Each person',
           component: 'PriceEachPerson'
