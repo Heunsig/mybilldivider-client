@@ -1,50 +1,96 @@
 <template>
-  <div>
-    <v-list subheader>
-      <v-subheader>Sales Tax (%)</v-subheader>
-      <v-list-tile>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ salesTax || 0 }} %</v-list-tile-title>
-        </v-list-tile-content>
-        <v-list-tile-action>
-          <v-btn icon ripple @click="dialog = true">
-              <v-icon color="grey lighten-1">mode_edit</v-icon>
-          </v-btn>
-        </v-list-tile-action>
-      </v-list-tile>
-    </v-list>
-
-    <v-dialog v-model="dialog" persistent max-width="290">
-      <v-card>
-        <v-card-title class="headline">Edit Sales Tax Rate</v-card-title>
-        <v-card-text>
-          <v-text-field label="Sales Tax Rate" type="number" v-model="salesTax"></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat @click.native="dialog = false">Disagree</v-btn>
-          <v-btn color="green darken-1" flat @click.native="dialog = false">Agree</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
+  <v-tabs dark grow class="ics-tabs">
+    <v-tabs-bar dark class="cyan ics-tabsBar">
+      <v-tabs-slider color="yellow"></v-tabs-slider>
+      <v-tabs-item
+        v-for="(tab, i) in tabs"
+        :key="i"
+        :href="'#tab-' + (i + 1)"
+        class="ics-tabItem-nav"
+      >
+        <span v-html="tab.label"></span>
+      </v-tabs-item>
+    </v-tabs-bar>
+    <v-tabs-items class="ics-tabItems">
+      <v-tabs-content
+        v-for="i in tabs.length"
+        :key="i"
+        :id="'tab-' + i"
+      >
+        <v-card flat>
+          <v-card-text>
+            <div :is="tabs[i-1].component"></div>
+          </v-card-text>
+        </v-card>
+      </v-tabs-content>
+    </v-tabs-items>
+  </v-tabs>
 </template>
+
 <script>
-  export default {
-    data () {
-      return {
-        dialog: false
-      }
-    },
-    computed: {
-      salesTax: {
-        get () {
-          return this.$store.getters.getSalesTaxRate
+import DefaultSetting from '@/components/DefaultSetting'
+import PriceEachPerson from '@/components/PriceEachPerson'
+import PriceSharedMenu from '@/components/PriceSharedMenu'
+import Result from '@/components/Result'
+
+export default {
+  data () {
+    return {
+      tabs: [
+        {
+          label: 'Home',
+          component: 'DefaultSetting'
         },
-        set (salesTax) {
-          this.$store.commit('setSalesTaxRate', salesTax)
+        {
+          label: 'Each<br/>person',
+          component: 'PriceEachPerson'
+        },
+        {
+          label: 'Shared<br/>menu',
+          component: 'PriceSharedMenu'
+        },
+        {
+          label: 'Result',
+          component: 'Result'
         }
-      }
+      ]
     }
+  },
+  components: {
+    DefaultSetting,
+    PriceEachPerson,
+    PriceSharedMenu,
+    Result
   }
+}
 </script>
+<style scoped>
+.ics-toolbar{
+  position: fixed;
+  z-index: 5;
+}
+.ics-tabItem-nav{
+  font-size:12px;
+}
+.ics-tabsBar{
+  position: fixed;
+  top: 56px;
+  left: 0;
+  z-index: 4;
+}
+.ics-tabItems{
+  padding-top: 48px;
+  height: 100%;
+}
+.ics-tabs{height: 100%;}
+/*@media screen and (max-width: 420px) {
+  .ics-tabItems{
+    padding-top: 112px;
+  }
+}
+@media screen and (min-width: 960px) {
+  .ics-tabItems{
+    padding-top: 128px;
+  }
+}*/
+</style>

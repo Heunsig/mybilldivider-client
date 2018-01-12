@@ -45,7 +45,7 @@
                           </v-list-tile>
                           <li class="ics-subTotalDetail" v-for="item in getItemList(person)">
                             <div class="ics-subTotalDetail-label">
-                              {{item.name}}
+                              <v-icon>subdirectory_arrow_right</v-icon>{{item.name}}
                             </div>
                             <div class="ics-subTotalDetail-price">
                               $ {{item.price}}

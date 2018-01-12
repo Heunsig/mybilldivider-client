@@ -1,91 +1,67 @@
 <template>
   <v-app>
-    <v-tabs dark grow>
-      <v-toolbar app color="cyan" dark class="ics-toolbar">
-        <v-toolbar-side-icon></v-toolbar-side-icon>
-        <v-toolbar-title>Split Hero</v-toolbar-title>
-        <v-tabs-bar class="cyan" slot="extension">
-          <v-tabs-slider color="yellow"></v-tabs-slider>
-          <v-tabs-item
-            v-for="(tab, i) in tabs"
-            :key="i"
-            :href="'#tab-' + (i + 1)"
-          >
-            {{ tab.label }}
-          </v-tabs-item>
-        </v-tabs-bar>
-      </v-toolbar>
-      <v-tabs-items class="ics-tabItems">
-        <v-tabs-content
-          v-for="i in tabs.length"
-          :key="i"
-          :id="'tab-' + i"
-        >
-          <v-card flat>
-            <v-card-text>
-              <div :is="tabs[i-1].component"></div>
-            </v-card-text>
-          </v-card>
-        </v-tabs-content>
-      </v-tabs-items>
-    </v-tabs>
+    <v-navigation-drawer
+      temporary
+      v-model="drawer"
+      dark
+      fixed
+    >
+      <v-list class="pa-1">
+        <v-list-tile avatar tag="div">
+          <v-list-tile-avatar>
+            <img src="https://randomuser.me/api/portraits/men/85.jpg" />
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title>Split Hero</v-list-tile-title>
+          </v-list-tile-content>
+          <v-list-tile-action>
+            <v-btn icon @click.stop="drawer = !drawer">
+              <v-icon>chevron_left</v-icon>
+            </v-btn>
+          </v-list-tile-action>
+        </v-list-tile>
+      </v-list>
+      <v-list class="pt-0">
+        <v-divider light></v-divider>
+        <v-list-tile v-for="item in nav" :key="item.label" @click="routerPush(item.name)">
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.label }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar app fixed color="cyan" dark class="ics-toolbar">
+      <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title>Split Hero</v-toolbar-title>
+    </v-toolbar>
+    <v-content>
+      <router-view></router-view>
+    </v-content>
   </v-app>
 </template>
 
 <script>
-import Home from '@/components/Home'
-import PriceEachPerson from '@/components/PriceEachPerson'
-import PriceSharedMenu from '@/components/PriceSharedMenu'
-import Result from '@/components/Result'
-
 export default {
   data () {
     return {
-      tabs: [
+      drawer: false,
+      nav: [
         {
-          label: 'Home',
-          component: 'Home'
+          label: 'Split Hero',
+          name: 'home'
         },
         {
-          label: 'Each person',
-          component: 'PriceEachPerson'
-        },
-        {
-          label: 'Shared menu',
-          component: 'PriceSharedMenu'
-        },
-        {
-          label: 'Result',
-          component: 'Result'
+          label: 'About me',
+          name: 'aboutMe'
         }
       ]
     }
   },
-  components: {
-    Home,
-    // People,
-    PriceEachPerson,
-    PriceSharedMenu,
-    Result
+  methods: {
+    routerPush (name) {
+      this.$router.push({name: name})
+    }
   }
 }
 </script>
-<style scoped>
-.ics-toolbar{
-  position: fixed;
-  z-index: 5;
-}
-.ics-tabItems{
-  padding-top: 98px;
-}
-@media screen and (max-width: 420px) {
-  .ics-tabItems{
-    padding-top: 112px;
-  }
-}
-@media screen and (min-width: 960px) {
-  .ics-tabItems{
-    padding-top: 128px;
-  }
-}
-</style>
+ 

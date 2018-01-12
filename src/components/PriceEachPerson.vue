@@ -51,7 +51,7 @@
                 </v-list-tile>
               </v-list>
               <v-card-actions>
-                <v-btn icon small absolute bottom right dark fab color="primary" @click="openDialogForItem(person)">
+                <v-btn icon small absolute bottom right dark fab color="primary" @click="openDialogForItem(person)" class="ics-floatingBtn">
                   <v-icon>add</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -238,4 +238,6 @@
   .ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}
   .ics-subheader{height: 22px;}
   .ics-listActions{min-width: 35px;}
+
+  .ics-floatingBtn{z-index: 1;}
 </style>

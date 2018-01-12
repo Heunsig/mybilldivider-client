@@ -43,7 +43,7 @@
                 </v-card>
 
                 <v-card-actions>
-                  <v-btn icon small absolute bottom right dark fab color="primary" @click="openDialogAddingPeople(item)">
+                  <v-btn icon small absolute bottom right dark fab color="primary" @click="openDialogAddingPeople(item)" class="ics-floatingBtn">
                     <v-icon>person_add</v-icon>
                   </v-btn>
                 </v-card-actions>
@@ -224,4 +224,5 @@
   }
 
   .ics-listActions{min-width: 35px;}
+  .ics-floatingBtn{z-index: 1;}
 </style>
