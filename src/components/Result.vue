@@ -4,7 +4,7 @@
       <v-layout row wrap>
         <template v-for="(person, i) in people">
           <v-flex xs12>
-            <v-card>
+            <v-card class="ics-cardDecoration">
                 <v-list>
                   <v-list-tile avatar class="ics-dashedBorder">
                     <v-list-tile-avatar>
@@ -28,7 +28,7 @@
                 </v-list>
                 <v-expansion-panel expand>
                   <v-expansion-panel-content>
-                    <div slot="header">Detail</div>
+                    <div slot="header" class="green--text">Detail</div>
                     <v-card flat>
                       <v-card-text class="grey lighten-3">
                         <v-list>

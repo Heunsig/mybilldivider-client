@@ -1,18 +1,27 @@
 <template>
   <div>
-    <v-list subheader>
-      <v-subheader>Sales Tax (%)</v-subheader>
-      <v-list-tile>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ salesTax || 0 }} %</v-list-tile-title>
-        </v-list-tile-content>
-        <v-list-tile-action>
-          <v-btn icon ripple @click="dialog = true">
-              <v-icon color="grey lighten-1">mode_edit</v-icon>
-          </v-btn>
-        </v-list-tile-action>
-      </v-list-tile>
-    </v-list>
+    <v-container fluid class="ics-grid">
+      <v-layout row wrap>
+        <v-flex xs12>
+          <v-card class="ics-cardDecoration">
+            <v-list subheader>
+              <v-subheader class="green--text">Sales Tax (%)</v-subheader>
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ salesTax || 0 }} %</v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-action>
+                  <v-btn icon ripple @click="dialog = true">
+                      <v-icon color="grey lighten-1">mode_edit</v-icon>
+                  </v-btn>
+                </v-list-tile-action>
+              </v-list-tile>
+            </v-list>      
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+    
 
     <v-dialog v-model="dialog" persistent max-width="290">
       <v-card>
@@ -48,3 +57,8 @@
     }
   }
 </script>
+<style scoped>
+  .container.ics-grid{padding: 3px;}
+  .container.ics-grid > .layout:only-child{margin: -8px;}
+  .container.ics-grid > .layout > .flex{padding: 20px 8px 8px 8px;}
+</style>

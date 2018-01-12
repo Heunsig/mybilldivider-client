@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-btn block color="primary" dark @click="dialogAddingPerson = true">Add person</v-btn>
+    <v-btn block color="green darken-3" dark @click="dialogAddingPerson = true">Add person</v-btn>
     <v-container fluid class="ics-grid">
       <v-layout row wrap>
         <template v-for="(person, i) in people">
           <v-flex xs12>
-            <v-card>
+            <v-card class="ics-cardDecoration">
               <v-list>
                 <v-list-tile avatar class="ics-dashedBorder">
                   <v-list-tile-avatar>
@@ -30,7 +30,7 @@
                 </v-list-tile>
               </v-list>
               <v-list>
-                <v-subheader class="ics-subheader">Added items ({{person.menu.length || 0}})</v-subheader>
+                <v-subheader class="ics-subheader green--text">Added items ({{person.menu.length || 0}})</v-subheader>
                 <v-list-tile avatar v-for="(item, i) in person.menu" :key="i">
                   <v-list-tile-content>
                     <v-list-tile-title>{{ item.name }}  </v-list-tile-title>
@@ -51,7 +51,7 @@
                 </v-list-tile>
               </v-list>
               <v-card-actions>
-                <v-btn icon small absolute bottom right dark fab color="primary" @click="openDialogForItem(person)" class="ics-floatingBtn">
+                <v-btn icon small absolute bottom right dark fab color="green" @click="openDialogForItem(person)" class="ics-floatingBtn">
                   <v-icon>add</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -65,7 +65,7 @@
       <v-card>
         <v-card-title class="headline">Add person</v-card-title>
         <v-card-text>
-          <v-text-field label="Input name" v-model="person.name"></v-text-field>
+          <v-text-field label="Input name (Optional)" hide-details v-model="person.name"></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

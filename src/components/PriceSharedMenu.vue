@@ -1,12 +1,12 @@
 <template>
   <div>
-    <v-btn block color="primary" dark @click="dialogAddingItem = true">Add item</v-btn>
+    <v-btn block color="green darken-3" dark @click="dialogAddingItem = true">Add item</v-btn>
     <template v-if="menu.length">
       <v-container fluid class="ics-grid">
         <v-layout row wrap>
           <template v-for="(item, i) in menu">
             <v-flex xs12>
-              <v-card>
+              <v-card class="ics-cardDecoration">
                 <v-list>
                   <v-list-tile avatar class="ics-dashedBorder">
                     <v-list-tile-avatar>
@@ -32,7 +32,7 @@
                 </v-list>
                 <v-card flat>
                   <div class="ics-customSubheader">
-                    <div>Sharing people ({{item.people.length || 0}})</div>
+                    <div class="green--text">Sharing people ({{item.people.length || 0}})</div>
                     <div v-if="item.people.length">Each person pay: $ {{ dividedPrice(item).toFixed(2) }}</div>
                   </div>
                   <v-card-text v-if="item.people.length">
@@ -43,7 +43,7 @@
                 </v-card>
 
                 <v-card-actions>
-                  <v-btn icon small absolute bottom right dark fab color="primary" @click="openDialogAddingPeople(item)" class="ics-floatingBtn">
+                  <v-btn icon small absolute bottom right dark fab color="green" @click="openDialogAddingPeople(item)" class="ics-floatingBtn">
                     <v-icon>person_add</v-icon>
                   </v-btn>
                 </v-card-actions>

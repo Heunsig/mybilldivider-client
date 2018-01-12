@@ -12,7 +12,7 @@
             <img src="https://randomuser.me/api/portraits/men/85.jpg" />
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title>Split Hero</v-list-tile-title>
+            <v-list-tile-title>Hero of Split</v-list-tile-title>
           </v-list-tile-content>
           <v-list-tile-action>
             <v-btn icon @click.stop="drawer = !drawer">
@@ -30,11 +30,11 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app fixed color="cyan" dark class="ics-toolbar">
+    <v-toolbar app fixed color="green" dark class="ics-toolbar">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Split Hero</v-toolbar-title>
+      <v-toolbar-title>Hero of Split</v-toolbar-title>
     </v-toolbar>
-    <v-content>
+    <v-content class="white">
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -64,4 +64,6 @@ export default {
   }
 }
 </script>
- 
+<style>
+  .ics-cardDecoration{border-top:3px solid #4caf50;}
+</style>

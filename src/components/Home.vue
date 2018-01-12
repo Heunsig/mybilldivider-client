@@ -1,6 +1,6 @@
 <template>
   <v-tabs dark grow class="ics-tabs">
-    <v-tabs-bar dark class="cyan ics-tabsBar">
+    <v-tabs-bar dark class="green ics-tabsBar">
       <v-tabs-slider color="yellow"></v-tabs-slider>
       <v-tabs-item
         v-for="(tab, i) in tabs"
