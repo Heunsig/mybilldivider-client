@@ -224,5 +224,5 @@
   }
 
   .ics-listActions{min-width: 35px;}
-  .ics-floatingBtn{z-index: 1;}
+  .ics-floatingBtn{z-index: 1!important;}
 </style>
