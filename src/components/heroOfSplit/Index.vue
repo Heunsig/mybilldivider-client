@@ -16,8 +16,9 @@
         v-for="i in tabs.length"
         :key="i"
         :id="'tab-' + i"
+        class="ics-tabContent"
       >
-        <v-card flat>
+        <v-card flat class="grey lighten-4">
           <v-card-text>
             <div :is="tabs[i-1].component"></div>
           </v-card-text>
@@ -28,17 +29,17 @@
 </template>
 
 <script>
-import DefaultSetting from '@/components/DefaultSetting'
-import PriceEachPerson from '@/components/PriceEachPerson'
-import PriceSharedMenu from '@/components/PriceSharedMenu'
-import Result from '@/components/Result'
+import DefaultSetting from './DefaultSetting'
+import PriceEachPerson from './PriceEachPerson'
+import PriceSharedMenu from './PriceSharedMenu'
+import Result from './Result'
 
 export default {
   data () {
     return {
       tabs: [
         {
-          label: 'Home',
+          label: 'Settings',
           component: 'DefaultSetting'
         },
         {
@@ -74,23 +75,16 @@ export default {
 }
 .ics-tabsBar{
   position: fixed;
-  top: 56px;
+  top: 48px;
   left: 0;
   z-index: 4;
+  box-shadow: 0px 5px 16px -5px #313131;
 }
 .ics-tabItems{
-  padding-top: 48px;
   height: 100%;
 }
-.ics-tabs{height: 100%;}
-/*@media screen and (max-width: 420px) {
-  .ics-tabItems{
-    padding-top: 112px;
-  }
+.ics-tabContent{
+  padding-top: 48px;
 }
-@media screen and (min-width: 960px) {
-  .ics-tabItems{
-    padding-top: 128px;
-  }
-}*/
+.ics-tabs{height: 100%;}
 </style>

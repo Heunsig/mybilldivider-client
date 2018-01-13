@@ -24,17 +24,20 @@
       <v-list class="pt-0">
         <v-divider light></v-divider>
         <v-list-tile v-for="item in nav" :key="item.label" @click="routerPush(item.name)">
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>{{ item.label }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app fixed color="green" dark class="ics-toolbar">
+    <v-toolbar app fixed flat dense color="green" dark class="ics-toolbar">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Hero of Split</v-toolbar-title>
     </v-toolbar>
-    <v-content class="white">
+    <v-content class="grey lighten-4">
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -47,12 +50,14 @@ export default {
       drawer: false,
       nav: [
         {
-          label: 'Split Hero',
-          name: 'home'
+          label: 'Calculator',
+          name: 'home',
+          icon: 'star'
         },
         {
           label: 'About me',
-          name: 'aboutMe'
+          name: 'aboutMe',
+          icon: 'info'
         }
       ]
     }
@@ -60,10 +65,16 @@ export default {
   methods: {
     routerPush (name) {
       this.$router.push({name: name})
+      this.drawer = false
     }
   }
 }
 </script>
 <style>
   .ics-cardDecoration{border-top:3px solid #4caf50;}
+
+  .ics-dialog-title{
+    font-weight: 500;
+    font-size: 17px;
+  }
 </style>

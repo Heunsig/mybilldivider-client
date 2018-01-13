@@ -11,7 +11,7 @@
                       <v-icon>person</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                      <v-list-tile-title>{{ person.name }}</v-list-tile-title>
+                      <v-list-tile-title>{{ person.name || 'Unknown - ' + i }}</v-list-tile-title>
                     </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile avatar class="ics-dashedBorder">

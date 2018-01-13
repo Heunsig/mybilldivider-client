@@ -12,6 +12,10 @@ import 'vuetify/dist/vuetify.min.css'
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 
+Vue.prototype.$formatNumber = (num) => {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

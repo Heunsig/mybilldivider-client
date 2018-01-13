@@ -11,8 +11,8 @@
                   <v-list-tile-title>{{ salesTax || 0 }} %</v-list-tile-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                  <v-btn icon ripple @click="dialog = true">
-                      <v-icon color="grey lighten-1">mode_edit</v-icon>
+                  <v-btn icon @click="dialog = true">
+                      <v-icon color="green lighten-3">mode_edit</v-icon>
                   </v-btn>
                 </v-list-tile-action>
               </v-list-tile>
@@ -24,14 +24,23 @@
     
     <v-dialog v-model="dialog" persistent max-width="290">
       <v-card>
-        <v-card-title class="headline">Edit Sales Tax Rate</v-card-title>
+        <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
+          Edit Sales Tax Rate
+        </v-card-title>
         <v-card-text>
-          <v-text-field label="Sales Tax Rate" type="number" v-model="salesTax"></v-text-field>
+          <v-text-field 
+            label="Sales Tax Rate" 
+            type="number" 
+            clearable
+            hide-details
+            suffix="%"
+            v-model="salesTax"
+          ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat @click.native="dialog = false">Disagree</v-btn>
-          <v-btn color="green darken-1" flat @click.native="dialog = false">Agree</v-btn>
+          <v-btn color="grey darken-2" flat @click.native="dialog = false">Cancel</v-btn>
+          <v-btn color="light-green" flat @click.native="dialog = false">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
