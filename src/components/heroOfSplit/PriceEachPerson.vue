@@ -132,29 +132,21 @@
           <template v-else>Edit Item</template>
         </v-card-title>
         <v-card-text>
-          <v-container grid-list-xs>
-            <v-layout wrap>
-              <v-flex>
-                <v-text-field 
-                  label="Input name (Optional)" 
-                  clearable
-                  hide-details
-                  prepend-icon="check"
-                  v-model="tempItem.name"
-                ></v-text-field>      
-              </v-flex>
-              <v-flex>
-                <v-text-field 
-                  label="Input price" 
-                  type="number" 
-                  clearable
-                  hide-details
-                  prepend-icon="attach_money"
-                  v-model="tempItem.price"
-                ></v-text-field>      
-              </v-flex>
-            </v-layout>
-          </v-container>
+          <v-text-field 
+            label="Input name (Optional)" 
+            clearable
+            hide-details
+            prepend-icon="check"
+            v-model="tempItem.name"
+          ></v-text-field>
+          <v-text-field 
+            label="Input price" 
+            type="number" 
+            clearable
+            hide-details
+            prepend-icon="attach_money"
+            v-model="tempItem.price"
+          ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <template v-if="dialogMode == 'add'">

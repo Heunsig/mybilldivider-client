@@ -78,29 +78,21 @@
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Add Item</v-card-title>
         <v-card-text>
-          <v-container grid-list-xs>
-            <v-layout wrap>
-              <v-flex>
-                <v-text-field 
-                  label="Item name"
-                  clearable
-                  hide-details
-                  prepend-icon="check"
-                  v-model="tempItem.name"
-                ></v-text-field>      
-              </v-flex>
-              <v-flex>
-                <v-text-field 
-                  label="Item price" 
-                  type="number"
-                  clearable
-                  hide-details
-                  prepend-icon="attach_money"
-                  v-model="tempItem.price"
-                ></v-text-field>      
-              </v-flex>
-            </v-layout>
-          </v-container>
+          <v-text-field 
+            label="Item name"
+            clearable
+            hide-details
+            prepend-icon="check"
+            v-model="tempItem.name"
+          ></v-text-field>      
+          <v-text-field 
+            label="Item price" 
+            type="number"
+            clearable
+            hide-details
+            prepend-icon="attach_money"
+            v-model="tempItem.price"
+          ></v-text-field>      
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
@@ -113,29 +105,21 @@
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Edit Item</v-card-title>
         <v-card-text>
-          <v-container grid-list-xs>
-            <v-layout wrap>
-              <v-flex>
-                <v-text-field 
-                  label="Item name" 
-                  clearable
-                  hide-details
-                  prepend-icon="check"
-                  v-model="tempItem.name"
-                ></v-text-field>      
-              </v-flex>
-              <v-flex>
-                <v-text-field 
-                  label="Item price"
-                  type="number"
-                  clearable
-                  hide-details
-                  prepend-icon="attach_money"
-                  v-model="tempItem.price"
-                ></v-text-field>      
-              </v-flex>
-            </v-layout>
-          </v-container>
+          <v-text-field 
+            label="Item name" 
+            clearable
+            hide-details
+            prepend-icon="check"
+            v-model="tempItem.name"
+          ></v-text-field>      
+          <v-text-field 
+            label="Item price"
+            type="number"
+            clearable
+            hide-details
+            prepend-icon="attach_money"
+            v-model="tempItem.price"
+          ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
