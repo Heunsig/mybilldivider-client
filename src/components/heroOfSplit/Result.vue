@@ -95,6 +95,7 @@
         <v-card-text>
           <v-text-field 
             label="Input Tip Rate"
+            type="number"
             clearable
             hide-details
             prepend-icon="local_atm"
