@@ -11,7 +11,7 @@
                       <v-icon>person</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                      <v-list-tile-title>{{ person.name || 'Unknown - ' + i }}</v-list-tile-title>
+                      <v-list-tile-title>{{ person.name || 'Unnamed - ' + i }}</v-list-tile-title>
                     </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile avatar class="ics-dashedBorder">
@@ -45,7 +45,7 @@
                           </v-list-tile>
                           <li class="ics-subTotalDetail" v-for="item in getItemList(person)">
                             <div class="ics-subTotalDetail-label">
-                              <v-icon>subdirectory_arrow_right</v-icon>{{item.name}}
+                              <v-icon>subdirectory_arrow_right</v-icon> {{item.name || 'Unnamed'}}
                             </div>
                             <div class="ics-subTotalDetail-price">
                               $ {{item.price}}

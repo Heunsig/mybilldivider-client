@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-btn block color="green" dark @click="dialogAddingPerson = true">Add person</v-btn>
+    <v-btn
+      color="green" 
+      dark
+      block
+      @click="dialogAddingPerson = true"
+    >Add person</v-btn>
+    <template v-if="people.length">
     <v-container fluid class="ics-grid">
       <v-layout row wrap>
         <template v-for="(person, i) in people">
@@ -60,6 +66,21 @@
         </template>
       </v-layout>
     </v-container>
+    <v-btn
+      color="green" 
+      dark
+      block
+      class="mt-5"
+      @click="dialogAddingPerson = true"
+    >Add person</v-btn>
+    </template>
+    <template v-else>
+      <v-card flat>
+        <v-card-text>
+          <p class="text-xs-center body-2">Please add person</p>
+        </v-card-text>
+      </v-card>
+    </template>
 
     <v-dialog v-model="dialogAddingPerson" persistent max-width="290">
       <v-card>
@@ -76,9 +97,8 @@
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="grey darken-2" flat @click.native="closeDialogAddingPerson">Cancel</v-btn>
-          <v-btn color="light-green" flat @click.native="addPersonToPeople">Confirm</v-btn>
+          <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingPerson">Cancel</v-btn>
+          <v-btn color="light-green" flat block @click.native="addPersonToPeople">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -98,8 +118,7 @@
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="light-green" flat @click.native="dialogEditingPerson = false">Confirm</v-btn>
+          <v-btn color="light-green" flat block @click.native="dialogEditingPerson = false">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -136,13 +155,12 @@
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
           <template v-if="dialogMode == 'add'">
-            <v-btn color="grey darken-2" flat @click.native="closeDialogForItem">Cancel</v-btn>
-            <v-btn color="light-green" flat @click.native="addItemToMenu">Confirm</v-btn>
+            <v-btn color="grey darken-2" flat block @click.native="closeDialogForItem">Cancel</v-btn>
+            <v-btn color="light-green" flat block @click.native="addItemToMenu">Confirm</v-btn>
           </template>
           <template  v-else> 
-            <v-btn color="light-green" flat @click.native="editItemInMenu">Confirm</v-btn>
+            <v-btn color="light-green" flat block @click.native="editItemInMenu">Confirm</v-btn>
           </template>
         </v-card-actions>
       </v-card>
@@ -151,12 +169,11 @@
     <v-dialog v-model="dialogDeletingPerson">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
-        Do you keep to delete the person?
+        Do you want to delete the person?
         </v-card-title>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="grey darken-2" flat @click.native="dialogDeletingPerson = false">Cancel</v-btn>
-          <v-btn color="red darken-1" flat @click.native="deletePersonFromPeople">Confirm</v-btn>
+          <v-btn color="grey darken-2" flat block @click.native="dialogDeletingPerson = false">Cancel</v-btn>
+          <v-btn color="red darken-1" flat block @click.native="deletePersonFromPeople">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -207,6 +224,8 @@
         this.dialog = false
       },
       addItemToMenu () {
+        this.item.price = this.item.price || 0
+
         this.selectedPerson.menu.push(this.item)
         this.item = {name: '', price: ''}
         this.dialog = false
@@ -226,7 +245,7 @@
         let total = 0
 
         person.menu.forEach(item => {
-          total += parseFloat(item.price) || 0
+          total += parseFloat(item.price)
         })
 
         return total

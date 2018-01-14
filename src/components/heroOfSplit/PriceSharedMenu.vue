@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-btn block color="green darken-3" dark @click="dialogAddingItem = true">Add item</v-btn>
+    <v-btn 
+      color="green"
+      block
+      dark
+      @click="dialogAddingItem = true"
+    >Add item</v-btn>
     <template v-if="menu.length">
       <v-container fluid class="ics-grid">
         <v-layout row wrap>
@@ -14,18 +19,18 @@
                     </v-list-tile-avatar>
                     <v-list-tile-content>
                       <v-list-tile-title>
-                        {{ item.name }}
+                        {{ item.name || 'Unnamed' }}
                       </v-list-tile-title>
                       <v-list-tile-sub-title>Total: $ {{ parseFloat(item.price).toFixed(2) }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                     <v-list-tile-action class="ics-listActions">
                       <v-btn icon @click="openDialogEditingItem(item)">
-                        <v-icon>edit</v-icon>
+                        <v-icon color="grey">edit</v-icon>
                       </v-btn>
                     </v-list-tile-action>
                     <v-list-tile-action class="ics-listActions">
                       <v-btn icon @click="openDialogDeletingItem(item)">
-                        <v-icon>delete</v-icon>
+                        <v-icon color="grey">delete</v-icon>
                       </v-btn>
                     </v-list-tile-action>
                   </v-list-tile>
@@ -52,6 +57,13 @@
           </template>
         </v-layout>
       </v-container>
+      <v-btn 
+        color="green"
+        block
+        dark
+        class="mt-5"
+        @click="dialogAddingItem = true"
+      >Add item</v-btn>
     </template>
     <template v-else>
       <v-card flat>
@@ -63,77 +75,115 @@
 
     <v-dialog v-model="dialogAddingItem" persistent max-width="290">
       <v-card>
-        <v-card-title class="headline">Add item</v-card-title>
+        <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Add Item</v-card-title>
         <v-card-text>
           <v-container grid-list-xs>
             <v-layout wrap>
               <v-flex>
-                <v-text-field label="Item name" v-model="item.name"></v-text-field>      
+                <v-text-field 
+                  label="Item name"
+                  clearable
+                  hide-details
+                  prepend-icon="check"
+                  v-model="item.name"
+                ></v-text-field>      
               </v-flex>
               <v-flex>
-                <v-text-field label="Item price" type="number" v-model="item.price"></v-text-field>      
+                <v-text-field 
+                  label="Item price" 
+                  type="number"
+                  clearable
+                  hide-details
+                  prepend-icon="attach_money"
+                  v-model="item.price"
+                ></v-text-field>      
               </v-flex>
             </v-layout>
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat @click.native="closeDialog">Disagree</v-btn>
-          <v-btn color="green darken-1" flat @click.native="addItemToMenu">Agree</v-btn>
+          <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
+          <v-btn color="light-green" flat block @click.native="addItemToMenu">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <v-dialog v-model="dialogEditingItem" persistent max-width="290">
       <v-card>
-        <v-card-title class="headline">Edit item</v-card-title>
+        <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Edit Item</v-card-title>
         <v-card-text>
           <v-container grid-list-xs>
             <v-layout wrap>
               <v-flex>
-                <v-text-field label="Item name" v-model="selectedItem.name"></v-text-field>      
+                <v-text-field 
+                  label="Item name" 
+                  clearable
+                  hide-details
+                  prepend-icon="check"
+                  v-model="selectedItem.name"
+                ></v-text-field>      
               </v-flex>
               <v-flex>
-                <v-text-field label="Item price" type="number" v-model="selectedItem.price"></v-text-field>      
+                <v-text-field 
+                  label="Item price"
+                  type="number"
+                  clearable
+                  hide-details
+                  prepend-icon="attach_money"
+                  v-model="selectedItem.price"
+                ></v-text-field>      
               </v-flex>
             </v-layout>
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat @click.native="closeDialog">Disagree</v-btn>
-          <v-btn color="green darken-1" flat @click.native="dialogEditingItem = false">Agree</v-btn>
+          <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
+          <v-btn color="light-green" flat block @click.native="dialogEditingItem = false">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     
     <v-dialog v-model="dialogAddingPeople" scrollable persistent max-width="290">
       <v-card>
-        <v-card-title class="headline">Add People</v-card-title>
+        <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Add People</v-card-title>
         <v-card-text>
-          <v-container grid-list-xs>
-            <v-layout wrap>
-              <v-flex>
-                <v-checkbox v-for="(person, i) in people" :key="i" :label="person.name" v-model="selectedItem.people" :value="person.name"></v-checkbox>
+          <v-container fluid class="pl-0 pr-0 pt-0 pb-0">
+            <v-layout row wrap>
+              <v-flex xs12>
+                <v-list>
+                  <template v-for="(person, i) in people">
+                  <v-list-tile>
+                    <v-list-tile-content>
+                      <v-checkbox 
+                        :key="i" 
+                        :label="person.name || 'Unnamed - ' + i"
+                        :value="person.name || 'Unnamed - ' + i"
+                        v-model="selectedItem.people"
+                        color="light-green"
+                      ></v-checkbox>
+                    </v-list-tile-content>
+                  </v-list-tile>
+                  </template>
+                </v-list>
               </v-flex>
             </v-layout>
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat @click.native="closeDialog">Disagree</v-btn>
-          <v-btn color="green darken-1" flat @click.native="dialogAddingPeople = false">Agree</v-btn>
+          <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
+          <v-btn color="light-green" flat block @click.native="dialogAddingPeople = false">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <v-dialog v-model="dialogDeletingItem">
       <v-card>
-        <v-card-title>Do you keep to delete the item?</v-card-title>
+        <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
+          Do you want to delete the item?
+        </v-card-title>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat @click.native="closeDialog">Disagree</v-btn>
-          <v-btn color="green darken-1" flat @click.native="deleteItemFromMenu">Agree</v-btn>
+          <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
+          <v-btn color="red darken-1" flat block @click.native="deleteItemFromMenu">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -202,6 +252,7 @@
         this.dialogAddingItem = false
         this.dialogAddingPeople = false
         this.dialogEditingItem = false
+        this.dialogDeletingItem = false
       },
       dividedPrice (item) {
         return item.price / (item.people.length || 1)
