@@ -4,7 +4,7 @@
       color="green" 
       dark
       block
-      @click="dialogAddingPerson = true"
+      @click="openDialogAddingPerson"
     >Add person</v-btn>
     <template v-if="people.length">
     <v-container fluid class="ics-grid">
@@ -19,7 +19,7 @@
                   </v-list-tile-avatar>
                   <v-list-tile-content>
                     <v-list-tile-title>
-                      {{ person.name || 'Unnamed - ' + i }}
+                      {{ person.name }}
                     </v-list-tile-title>
                     <v-list-tile-sub-title>Total: $ {{ $formatNumber(totalPriceWithoutSalesTax(person).toFixed(2)) }}</v-list-tile-sub-title>
                   </v-list-tile-content>
@@ -39,10 +39,10 @@
                 <v-subheader class="ics-subheader green--text">Added items ({{person.menu.length || 0}})</v-subheader>
                 <v-list-tile avatar v-for="(item, i) in person.menu" :key="i">
                   <v-list-tile-content>
-                    <v-list-tile-title>{{ item.name || 'Unnamed' }}</v-list-tile-title>
+                    <v-list-tile-title>{{ item.name }}</v-list-tile-title>
                   </v-list-tile-content>
                   <v-list-tile-action>
-                    $ {{ $formatNumber(parseFloat(item.price || 0).toFixed(2)) }}
+                    $ {{ $formatNumber(parseFloat(item.price).toFixed(2)) }}
                   </v-list-tile-action>
                   <v-list-tile-action class="ics-listActions">
                     <v-btn icon small @click="openDialogForItem(person, item)">
@@ -50,7 +50,7 @@
                     </v-btn>
                   </v-list-tile-action>
                   <v-list-tile-action class="ics-listActions">
-                    <v-btn icon small @click="removeItemInMenu(person, item)">
+                    <v-btn icon small @click="confirmToRemoveItem(person, item)">
                       <v-icon small color="grey lighten-2">remove</v-icon>
                     </v-btn>
                   </v-list-tile-action>
@@ -81,7 +81,8 @@
         </v-card-text>
       </v-card>
     </template>
-
+    
+    <!-- Section for dialog -->
     <v-dialog v-model="dialogAddingPerson" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
@@ -93,12 +94,12 @@
             clearable
             hide-details
             prepend-icon="person"
-            v-model="person.name"
+            v-model="tempPerson.name"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingPerson">Cancel</v-btn>
-          <v-btn color="light-green" flat block @click.native="addPersonToPeople">Confirm</v-btn>
+          <v-btn color="light-green" flat block @click.native="confirmToAddPerson">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -110,20 +111,21 @@
         </v-card-title>
         <v-card-text>
           <v-text-field 
-            label="Input name (Optional)"
+            label="Input name"
             clearable
             hide-details
             prepend-icon="person"
-            v-model="selectedPerson.name"
+            v-model="tempPerson.name"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="light-green" flat block @click.native="dialogEditingPerson = false">Confirm</v-btn>
+          <v-btn color="grey darken-2" flat block @click.native="closeDialogEditingPerson">Cancel</v-btn>
+          <v-btn color="light-green" flat block @click.native="confirmToEditPerson">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialog" persistent max-width="290">
+    <v-dialog v-model="dialogForItem" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
           <template v-if="dialogMode == 'add'">Add Item</template>
@@ -138,7 +140,7 @@
                   clearable
                   hide-details
                   prepend-icon="check"
-                  v-model="item.name"
+                  v-model="tempItem.name"
                 ></v-text-field>      
               </v-flex>
               <v-flex>
@@ -148,7 +150,7 @@
                   clearable
                   hide-details
                   prepend-icon="attach_money"
-                  v-model="item.price"
+                  v-model="tempItem.price"
                 ></v-text-field>      
               </v-flex>
             </v-layout>
@@ -157,10 +159,11 @@
         <v-card-actions>
           <template v-if="dialogMode == 'add'">
             <v-btn color="grey darken-2" flat block @click.native="closeDialogForItem">Cancel</v-btn>
-            <v-btn color="light-green" flat block @click.native="addItemToMenu">Confirm</v-btn>
+            <v-btn color="light-green" flat block @click.native="confirmToAddItem">Confirm</v-btn>
           </template>
           <template  v-else> 
-            <v-btn color="light-green" flat block @click.native="editItemInMenu">Confirm</v-btn>
+            <v-btn color="grey darken-2" flat block @click.native="closeDialogForItem">Cancel</v-btn>
+            <v-btn color="light-green" flat block @click.native="confirmToEditItem">Confirm</v-btn>
           </template>
         </v-card-actions>
       </v-card>
@@ -172,29 +175,33 @@
         Do you want to delete the person?
         </v-card-title>
         <v-card-actions>
-          <v-btn color="grey darken-2" flat block @click.native="dialogDeletingPerson = false">Cancel</v-btn>
-          <v-btn color="red darken-1" flat block @click.native="deletePersonFromPeople">Confirm</v-btn>
+          <v-btn color="grey darken-2" flat block @click.native="closeDialogDeletingPerson">Cancel</v-btn>
+          <v-btn color="red darken-1" flat block @click.native="confirmToDeletePerson">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
+  <!-- /Section for dialog -->
 </template>
 <script>
+  import clone from 'lodash.clone'
+
   export default {
     data () {
       return {
         dialogAddingPerson: false,
         dialogEditingPerson: false,
         dialogDeletingPerson: false,
-        dialog: false,
+        dialogForItem: false,
         dialogMode: 'add',
-        person: {
+        person: {},
+        tempPerson: {
           name: '',
           tip: '',
           menu: []
         },
-        selectedPerson: {},
-        item: {
+        item: {},
+        tempItem: {
           name: '',
           price: ''
         }
@@ -206,41 +213,6 @@
       }
     },
     methods: {
-      openDialogForItem (person, item) {
-        if (typeof item !== 'undefined') {
-          this.dialogMode = 'edit'
-          this.item = item
-        } else {
-          this.dialogMode = 'add'
-        }
-
-        this.selectedPerson = person
-        this.dialog = true
-      },
-      closeDialogForItem () {
-        this.dialogMode = 'add'
-        this.selectedPerson = {}
-        this.item = {name: '', price: ''}
-        this.dialog = false
-      },
-      addItemToMenu () {
-        this.item.price = this.item.price || 0
-
-        this.selectedPerson.menu.push(this.item)
-        this.item = {name: '', price: ''}
-        this.dialog = false
-      },
-      editItemInMenu () {
-        this.item = {name: '', price: ''}
-        this.dialog = false
-      },
-      removeItemInMenu (person, item) {
-        person.menu.forEach((obj, i) => {
-          if (obj === item) {
-            person.menu.splice(i, 1)
-          }
-        })
-      },
       totalPriceWithoutSalesTax (person) {
         let total = 0
 
@@ -250,30 +222,113 @@
 
         return total
       },
-      addPersonToPeople () {
-        this.$store.commit('addPerson', this.person)
-
-        this.person = { name: '', tip: '', menu: [] }
-        this.dialogAddingPerson = false
-
-        console.log(this.people)
+      openDialogAddingPerson () {
+        this.dialogAddingPerson = true
       },
       closeDialogAddingPerson () {
-        this.person = { name: '', tip: '', menu: [] }
+        this.person = {}
+        this.tempPerson = { name: '', tip: '', menu: [] }
+        this.dialogAddingPerson = false
+      },
+      confirmToAddPerson () {
+        this.$store.commit('addPerson', {person: this.__modifyPersonData(this.tempPerson)})
+
+        this.person = {}
+        this.tempPerson = { name: '', tip: '', menu: [] }
         this.dialogAddingPerson = false
       },
       openDialogEditingPerson (person) {
-        this.selectedPerson = person
+        this.person = person
+        this.tempPerson = clone(person)
         this.dialogEditingPerson = true
       },
+      closeDialogEditingPerson () {
+        this.person = {}
+        this.tempPerson = {name: '', tip: '', menu: []}
+        this.dialogEditingPerson = false
+      },
+      confirmToEditPerson () {
+        Object.assign(this.person, this.__modifyPersonData(this.tempPerson))
+
+        this.person = {}
+        this.tempPerson = {name: '', tip: '', menu: []}
+        this.dialogEditingPerson = false
+      },
       openDialogDeletingPerson (person) {
-        this.selectedPerson = person
+        this.person = person
         this.dialogDeletingPerson = true
       },
-      deletePersonFromPeople () {
-        this.$store.commit('deletePersonFromPeople', this.selectedPerson)
-        this.selectedPerson = {}
+      confirmToDeletePerson () {
+        this.$store.commit('deletePersonFromPeople', this.person)
+
+        this.person = {}
+        this.tempPerson = {name: '', tip: '', menu: []}
         this.dialogDeletingPerson = false
+      },
+      closeDialogDeletingPerson () {
+        this.person = {}
+        this.tempPerson = {name: '', tip: '', menu: []}
+        this.dialogDeletingPerson = false
+      },
+      openDialogForItem (person, item) {
+        if (typeof item !== 'undefined') {
+          this.dialogMode = 'edit'
+          this.tempItem = clone(item)
+        } else {
+          this.dialogMode = 'add'
+        }
+
+        this.person = person
+        this.item = item
+        this.dialogForItem = true
+      },
+      closeDialogForItem () {
+        this.dialogMode = 'add'
+
+        this.person = {}
+        this.item = {}
+        this.tempItem = {name: '', price: ''}
+        this.dialogForItem = false
+      },
+      confirmToAddItem () {
+        this.$store.commit('addItemToPerson', {person: this.person, item: this.__modifyItemData(this.tempItem)})
+
+        this.person = {}
+        this.item = {}
+        this.tempItem = {name: '', price: ''}
+        this.dialogForItem = false
+      },
+      confirmToEditItem () {
+        Object.assign(this.item, this.__modifyItemData(this.tempItem))
+
+        this.person = {}
+        this.item = {}
+        this.tempItem = {name: '', price: ''}
+        this.dialogForItem = false
+      },
+      confirmToRemoveItem (person, item) {
+        person.menu.forEach((obj, i) => {
+          if (obj === item) {
+            person.menu.splice(i, 1)
+          }
+        })
+      },
+      __modifyPersonData (pureData) {
+        let modifiedData = clone(pureData)
+
+        modifiedData.name = modifiedData.name || 'Person - ' + Math.floor(Math.random() * 100)
+        modifiedData.tip = modifiedData.tip || 0
+        modifiedData.menu = modifiedData.menu || []
+
+        return modifiedData
+      },
+      __modifyItemData (pureData) {
+        let modifiedData = clone(pureData)
+
+        modifiedData.name = modifiedData.name || 'Item - ' + Math.floor(Math.random() * 100)
+        modifiedData.price = modifiedData.price || 0.00
+
+        return modifiedData
       }
     }
   }

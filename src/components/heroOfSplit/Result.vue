@@ -11,14 +11,14 @@
                       <v-icon>person</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                      <v-list-tile-title>{{ person.name || 'Unnamed - ' + i }}</v-list-tile-title>
+                      <v-list-tile-title>{{ person.name }}</v-list-tile-title>
                     </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile avatar class="ics-dashedBorder">
                     <v-spacer></v-spacer>
                     <v-list-tile-action>
                       <v-btn small flat color="warning" class="ics-tipButton" @click="openDialogSettingTip(person)">
-                        <v-icon left class="ics-tipIcon">local_atm</v-icon>Tip ({{ person.tip || 0}} %)
+                        <v-icon left class="ics-tipIcon">local_atm</v-icon>Tip ({{ person.tip }} %)
                       </v-btn>
                     </v-list-tile-action>
                     <v-list-tile-action>
@@ -26,16 +26,13 @@
                     </v-list-tile-action>
                   </v-list-tile>
                 </v-list>
-                <v-expansion-panel expand>
-                  <v-expansion-panel-content>
+                <v-expansion-panel>
+                  <v-expansion-panel-content class="ics-expansion-panel-content">
                     <div slot="header" class="green--text">Detail</div>
                     <v-card flat>
                       <v-card-text class="grey lighten-3">
                         <v-list>
-                          <v-list-tile avatar>
-                            <v-list-tile-avatar>
-                              <v-icon>receipt</v-icon>
-                            </v-list-tile-avatar>
+                          <v-list-tile>
                             <v-list-tile-content>
                               <v-list-tile-title>Sub Total</v-list-tile-title>
                             </v-list-tile-content>
@@ -45,34 +42,31 @@
                           </v-list-tile>
                           <li class="ics-subTotalDetail" v-for="item in getItemList(person)">
                             <div class="ics-subTotalDetail-label">
-                              <v-icon>subdirectory_arrow_right</v-icon> {{item.name || 'Unnamed'}}
+                              <v-icon>subdirectory_arrow_right</v-icon> {{ item.name }}
                             </div>
                             <div class="ics-subTotalDetail-price">
-                              $ {{item.price}}
+                              $ {{ item.price }}
                             </div>
                           </li>
-                          <v-list-tile avatar>
-                            <v-list-tile-avatar></v-list-tile-avatar>
+                          <v-list-tile class="mt-2">
                             <v-list-tile-content>
                               <v-list-tile-title>Sales Tax</v-list-tile-title>
-                              <v-list-tile-sub-title>({{ salesTax || 0 }} %)</v-list-tile-sub-title>
+                              <v-list-tile-sub-title>({{ salesTax }} %)</v-list-tile-sub-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                              + $ {{ salesTaxPrice(subTotalPrice(person)) }}
+                              + $ {{ salesTaxPrice(subTotalPrice(person)).toFixed(2) }}
                             </v-list-tile-action>
                           </v-list-tile>
-                          <v-list-tile avatar>
-                            <v-list-tile-avatar></v-list-tile-avatar>
+                          <v-list-tile class="mt-2">
                             <v-list-tile-content>
                               <v-list-tile-title>Tip</v-list-tile-title>
-                              <v-list-tile-sub-title>({{ person.tip || 0 }} %)</v-list-tile-sub-title>
+                              <v-list-tile-sub-title>({{ person.tip }} %)</v-list-tile-sub-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                              + $ {{ tipPrice(subTotalPrice(person), person.tip) }}
+                              + $ {{ tipPrice(subTotalPrice(person), person.tip).toFixed(2) }}
                             </v-list-tile-action>
                           </v-list-tile>
-                          <v-list-tile avatar>
-                            <v-list-tile-avatar></v-list-tile-avatar>
+                          <v-list-tile class="mt-2">
                             <v-list-tile-content>
                               <v-list-tile-title>
                                 <div class="stressedFont">Total</div>
@@ -95,14 +89,22 @@
 
     <v-dialog v-model="dialogSettingTip" persistent max-width="290">
       <v-card>
-        <v-card-title class="headline">Tip Rate</v-card-title>
+        <v-card-title class="pb-3 pt-3 ics-dialog-title orange white--text">
+          Tip Rate
+        </v-card-title>
         <v-card-text>
-          <v-text-field label="Input tip" v-model="selectedPerson.tip"></v-text-field>
+          <v-text-field 
+            label="Input Tip Rate"
+            clearable
+            hide-details
+            prepend-icon="local_atm"
+            suffix="%"
+            v-model="tempTipRate"
+          ></v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat @click.native="closeDialog">Disagree</v-btn>
-          <v-btn color="green darken-1" flat @click.native="closeDialog">Agree</v-btn>
+          <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
+          <v-btn color="orange" flat block @click.native="confirmTipRate">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -112,6 +114,8 @@
   export default {
     data () {
       return {
+        person: {},
+        tempTipRate: '',
         selectedPerson: {},
         dialogSettingTip: false
       }
@@ -129,18 +133,27 @@
     },
     methods: {
       openDialogSettingTip (person) {
-        this.selectedPerson = person
+        this.person = person
+        this.tempTipRate = person.tip
         this.dialogSettingTip = true
       },
+      confirmTipRate () {
+        this.person.tip = this.__modifyTipRate(this.tempTipRate)
+
+        this.person = {}
+        this.tempTipRate = ''
+        this.dialogSettingTip = false
+      },
       closeDialog () {
-        this.selectedPerson = {}
+        this.person = {}
+        this.tempTipRate = ''
         this.dialogSettingTip = false
       },
       subTotalPrice (person) {
         let total = 0
 
         person.menu.forEach(item => {
-          total += parseFloat(item.price || 0)
+          total += parseFloat(item.price)
         })
 
         this.menu.forEach(item => {
@@ -175,8 +188,14 @@
         })
 
         return list
-      }
+      },
+      __modifyTipRate (pureData) {
+        let modifedData = pureData
 
+        modifedData = modifedData || 0
+
+        return modifedData
+      }
     }
   }
 </script>
@@ -196,16 +215,19 @@
 
   .ics-subTotalDetail{
     display:flex;
-    padding-left: 80px;
+    align-items: center;
+    padding-left: 20px;
     padding-right: 16px; 
     margin:3px 0;
   }
   .ics-subTotalDetail-label{
+    display: flex;
+    align-items: center;
     flex:3 1 auto;
     white-space:nowrap;
     overflow: hidden;
     text-overflow: ellipsis; 
-    font-size: 12px;
+    font-size: 13px;
   }
   .ics-subTotalDetail-price{
     flex:1 1 auto;
@@ -213,6 +235,8 @@
     min-width: 56px;
     font-size: 12px;
   }
-  
+  .ics-expansion-panel-content {
+    max-width: 100%;
+  }
 
 </style>

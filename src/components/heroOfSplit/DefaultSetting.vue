@@ -8,10 +8,10 @@
               <v-subheader class="green--text">Sales Tax (%)</v-subheader>
               <v-list-tile>
                 <v-list-tile-content>
-                  <v-list-tile-title>{{ salesTax || 0 }} %</v-list-tile-title>
+                  <v-list-tile-title>{{ salesTax }} %</v-list-tile-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                  <v-btn icon @click="dialog = true">
+                  <v-btn icon @click="openDialog">
                       <v-icon color="green lighten-3">mode_edit</v-icon>
                   </v-btn>
                 </v-list-tile-action>
@@ -34,13 +34,13 @@
             clearable
             hide-details
             suffix="%"
-            v-model="salesTax"
+            v-model="tempSalesTax"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="grey darken-2" flat @click.native="dialog = false">Cancel</v-btn>
-          <v-btn color="light-green" flat @click.native="dialog = false">Confirm</v-btn>
+          <v-btn color="grey darken-2" flat @click.native="closeDialog">Cancel</v-btn>
+          <v-btn color="light-green" flat @click.native="confirmSalesTax">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -50,17 +50,28 @@
   export default {
     data () {
       return {
-        dialog: false
+        dialog: false,
+        tempSalesTax: ''
       }
     },
     computed: {
-      salesTax: {
-        get () {
-          return this.$store.getters.getSalesTaxRate
-        },
-        set (salesTax) {
-          this.$store.commit('setSalesTaxRate', salesTax)
-        }
+      salesTax () {
+        return this.$store.getters.getSalesTaxRate
+      }
+    },
+    methods: {
+      confirmSalesTax () {
+        this.$store.commit('setSalesTaxRate', this.tempSalesTax)
+        this.tempSalesTax = ''
+        this.dialog = false
+      },
+      openDialog () {
+        this.tempSalesTax = this.salesTax
+        this.dialog = true
+      },
+      closeDialog () {
+        this.tempSalesTax = ''
+        this.dialog = false
       }
     }
   }

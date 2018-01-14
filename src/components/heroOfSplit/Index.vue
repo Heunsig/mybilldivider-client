@@ -71,7 +71,8 @@ export default {
   z-index: 5;
 }
 .ics-tabItem-nav{
-  font-size:12px;
+  font-size: 13px;
+  font-weight: 500;
 }
 .ics-tabsBar{
   position: fixed;

@@ -4,7 +4,7 @@
       color="green"
       block
       dark
-      @click="dialogAddingItem = true"
+      @click="openDialogAddingItem"
     >Add item</v-btn>
     <template v-if="menu.length">
       <v-container fluid class="ics-grid">
@@ -19,7 +19,7 @@
                     </v-list-tile-avatar>
                     <v-list-tile-content>
                       <v-list-tile-title>
-                        {{ item.name || 'Unnamed' }}
+                        {{ item.name }}
                       </v-list-tile-title>
                       <v-list-tile-sub-title>Total: $ {{ parseFloat(item.price).toFixed(2) }}</v-list-tile-sub-title>
                     </v-list-tile-content>
@@ -48,7 +48,7 @@
                 </v-card>
 
                 <v-card-actions>
-                  <v-btn icon small absolute bottom right dark fab color="green" @click="openDialogAddingPeople(item)" class="ics-floatingBtn">
+                  <v-btn icon small absolute bottom right dark fab color="green" @click="openDialogEditingPeopleList(item)" class="ics-floatingBtn">
                     <v-icon>person_add</v-icon>
                   </v-btn>
                 </v-card-actions>
@@ -72,7 +72,8 @@
         </v-card-text>
       </v-card>
     </template>
-
+    
+    <!-- Section for dialog -->
     <v-dialog v-model="dialogAddingItem" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Add Item</v-card-title>
@@ -85,7 +86,7 @@
                   clearable
                   hide-details
                   prepend-icon="check"
-                  v-model="item.name"
+                  v-model="tempItem.name"
                 ></v-text-field>      
               </v-flex>
               <v-flex>
@@ -95,7 +96,7 @@
                   clearable
                   hide-details
                   prepend-icon="attach_money"
-                  v-model="item.price"
+                  v-model="tempItem.price"
                 ></v-text-field>      
               </v-flex>
             </v-layout>
@@ -103,7 +104,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
-          <v-btn color="light-green" flat block @click.native="addItemToMenu">Confirm</v-btn>
+          <v-btn color="light-green" flat block @click.native="confirmToAddItem">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -120,7 +121,7 @@
                   clearable
                   hide-details
                   prepend-icon="check"
-                  v-model="selectedItem.name"
+                  v-model="tempItem.name"
                 ></v-text-field>      
               </v-flex>
               <v-flex>
@@ -130,7 +131,7 @@
                   clearable
                   hide-details
                   prepend-icon="attach_money"
-                  v-model="selectedItem.price"
+                  v-model="tempItem.price"
                 ></v-text-field>      
               </v-flex>
             </v-layout>
@@ -138,12 +139,12 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
-          <v-btn color="light-green" flat block @click.native="dialogEditingItem = false">Confirm</v-btn>
+          <v-btn color="light-green" flat block @click.native="confirmToEditItem">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     
-    <v-dialog v-model="dialogAddingPeople" scrollable persistent max-width="290">
+    <v-dialog v-model="dialogEditingPeopleList" scrollable persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Add People</v-card-title>
         <v-card-text>
@@ -156,9 +157,9 @@
                     <v-list-tile-content>
                       <v-checkbox 
                         :key="i" 
-                        :label="person.name || 'Unnamed - ' + i"
-                        :value="person.name || 'Unnamed - ' + i"
-                        v-model="selectedItem.people"
+                        :label="person.name"
+                        :value="person.name"
+                        v-model="tempItem.people"
                         color="light-green"
                       ></v-checkbox>
                     </v-list-tile-content>
@@ -170,8 +171,7 @@
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
-          <v-btn color="light-green" flat block @click.native="dialogAddingPeople = false">Confirm</v-btn>
+          <v-btn color="light-green" flat block @click.native="confirmToEditPeopleList">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -183,24 +183,31 @@
         </v-card-title>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
-          <v-btn color="red darken-1" flat block @click.native="deleteItemFromMenu">Confirm</v-btn>
+          <v-btn color="red darken-1" flat block @click.native="confirmToDeleteItem">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- /Section for dialog -->
   </div>
 </template>
 <script>
+  import clone from 'lodash.clone'
+
   export default {
     data () {
       return {
+        tempItem: {
+          name: '',
+          price: '',
+          people: []
+        },
         item: {
           name: '',
           price: '',
           people: []
         },
-        selectedItem: {},
         dialogAddingItem: false,
-        dialogAddingPeople: false,
+        dialogEditingPeopleList: false,
         dialogDeletingItem: false,
         dialogEditingItem: false
       }
@@ -222,40 +229,66 @@
       }
     },
     methods: {
-      addItemToMenu () {
-        this.item.price = this.item.price || 0
-        this.$store.commit('addItemToMenu', this.item)
+      openDialogAddingItem () {
+        this.dialogAddingItem = true
+      },
+      confirmToAddItem () {
+        this.$store.commit('addItemToMenu', {item: this.__modifyItemData(this.item)})
 
         this.item = { name: '', price: '', people: [] }
         this.dialogAddingItem = false
       },
-      openDialogAddingPeople (item) {
-        this.selectedItem = item
-        this.dialogAddingPeople = true
-      },
-      openDialogDeletingItem (item) {
-        this.selectedItem = item
-        this.dialogDeletingItem = true
-      },
       openDialogEditingItem (item) {
-        this.selectedItem = item
+        this.item = item
+        this.tempItem = clone(item)
         this.dialogEditingItem = true
       },
-      deleteItemFromMenu () {
-        this.$store.commit('deleteItemFromMenu', this.selectedItem)
-        this.selectedItem = {}
+      confirmToEditItem () {
+        Object.assign(this.item, this.__modifyItemData(this.tempItem))
+
+        this.item = {}
+        this.tempItem = { name: '', price: '', people: [] }
+        this.dialogEditingItem = false
+      },
+      openDialogDeletingItem (item) {
+        this.item = item
+        this.dialogDeletingItem = true
+      },
+      confirmToDeleteItem () {
+        this.$store.commit('deleteItemFromMenu', {item: this.item})
+
+        this.item = {}
+        this.tempItem = { name: '', price: '', people: [] }
         this.dialogDeletingItem = false
       },
+      confirmToEditPeopleList () {
+        this.item = {}
+        this.tempItem = { name: '', price: '', people: [] }
+        this.dialogEditingPeopleList = false
+      },
+      openDialogEditingPeopleList (item) {
+        this.tempItem = item
+        this.dialogEditingPeopleList = true
+      },
       closeDialog () {
-        this.selectedItem = {}
-        this.item = { name: '', price: '', people: [] }
+        this.item = {}
+        this.tempItem = { name: '', price: '', people: [] }
         this.dialogAddingItem = false
-        this.dialogAddingPeople = false
+        this.dialogEditingPeopleList = false
         this.dialogEditingItem = false
         this.dialogDeletingItem = false
       },
       dividedPrice (item) {
         return item.price / (item.people.length || 1)
+      },
+      __modifyItemData (pureData) {
+        let modifiedData = clone(pureData)
+
+        modifiedData.name = modifiedData.name || 'Item - ' + Math.floor(Math.random() * 100)
+        modifiedData.price = modifiedData.price || 0.00
+        modifiedData.people = modifiedData.people || []
+
+        return modifiedData
       }
     }
   }

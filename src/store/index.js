@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    salesTax: '',
+    salesTax: 0,
     people: [],
     menu: []
   },
@@ -22,17 +22,20 @@ export default new Vuex.Store({
   },
   mutations: {
     setSalesTaxRate (state, salesTax) {
-      state.salesTax = salesTax
+      state.salesTax = parseFloat(salesTax || 0)
     },
-    addPerson (state, person) {
-      state.people.push(person)
+    addPerson (state, payload) {
+      state.people.push(payload.person)
     },
-    addItemToMenu (state, item) {
-      state.menu.push(item)
+    addItemToPerson (state, payload) {
+      payload.person.menu.push(payload.item)
     },
-    deleteItemFromMenu (state, item) {
+    addItemToMenu (state, payload) {
+      state.menu.push(payload.item)
+    },
+    deleteItemFromMenu (state, payload) {
       state.menu.forEach((obj, i) => {
-        if (obj === item) {
+        if (obj === payload.item) {
           state.menu.splice(i, 1)
         }
       })
