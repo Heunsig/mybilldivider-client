@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ics-warpper">
   <v-btn icon flat class="ics-btn-refresh" v-if="refresh" @click="refreshPage">
     <v-icon color="white">refresh</v-icon>
   </v-btn>
@@ -139,6 +139,9 @@ export default {
 }
 </script>
 <style scoped>
+.ics-warpper{
+  height: 100%;
+}
 .ics-toolbar{
   position: fixed;
   z-index: 5;
@@ -159,6 +162,7 @@ export default {
 }
 .ics-tabContent{
   padding-top: 48px;
+  height: 100%;
 }
 .ics-tabs{height: 100%;}
 .ics-btn-refresh{

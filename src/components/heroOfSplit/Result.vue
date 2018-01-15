@@ -86,7 +86,7 @@
         </template>
       </v-layout>
     </v-container>
-
+    
     <v-dialog v-model="dialogSettingTip" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title orange white--text">
@@ -115,6 +115,7 @@
   export default {
     data () {
       return {
+        fab: false,
         person: {},
         tempTipRate: '',
         selectedPerson: {},
@@ -239,5 +240,4 @@
   .ics-expansion-panel-content {
     max-width: 100%;
   }
-
 </style>

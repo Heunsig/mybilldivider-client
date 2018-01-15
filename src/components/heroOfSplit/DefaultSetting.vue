@@ -38,8 +38,8 @@
     
     <v-dialog v-model="dialog" persistent max-width="290">
       <v-card>
-        <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
-          Edit Sales Tax Rate
+        <v-card-title class="pb-3 pt-3 ics-dialog-title blue white--text">
+          Set Sales Tax Rate
         </v-card-title>
         <v-card-text>
           <v-text-field 
@@ -54,7 +54,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="grey darken-2" flat @click.native="closeDialog">Cancel</v-btn>
-          <v-btn color="light-green" flat @click.native="confirmSalesTax">Confirm</v-btn>
+          <v-btn color="blue" flat @click.native="confirmSalesTax">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -63,7 +63,7 @@
     <v-card>
       <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
         Do you want to refresh all?<br/>
-        It makes the app first
+        It makes the app first state.
       </v-card-title>
       <v-card-actions>
         <v-btn color="grey darken-2" flat block @click.native="dialogRefreshingAll = false">Cancel</v-btn>
