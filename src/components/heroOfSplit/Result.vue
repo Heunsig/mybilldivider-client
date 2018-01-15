@@ -154,13 +154,13 @@
         let total = 0
 
         person.menu.forEach(item => {
-          total += parseFloat(item.price)
+          total += item.price
         })
 
         this.menu.forEach(item => {
           item.people.forEach(name => {
             if (person.name === name) {
-              total += parseFloat((item.price) / item.people.length)
+              total += item.price / item.people.length
             }
           })
         })
@@ -183,7 +183,7 @@
         this.menu.forEach(item => {
           item.people.forEach(name => {
             if (person.name === name) {
-              list.push({name: item.name + ' ( $ ' + item.price + ' / ' + item.people.length + ' )', price: parseFloat((item.price) / item.people.length)})
+              list.push({name: item.name + ' ( $ ' + item.price + ' / ' + item.people.length + ' )', price: item.price / item.people.length})
             }
           })
         })
@@ -193,7 +193,7 @@
       __modifyTipRate (pureData) {
         let modifedData = pureData
 
-        modifedData = modifedData || 0
+        modifedData = parseFloat(modifedData) || 0
 
         return modifedData
       }

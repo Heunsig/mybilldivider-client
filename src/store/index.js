@@ -47,12 +47,42 @@ export default new Vuex.Store({
         }
       })
     },
-    deletePersonFromPeople (state, person) {
+    deletePersonFromPeople (state, payload) {
       state.people.forEach((obj, i) => {
-        if (obj === person) {
+        if (obj === payload.person) {
           state.people.splice(i, 1)
         }
       })
+
+      // Delete person in Menu.people's array
+      // WARNNING: It might make the app slow
+      state.menu.forEach(obj => {
+        obj.people.forEach((name, i) => {
+          if (name === payload.person.name) {
+            obj.people.splice(i, 1)
+          }
+        })
+      })
+    },
+    clearPeople (state) {
+      state.people = []
+
+      // Delete people in Menu.people's array
+      // WARNNING: It might make the app slow
+      state.menu.forEach(obj => {
+        obj.people = []
+      })
+    },
+    clearMenu (state) {
+      state.menu = []
+    },
+    refreshAll (state) {
+      /*
+       *  Refresh everything
+       */
+      state.people = []
+      state.menu = []
+      state.salesTax = 0
     }
   }
 })

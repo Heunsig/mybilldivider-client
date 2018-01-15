@@ -21,7 +21,7 @@
                       <v-list-tile-title>
                         {{ item.name }}
                       </v-list-tile-title>
-                      <v-list-tile-sub-title>Total: $ {{ parseFloat(item.price).toFixed(2) }}</v-list-tile-sub-title>
+                      <v-list-tile-sub-title>Total: $ {{ item.price.toFixed(2) }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                     <v-list-tile-action class="ics-listActions">
                       <v-btn icon @click="openDialogEditingItem(item)">
@@ -160,10 +160,22 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogDeletingItem">
+    <v-dialog persistent v-model="dialogDeletingItem">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
           Do you want to delete the item?
+        </v-card-title>
+        <v-card-actions>
+          <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
+          <v-btn color="red darken-1" flat block @click.native="confirmToDeleteItem">Confirm</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog persistent v-model="dialogDeletingItem">
+      <v-card>
+        <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
+          Do you want to refresh this page?
         </v-card-title>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
@@ -193,7 +205,8 @@
         dialogAddingItem: false,
         dialogEditingPeopleList: false,
         dialogDeletingItem: false,
-        dialogEditingItem: false
+        dialogEditingItem: false,
+        dialogRefreshAll: false
       }
     },
     computed: {
@@ -217,9 +230,9 @@
         this.dialogAddingItem = true
       },
       confirmToAddItem () {
-        this.$store.commit('addItemToMenu', {item: this.__modifyItemData(this.item)})
+        this.$store.commit('addItemToMenu', {item: this.__modifyItemData(this.tempItem)})
 
-        this.item = { name: '', price: '', people: [] }
+        this.tempItem = { name: '', price: '', people: [] }
         this.dialogAddingItem = false
       },
       openDialogEditingItem (item) {
@@ -262,6 +275,9 @@
         this.dialogEditingItem = false
         this.dialogDeletingItem = false
       },
+      openDialogRefreshingAll () {
+        this.dialogRefreshAll = true
+      },
       dividedPrice (item) {
         return item.price / (item.people.length || 1)
       },
@@ -269,7 +285,7 @@
         let modifiedData = clone(pureData)
 
         modifiedData.name = modifiedData.name || 'Item - ' + Math.floor(Math.random() * 100)
-        modifiedData.price = modifiedData.price || 0.00
+        modifiedData.price = parseFloat(modifiedData.price) || 0.00
         modifiedData.people = modifiedData.people || []
 
         return modifiedData

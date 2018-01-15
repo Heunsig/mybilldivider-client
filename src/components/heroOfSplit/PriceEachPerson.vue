@@ -37,21 +37,21 @@
               </v-list>
               <v-list>
                 <v-subheader class="ics-subheader green--text">Added items ({{person.menu.length || 0}})</v-subheader>
-                <v-list-tile avatar v-for="(item, i) in person.menu" :key="i">
+                <v-list-tile v-for="(item, i) in person.menu" :key="i">
+                  <v-list-tile-action class="ics-listActions">
+                    <v-btn icon small @click="confirmToRemoveItem(person, item)">
+                      <v-icon small color="grey lighten-2">close</v-icon>
+                    </v-btn>
+                  </v-list-tile-action>
                   <v-list-tile-content>
                     <v-list-tile-title>{{ item.name }}</v-list-tile-title>
                   </v-list-tile-content>
                   <v-list-tile-action>
-                    $ {{ $formatNumber(parseFloat(item.price).toFixed(2)) }}
+                    $ {{ $formatNumber(item.price.toFixed(2)) }}
                   </v-list-tile-action>
                   <v-list-tile-action class="ics-listActions">
                     <v-btn icon small @click="openDialogForItem(person, item)">
                       <v-icon small color="grey lighten-2">edit</v-icon>
-                    </v-btn>
-                  </v-list-tile-action>
-                  <v-list-tile-action class="ics-listActions">
-                    <v-btn icon small @click="confirmToRemoveItem(person, item)">
-                      <v-icon small color="grey lighten-2">remove</v-icon>
                     </v-btn>
                   </v-list-tile-action>
                 </v-list-tile>
@@ -161,7 +161,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogDeletingPerson">
+    <v-dialog persistent v-model="dialogDeletingPerson">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
         Do you want to delete the person?
@@ -209,7 +209,7 @@
         let total = 0
 
         person.menu.forEach(item => {
-          total += parseFloat(item.price)
+          total += item.price
         })
 
         return total
@@ -251,7 +251,7 @@
         this.dialogDeletingPerson = true
       },
       confirmToDeletePerson () {
-        this.$store.commit('deletePersonFromPeople', this.person)
+        this.$store.commit('deletePersonFromPeople', {person: this.person})
 
         this.person = {}
         this.tempPerson = {name: '', tip: '', menu: []}
@@ -318,7 +318,7 @@
         let modifiedData = clone(pureData)
 
         modifiedData.name = modifiedData.name || 'Item - ' + Math.floor(Math.random() * 100)
-        modifiedData.price = modifiedData.price || 0.00
+        modifiedData.price = parseFloat(modifiedData.price) || 0.00
 
         return modifiedData
       }
