@@ -82,9 +82,20 @@
         tempSalesTax: ''
       }
     },
+    watch: {
+      dialog (value) {
+        this.$fixToModalBugOnIphone(this.bodyElement, value)
+      },
+      dialogRefreshingAll (value) {
+        this.$fixToModalBugOnIphone(this.bodyElement, value)
+      }
+    },
     computed: {
       salesTax () {
         return this.$store.getters.getSalesTaxRate
+      },
+      bodyElement () {
+        return this.$store.getters.getBodyElement
       }
     },
     methods: {

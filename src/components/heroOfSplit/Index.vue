@@ -89,12 +89,20 @@ export default {
       ]
     }
   },
+  watch: {
+    dialogRefreshingPage (value) {
+      this.$fixToModalBugOnIphone(this.bodyElement, value)
+    }
+  },
   computed: {
     menu () {
       return this.$store.getters.getMenu
     },
     people () {
       return this.$store.getters.getPeople
+    },
+    bodyElement () {
+      return this.$store.getters.getBodyElement
     }
   },
   components: {
@@ -171,4 +179,5 @@ export default {
   right: 8px;
   z-index: 4;
 }
+
 </style>

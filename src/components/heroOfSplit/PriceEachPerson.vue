@@ -83,7 +83,7 @@
     </template>
     
     <!-- Section for dialog -->
-    <v-dialog v-model="dialogAddingPerson" persistent max-width="290">
+    <v-dialog v-model="dialogAddingPerson" lazy persistent max-width="290" content-class="test-a">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
           Add Person
@@ -199,9 +199,26 @@
         }
       }
     },
+    watch: {
+      dialogAddingPerson (value) {
+        this.$fixToModalBugOnIphone(this.bodyElement, value)
+      },
+      dialogEditingPerson (value) {
+        this.$fixToModalBugOnIphone(this.bodyElement, value)
+      },
+      dialogDeletingPerson (value) {
+        this.$fixToModalBugOnIphone(this.bodyElement, value)
+      },
+      dialogForItem (value) {
+        this.$fixToModalBugOnIphone(this.bodyElement, value)
+      }
+    },
     computed: {
       people () {
         return this.$store.getters.getPeople
+      },
+      bodyElement () {
+        return this.$store.getters.getBodyElement
       }
     },
     methods: {
@@ -339,5 +356,10 @@
 
   .ics-floatingBtn{
     z-index: 1!important;
+  }
+
+  .test-a{
+    /*position: absolute;*/
+    border:1px solid red;
   }
 </style>

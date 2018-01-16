@@ -205,8 +205,22 @@
         dialogAddingItem: false,
         dialogEditingPeopleList: false,
         dialogDeletingItem: false,
-        dialogEditingItem: false,
-        dialogRefreshAll: false
+        dialogEditingItem: false
+        // dialogRefreshAll: false
+      }
+    },
+    watch: {
+      dialogAddingItem (value) {
+        this.$fixToModalBugOnIphone(this.bodyElement, value)
+      },
+      dialogEditingPeopleList (value) {
+        this.$fixToModalBugOnIphone(this.bodyElement, value)
+      },
+      dialogDeletingItem (value) {
+        this.$fixToModalBugOnIphone(this.bodyElement, value)
+      },
+      dialogEditingItem (value) {
+        this.$fixToModalBugOnIphone(this.bodyElement, value)
       }
     },
     computed: {
@@ -223,6 +237,9 @@
         })
 
         return nameList
+      },
+      bodyElement () {
+        return this.$store.getters.getBodyElement
       }
     },
     methods: {
@@ -275,9 +292,9 @@
         this.dialogEditingItem = false
         this.dialogDeletingItem = false
       },
-      openDialogRefreshingAll () {
-        this.dialogRefreshAll = true
-      },
+      // openDialogRefreshingAll () {
+      //   this.dialogRefreshAll = true
+      // },
       dividedPrice (item) {
         return item.price / (item.people.length || 1)
       },

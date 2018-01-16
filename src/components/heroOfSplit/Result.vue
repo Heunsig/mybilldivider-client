@@ -122,6 +122,11 @@
         dialogSettingTip: false
       }
     },
+    watch: {
+      dialogSettingTip (value) {
+        this.$fixToModalBugOnIphone(this.bodyElement, value)
+      }
+    },
     computed: {
       people () {
         return this.$store.getters.getPeople
@@ -131,6 +136,9 @@
       },
       salesTax () {
         return this.$store.getters.getSalesTaxRate
+      },
+      bodyElement () {
+        return this.$store.getters.getBodyElement
       }
     },
     methods: {

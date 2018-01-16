@@ -6,11 +6,8 @@
       dark
       fixed
     >
-      <v-list class="pa-1">
-        <v-list-tile avatar tag="div">
-          <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg" />
-          </v-list-tile-avatar>
+      <v-list>
+        <v-list-tile tag="div">
           <v-list-tile-content>
             <v-list-tile-title>Hero of Split</v-list-tile-title>
           </v-list-tile-content>
@@ -30,6 +27,11 @@
           <v-list-tile-content>
             <v-list-tile-title>{{ item.label }}</v-list-tile-title>
           </v-list-tile-content>
+          <!-- <v-list-tile-action>
+            <v-btn icon @click.stop="drawer = !drawer">
+              <v-icon>chevron_left</v-icon>
+            </v-btn>
+          </v-list-tile-action> -->
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
@@ -45,6 +47,10 @@
 
 <script>
 export default {
+  mounted  () {
+    let body = document.querySelector('body')
+    this.$store.commit('setBodyElement', {bodyElement: body})
+  },
   data () {
     return {
       drawer: false,
@@ -76,5 +82,10 @@ export default {
   .ics-dialog-title{
     font-weight: 500;
     font-size: 17px;
+  }
+
+  body.modal-open{
+    position: fixed;
+    width: 100%;
   }
 </style>

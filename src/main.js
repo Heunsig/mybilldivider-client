@@ -12,8 +12,18 @@ import 'vuetify/dist/vuetify.min.css'
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 
+// Formatting number
 Vue.prototype.$formatNumber = (num) => {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+
+Vue.prototype.$fixToModalBugOnIphone = (bodyEle, bool) => {
+  if (bool === true) {
+    bodyEle.className += 'modal-open'
+  } else {
+    var reg = new RegExp('(\\s|^)' + 'modal-open' + '(\\s|$)')
+    bodyEle.className = bodyEle.className.replace(reg, ' ')
+  }
 }
 
 /* eslint-disable no-new */
