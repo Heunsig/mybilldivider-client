@@ -62,7 +62,7 @@
         block
         dark
         class="mt-5"
-        @click="dialogAddingItem = true"
+        @click="openDialogAddingItem"
       >Add item</v-btn>
     </template>
     <template v-else>
@@ -74,7 +74,7 @@
     </template>
     
     <!-- Section for dialog -->
-    <v-dialog v-model="dialogAddingItem" persistent max-width="290">
+    <v-dialog v-model="dialogs.addingItem" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Add Item</v-card-title>
         <v-card-text>
@@ -101,7 +101,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogEditingItem" persistent max-width="290">
+    <v-dialog v-model="dialogs.editingItem" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Edit Item</v-card-title>
         <v-card-text>
@@ -128,7 +128,7 @@
       </v-card>
     </v-dialog>
     
-    <v-dialog v-model="dialogEditingPeopleList" scrollable persistent max-width="290">
+    <v-dialog v-model="dialogs.editingPeopleList" scrollable persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Add People</v-card-title>
         <v-card-text>
@@ -160,7 +160,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog persistent v-model="dialogDeletingItem">
+    <v-dialog persistent v-model="dialogs.deletingItem">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
           Do you want to delete the item?
@@ -172,7 +172,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog persistent v-model="dialogDeletingItem">
+    <!-- <v-dialog persistent v-model="dialogDeletingItem">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
           Do you want to refresh this page?
@@ -182,16 +182,24 @@
           <v-btn color="red darken-1" flat block @click.native="confirmToDeleteItem">Confirm</v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
     <!-- /Section for dialog -->
   </div>
 </template>
 <script>
   import clone from 'lodash.clone'
+  import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
 
   export default {
+    mixins: [fixingModalBugInIphone],
     data () {
       return {
+        dialogs: {
+          addingItem: false,
+          editingPeopleList: false,
+          deletingItem: false,
+          editingItem: false
+        },
         tempItem: {
           name: '',
           price: '',
@@ -201,26 +209,7 @@
           name: '',
           price: '',
           people: []
-        },
-        dialogAddingItem: false,
-        dialogEditingPeopleList: false,
-        dialogDeletingItem: false,
-        dialogEditingItem: false
-        // dialogRefreshAll: false
-      }
-    },
-    watch: {
-      dialogAddingItem (value) {
-        this.$fixToModalBugOnIphone(this.bodyElement, value)
-      },
-      dialogEditingPeopleList (value) {
-        this.$fixToModalBugOnIphone(this.bodyElement, value)
-      },
-      dialogDeletingItem (value) {
-        this.$fixToModalBugOnIphone(this.bodyElement, value)
-      },
-      dialogEditingItem (value) {
-        this.$fixToModalBugOnIphone(this.bodyElement, value)
+        }
       }
     },
     computed: {
@@ -244,57 +233,54 @@
     },
     methods: {
       openDialogAddingItem () {
-        this.dialogAddingItem = true
+        this.activeDialog = {type: 'addingItem', bool: true}
       },
       confirmToAddItem () {
         this.$store.commit('addItemToMenu', {item: this.__modifyItemData(this.tempItem)})
 
         this.tempItem = { name: '', price: '', people: [] }
-        this.dialogAddingItem = false
+        this.activeDialog = {type: 'addingItem', bool: false}
       },
       openDialogEditingItem (item) {
         this.item = item
         this.tempItem = clone(item)
-        this.dialogEditingItem = true
+        this.activeDialog = {type: 'editingItem', bool: true}
       },
       confirmToEditItem () {
         Object.assign(this.item, this.__modifyItemData(this.tempItem))
 
         this.item = {}
         this.tempItem = { name: '', price: '', people: [] }
-        this.dialogEditingItem = false
+        this.activeDialog = {type: 'editingItem', bool: false}
       },
       openDialogDeletingItem (item) {
         this.item = item
-        this.dialogDeletingItem = true
+        this.activeDialog = {type: 'deletingItem', bool: true}
       },
       confirmToDeleteItem () {
         this.$store.commit('deleteItemFromMenu', {item: this.item})
 
         this.item = {}
         this.tempItem = { name: '', price: '', people: [] }
-        this.dialogDeletingItem = false
+        this.activeDialog = {type: 'deletingItem', bool: false}
       },
       confirmToEditPeopleList () {
         this.item = {}
         this.tempItem = { name: '', price: '', people: [] }
-        this.dialogEditingPeopleList = false
+        this.activeDialog = {type: 'editingPeopleList', bool: false}
       },
       openDialogEditingPeopleList (item) {
         this.tempItem = item
-        this.dialogEditingPeopleList = true
+        this.activeDialog = {type: 'editingPeopleList', bool: true}
       },
       closeDialog () {
         this.item = {}
         this.tempItem = { name: '', price: '', people: [] }
-        this.dialogAddingItem = false
-        this.dialogEditingPeopleList = false
-        this.dialogEditingItem = false
-        this.dialogDeletingItem = false
+        this.activeDialog = {type: 'addingItem', bool: false}
+        this.activeDialog = {type: 'editingPeopleList', bool: false}
+        this.activeDialog = {type: 'deletingItem', bool: false}
+        this.activeDialog = {type: 'editingItem', bool: false}
       },
-      // openDialogRefreshingAll () {
-      //   this.dialogRefreshAll = true
-      // },
       dividedPrice (item) {
         return item.price / (item.people.length || 1)
       },

@@ -21,7 +21,7 @@
                     <v-list-tile-title>
                       {{ person.name }}
                     </v-list-tile-title>
-                    <v-list-tile-sub-title>Total: $ {{ $formatNumber(totalPriceWithoutSalesTax(person).toFixed(2)) }}</v-list-tile-sub-title>
+                    <v-list-tile-sub-title>Total: $ {{ $format.money(totalPriceWithoutSalesTax(person).toFixed(2)) }}</v-list-tile-sub-title>
                   </v-list-tile-content>
                   <v-list-tile-action class="ics-listActions">
                       <v-btn icon @click="openDialogEditingPerson(person)">
@@ -47,7 +47,7 @@
                     <v-list-tile-title>{{ item.name }}</v-list-tile-title>
                   </v-list-tile-content>
                   <v-list-tile-action>
-                    $ {{ $formatNumber(item.price.toFixed(2)) }}
+                    $ {{ $format.money(item.price.toFixed(2)) }}
                   </v-list-tile-action>
                   <v-list-tile-action class="ics-listActions">
                     <v-btn icon small @click="openDialogForItem(person, item)">
@@ -71,7 +71,7 @@
       dark
       block
       class="mt-5"
-      @click="dialogAddingPerson = true"
+      @click="openDialogAddingPerson"
     >Add person</v-btn>
     </template>
     <template v-else>
@@ -83,7 +83,7 @@
     </template>
     
     <!-- Section for dialog -->
-    <v-dialog v-model="dialogAddingPerson" lazy persistent max-width="290" content-class="test-a">
+    <v-dialog v-model="dialogs.addingPerson" lazy persistent max-width="290" content-class="test-a">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
           Add Person
@@ -104,7 +104,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogEditingPerson" persistent max-width="290">
+    <v-dialog v-model="dialogs.editingPerson" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
           Edit Person
@@ -125,7 +125,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogForItem" persistent max-width="290">
+    <v-dialog v-model="dialogs.item" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
           <template v-if="dialogMode == 'add'">Add Item</template>
@@ -161,7 +161,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog persistent v-model="dialogDeletingPerson">
+    <v-dialog persistent v-model="dialogs.deletingPerson">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
         Do you want to delete the person?
@@ -177,14 +177,22 @@
 </template>
 <script>
   import clone from 'lodash.clone'
+  import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
 
   export default {
+    mixins: [fixingModalBugInIphone],
     data () {
       return {
-        dialogAddingPerson: false,
-        dialogEditingPerson: false,
-        dialogDeletingPerson: false,
-        dialogForItem: false,
+        dialogs: {
+          addingPerson: false,
+          editingPerson: false,
+          deletingPerson: false,
+          item: false
+        },
+        // dialogAddingPerson: false,
+        // dialogEditingPerson: false,
+        // dialogDeletingPerson: false,
+        // dialogForItem: false,
         dialogMode: 'add',
         person: {},
         tempPerson: {
@@ -199,26 +207,9 @@
         }
       }
     },
-    watch: {
-      dialogAddingPerson (value) {
-        this.$fixToModalBugOnIphone(this.bodyElement, value)
-      },
-      dialogEditingPerson (value) {
-        this.$fixToModalBugOnIphone(this.bodyElement, value)
-      },
-      dialogDeletingPerson (value) {
-        this.$fixToModalBugOnIphone(this.bodyElement, value)
-      },
-      dialogForItem (value) {
-        this.$fixToModalBugOnIphone(this.bodyElement, value)
-      }
-    },
     computed: {
       people () {
         return this.$store.getters.getPeople
-      },
-      bodyElement () {
-        return this.$store.getters.getBodyElement
       }
     },
     methods: {
@@ -232,52 +223,52 @@
         return total
       },
       openDialogAddingPerson () {
-        this.dialogAddingPerson = true
+        this.activeDialog = {type: 'addingPerson', bool: true}
       },
       closeDialogAddingPerson () {
         this.person = {}
         this.tempPerson = { name: '', tip: '', menu: [] }
-        this.dialogAddingPerson = false
+        this.activeDialog = {type: 'addingPerson', bool: false}
       },
       confirmToAddPerson () {
         this.$store.commit('addPerson', {person: this.__modifyPersonData(this.tempPerson)})
 
         this.person = {}
         this.tempPerson = { name: '', tip: '', menu: [] }
-        this.dialogAddingPerson = false
+        this.activeDialog = {type: 'addingPerson', bool: false}
       },
       openDialogEditingPerson (person) {
         this.person = person
         this.tempPerson = clone(person)
-        this.dialogEditingPerson = true
+        this.activeDialog = {type: 'editingPerson', bool: true}
       },
       closeDialogEditingPerson () {
         this.person = {}
         this.tempPerson = {name: '', tip: '', menu: []}
-        this.dialogEditingPerson = false
+        this.activeDialog = {type: 'editingPerson', bool: false}
       },
       confirmToEditPerson () {
         Object.assign(this.person, this.__modifyPersonData(this.tempPerson))
 
         this.person = {}
         this.tempPerson = {name: '', tip: '', menu: []}
-        this.dialogEditingPerson = false
+        this.activeDialog = {type: 'editingPerson', bool: false}
       },
       openDialogDeletingPerson (person) {
         this.person = person
-        this.dialogDeletingPerson = true
+        this.activeDialog = {type: 'deletingPerson', bool: true}
       },
       confirmToDeletePerson () {
         this.$store.commit('deletePersonFromPeople', {person: this.person})
 
         this.person = {}
         this.tempPerson = {name: '', tip: '', menu: []}
-        this.dialogDeletingPerson = false
+        this.activeDialog = {type: 'deletingPerson', bool: false}
       },
       closeDialogDeletingPerson () {
         this.person = {}
         this.tempPerson = {name: '', tip: '', menu: []}
-        this.dialogDeletingPerson = false
+        this.activeDialog = {type: 'deletingPerson', bool: false}
       },
       openDialogForItem (person, item) {
         if (typeof item !== 'undefined') {
@@ -289,7 +280,7 @@
 
         this.person = person
         this.item = item
-        this.dialogForItem = true
+        this.activeDialog = {type: 'item', bool: true}
       },
       closeDialogForItem () {
         this.dialogMode = 'add'
@@ -297,7 +288,7 @@
         this.person = {}
         this.item = {}
         this.tempItem = {name: '', price: ''}
-        this.dialogForItem = false
+        this.activeDialog = {type: 'item', bool: false}
       },
       confirmToAddItem () {
         this.$store.commit('addItemToPerson', {person: this.person, item: this.__modifyItemData(this.tempItem)})
@@ -305,7 +296,7 @@
         this.person = {}
         this.item = {}
         this.tempItem = {name: '', price: ''}
-        this.dialogForItem = false
+        this.activeDialog = {type: 'item', bool: false}
       },
       confirmToEditItem () {
         Object.assign(this.item, this.__modifyItemData(this.tempItem))
@@ -313,7 +304,7 @@
         this.person = {}
         this.item = {}
         this.tempItem = {name: '', price: ''}
-        this.dialogForItem = false
+        this.activeDialog = {type: 'item', bool: false}
       },
       confirmToRemoveItem (person, item) {
         person.menu.forEach((obj, i) => {

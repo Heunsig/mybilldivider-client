@@ -46,10 +46,12 @@
 </template>
 
 <script>
+import eventBus from '@/event-bus'
+
 export default {
-  mounted  () {
+  mounted () {
     let body = document.querySelector('body')
-    this.$store.commit('setBodyElement', {bodyElement: body})
+    eventBus.bodyElement = body
   },
   data () {
     return {
@@ -88,4 +90,6 @@ export default {
     position: fixed;
     width: 100%;
   }
+
+  .overlay--active:before{opacity: 0.9;}
 </style>

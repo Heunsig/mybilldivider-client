@@ -36,7 +36,7 @@
       </v-layout>
     </v-container>
     
-    <v-dialog v-model="dialog" persistent max-width="290">
+    <v-dialog v-model="dialogs.setSalesTax" lazy persistent max-width="290" content-class="abcd">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title blue white--text">
           Set Sales Tax Rate
@@ -59,66 +59,63 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog persistent v-model="dialogRefreshingAll">
+    <v-dialog persistent v-model="dialogs.refreshAll">
     <v-card>
       <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
         Do you want to refresh all?<br/>
         It makes the app first state.
       </v-card-title>
       <v-card-actions>
-        <v-btn color="grey darken-2" flat block @click.native="dialogRefreshingAll = false">Cancel</v-btn>
+        <v-btn color="grey darken-2" flat block @click.native="closeDialogRefreshingAll">Cancel</v-btn>
         <v-btn color="red darken-1" flat block @click.native="confirmToRefreshAll">Confirm</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <!-- <button @click="test">test</button> -->
   </div>
 </template>
 <script>
+  import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
+
   export default {
+    mixins: [fixingModalBugInIphone],
     data () {
       return {
-        dialog: false,
-        dialogRefreshingAll: false,
+        dialogs: {
+          setSalesTax: false,
+          refreshAll: false
+        },
         tempSalesTax: ''
-      }
-    },
-    watch: {
-      dialog (value) {
-        this.$fixToModalBugOnIphone(this.bodyElement, value)
-      },
-      dialogRefreshingAll (value) {
-        this.$fixToModalBugOnIphone(this.bodyElement, value)
       }
     },
     computed: {
       salesTax () {
         return this.$store.getters.getSalesTaxRate
-      },
-      bodyElement () {
-        return this.$store.getters.getBodyElement
       }
     },
     methods: {
       confirmSalesTax () {
         this.$store.commit('setSalesTaxRate', this.tempSalesTax)
         this.tempSalesTax = ''
-        this.dialog = false
+        this.activeDialog = {type: 'setSalesTax', bool: false}
       },
       openDialog () {
         this.tempSalesTax = this.salesTax
-        this.dialog = true
+        this.activeDialog = {type: 'setSalesTax', bool: true}
       },
       closeDialog () {
         this.tempSalesTax = ''
-        this.dialog = false
+        this.activeDialog = {type: 'setSalesTax', bool: false}
       },
       openDialogRefreshingAll () {
-        this.dialogRefreshingAll = true
+        this.activeDialog = {type: 'refreshAll', bool: true}
+      },
+      closeDialogRefreshingAll () {
+        this.activeDialog = {type: 'refreshAll', bool: false}
       },
       confirmToRefreshAll () {
         this.$store.commit('refreshAll')
-
-        this.dialogRefreshingAll = false
+        this.activeDialog = {type: 'refreshAll', bool: false}
       }
     }
   }
@@ -135,5 +132,4 @@
     font-weight: 500;
     padding: 0 16px;
   }
-
 </style>

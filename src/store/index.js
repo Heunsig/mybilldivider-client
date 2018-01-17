@@ -7,8 +7,9 @@ export default new Vuex.Store({
   state: {
     salesTax: 0,
     people: [],
-    menu: [],
-    bodyElement: ''
+    menu: []
+    // bodyElement: '',
+    // savedScrollPosition: ''
   },
   getters: {
     getSalesTaxRate (state) {
@@ -19,15 +20,21 @@ export default new Vuex.Store({
     },
     getMenu (state) {
       return state.menu
-    },
-    getBodyElement (state) {
-      return state.bodyElement
     }
+    // getBodyElement (state) {
+    //   return state.bodyElement
+    // },
+    // getSavedScrollPosition (state) {
+    //   return state.savedScrollPosition
+    // }
   },
   mutations: {
-    setBodyElement (state, payload) {
-      state.bodyElement = payload.bodyElement
-    },
+    // setSavedScrollPosition (state, payload) {
+    //   state.savedScrollPosition = payload.scollPosition
+    // },
+    // setBodyElement (state, payload) {
+    //   state.bodyElement = payload.bodyElement
+    // },
     setSalesTaxRate (state, salesTax) {
       state.salesTax = parseFloat(salesTax || 0)
     },

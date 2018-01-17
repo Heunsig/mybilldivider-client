@@ -31,13 +31,13 @@
     </v-tabs-items>
   </v-tabs>
 
-  <v-dialog persistent v-model="dialogRefreshingPage">
+  <v-dialog persistent v-model="dialogs.refreshPage">
     <v-card>
       <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
         Do you want to refresh this page?
       </v-card-title>
       <v-card-actions>
-        <v-btn color="grey darken-2" flat block @click.native="dialogRefreshingPage = false">Cancel</v-btn>
+        <v-btn color="grey darken-2" flat block @click.native="closeDialogRefreshingPage">Cancel</v-btn>
         <template v-if="refreshMode === 'eachPerson'">
           <v-btn color="red darken-1" flat block @click.native="confirmToClearEachPersonPage">Confirm</v-btn>
         </template>
@@ -55,11 +55,16 @@ import DefaultSetting from './DefaultSetting'
 import PriceEachPerson from './PriceEachPerson'
 import PriceSharedMenu from './PriceSharedMenu'
 import Result from './Result'
+import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
 
 export default {
+  mixins: [fixingModalBugInIphone],
   data () {
     return {
-      dialogRefreshingPage: false,
+      dialogs: {
+        refreshPage: false
+      },
+      // dialogRefreshingPage: false,
       refresh: false,
       refreshMode: 'eachPerson',
       currentTab: {},
@@ -89,20 +94,12 @@ export default {
       ]
     }
   },
-  watch: {
-    dialogRefreshingPage (value) {
-      this.$fixToModalBugOnIphone(this.bodyElement, value)
-    }
-  },
   computed: {
     menu () {
       return this.$store.getters.getMenu
     },
     people () {
       return this.$store.getters.getPeople
-    },
-    bodyElement () {
-      return this.$store.getters.getBodyElement
     }
   },
   components: {
@@ -112,8 +109,11 @@ export default {
     Result
   },
   methods: {
+    closeDialogRefreshingPage () {
+      this.activeDialog = {type: 'refreshPage', bool: false}
+    },
     refreshPage () {
-      this.dialogRefreshingPage = true
+      this.activeDialog = {type: 'refreshPage', bool: true}
       if (this.currentTab.id === 'eachPerson') {
         this.refreshMode = 'eachPerson'
       } else if (this.currentTab.id === 'sharedMenu') {
@@ -123,12 +123,12 @@ export default {
     confirmToClearEachPersonPage () {
       this.$store.commit('clearPeople')
 
-      this.dialogRefreshingPage = false
+      this.activeDialog = {type: 'refreshPage', bool: false}
     },
     confirmToClearSharedMenuPage () {
       this.$store.commit('clearMenu')
 
-      this.dialogRefreshingPage = false
+      this.activeDialog = {type: 'refreshPage', bool: false}
     },
     changeTab (tab) {
       this.tabs.forEach(obj => {

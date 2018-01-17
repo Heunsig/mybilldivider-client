@@ -87,7 +87,7 @@
       </v-layout>
     </v-container>
     
-    <v-dialog v-model="dialogSettingTip" persistent max-width="290">
+    <v-dialog v-model="dialogs.settingTip" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title orange white--text">
           Tip Rate
@@ -112,19 +112,19 @@
   </div>
 </template>
 <script>
+  import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
+
   export default {
+    mixins: [fixingModalBugInIphone],
     data () {
       return {
         fab: false,
         person: {},
         tempTipRate: '',
         selectedPerson: {},
-        dialogSettingTip: false
-      }
-    },
-    watch: {
-      dialogSettingTip (value) {
-        this.$fixToModalBugOnIphone(this.bodyElement, value)
+        dialogs: {
+          settingTip: false
+        }
       }
     },
     computed: {
@@ -136,28 +136,25 @@
       },
       salesTax () {
         return this.$store.getters.getSalesTaxRate
-      },
-      bodyElement () {
-        return this.$store.getters.getBodyElement
       }
     },
     methods: {
       openDialogSettingTip (person) {
         this.person = person
         this.tempTipRate = person.tip
-        this.dialogSettingTip = true
+        this.activeDialog = {type: 'settingTip', bool: true}
       },
       confirmTipRate () {
         this.person.tip = this.__modifyTipRate(this.tempTipRate)
 
         this.person = {}
         this.tempTipRate = ''
-        this.dialogSettingTip = false
+        this.activeDialog = {type: 'settingTip', bool: false}
       },
       closeDialog () {
         this.person = {}
         this.tempTipRate = ''
-        this.dialogSettingTip = false
+        this.activeDialog = {type: 'settingTip', bool: false}
       },
       subTotalPrice (person) {
         let total = 0
