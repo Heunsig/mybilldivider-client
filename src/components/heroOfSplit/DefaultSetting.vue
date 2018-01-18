@@ -5,8 +5,12 @@
         <v-flex xs12>
           <v-card class="ics-cardDecoration">
             <v-list subheader>
-              <v-subheader class="green--text">Sales Tax (%)</v-subheader>
-              <v-list-tile>
+              <!-- <v-subheader class="green--text">Sales Tax (%)</v-subheader> -->
+              <li class="ics-customSubheader">
+                <div class="green--text">Sales Tax (%)</div>
+                <div>Set the sales tax that you can find it on your receipt.</div>
+              </li>
+              <v-list-tile @click.native="openDialog">
                 <v-list-tile-content>
                   <v-list-tile-title>{{ salesTax }} %</v-list-tile-title>
                 </v-list-tile-content>
@@ -22,7 +26,13 @@
         <v-flex xs12>
           <v-card class="ics-cardDecoration">
             <v-list subheader>
-              <v-subheader class="green--text">Refresh All</v-subheader>
+              <li class="ics-customSubheader">
+                <div class="green--text">Refresh All</div>
+                <div>It's going to refresh all of data.</div>
+              </li>
+              <!-- <v-subheader class="green--text">
+              Refresh All
+              </v-subheader> -->
               <v-list-tile>
                 <v-list-tile-content>
                   <v-btn block dark color="green darken-3" @click="openDialogRefreshingAll">

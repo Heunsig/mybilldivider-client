@@ -10,7 +10,7 @@
       <v-container fluid class="ics-grid">
         <v-layout row wrap>
           <template v-for="(item, i) in menu">
-            <v-flex xs12>
+            <v-flex xs12 class="mb-3">
               <v-card class="ics-cardDecoration">
                 <v-list>
                   <v-list-tile avatar class="ics-dashedBorder">
@@ -21,7 +21,7 @@
                       <v-list-tile-title>
                         {{ item.name }}
                       </v-list-tile-title>
-                      <v-list-tile-sub-title>Total: $ {{ item.price.toFixed(2) }}</v-list-tile-sub-title>
+                      <v-list-tile-sub-title>Total: $ {{ $format.money(item.price.toFixed(2)) }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                     <v-list-tile-action class="ics-listActions">
                       <v-btn icon @click="openDialogEditingItem(item)">
@@ -38,15 +38,23 @@
                 <v-card flat>
                   <div class="ics-customSubheader">
                     <div class="green--text">Sharing people ({{item.people.length || 0}})</div>
-                    <div v-if="item.people.length">Each person pay: $ {{ dividedPrice(item).toFixed(2) }}</div>
+                    <!-- <div v-if="item.people.length">Each person pay: $ {{ dividedPrice(item).toFixed(2) }}</div> -->
                   </div>
                   <v-card-text v-if="item.people.length">
                     <div class="text-xs-left">
                       <v-chip disabled label v-for="(name, i) in item.people" :key="i">{{ name }}</v-chip>
                     </div>
                   </v-card-text>
+                  <v-card-text v-else class="ics-msgNoItems text-xs-center">
+                    No people<br/>
+                    Add people shared with
+                  </v-card-text>
                 </v-card>
-
+                <v-card flat v-if="item.people.length">
+                  <v-card-text class="text-xs-right pt-1">
+                    <span class="ics-totalPrice">Each person pay: $ {{ dividedPrice(item).toFixed(2) }}</span>
+                  </v-card-text>
+                </v-card>
                 <v-card-actions>
                   <v-btn icon small absolute bottom right dark fab color="green" @click="openDialogEditingPeopleList(item)" class="ics-floatingBtn">
                     <v-icon>person_add</v-icon>
@@ -66,27 +74,31 @@
       >Add item</v-btn>
     </template>
     <template v-else>
-      <v-card flat>
-        <v-card-text>
-          <p class="text-xs-center body-2">Please add item</p>
-        </v-card-text>
-      </v-card>
+      <div class="ics-msgNoItem-main text-xs-center mt-5">
+        No items<br/>
+        Add items as pushing the button above
+      </div>
     </template>
     
     <!-- Section for dialog -->
     <v-dialog v-model="dialogs.addingItem" persistent max-width="290">
       <v-card>
-        <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Add Item</v-card-title>
+        <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
+        Add Item shared with others
+        </v-card-title>
         <v-card-text>
           <v-text-field 
-            label="Item name"
+            label="Input name (Optional)"
             clearable
             hide-details
             prepend-icon="check"
             v-model="tempItem.name"
           ></v-text-field>      
+          <div class="ics-textField-detail">
+            If you don't put the name, it'll be named randomly.
+          </div>
           <v-text-field 
-            label="Item price" 
+            label="Input price" 
             type="number"
             clearable
             hide-details
@@ -95,7 +107,7 @@
           ></v-text-field>      
         </v-card-text>
         <v-card-actions>
-          <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
+          <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingItem">Cancel</v-btn>
           <v-btn color="light-green" flat block @click.native="confirmToAddItem">Confirm</v-btn>
         </v-card-actions>
       </v-card>
@@ -103,7 +115,7 @@
 
     <v-dialog v-model="dialogs.editingItem" persistent max-width="290">
       <v-card>
-        <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Edit Item</v-card-title>
+        <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Edit the Item shared with others</v-card-title>
         <v-card-text>
           <v-text-field 
             label="Item name" 
@@ -122,7 +134,7 @@
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
+          <v-btn color="grey darken-2" flat block @click.native="closeDialogEditingItem">Cancel</v-btn>
           <v-btn color="light-green" flat block @click.native="confirmToEditItem">Confirm</v-btn>
         </v-card-actions>
       </v-card>
@@ -130,14 +142,16 @@
     
     <v-dialog v-model="dialogs.editingPeopleList" scrollable persistent max-width="290">
       <v-card>
-        <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Add People</v-card-title>
+        <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
+          Select People<br/>who shared the item
+        </v-card-title>
         <v-card-text>
           <v-container fluid class="pl-0 pr-0 pt-0 pb-0">
             <v-layout row wrap>
               <v-flex xs12>
                 <v-list>
-                  <template v-for="(person, i) in people">
-                  <v-list-tile>
+                  <template v-if="people.length">
+                  <v-list-tile v-for="(person, i) in people" :key="i">
                     <v-list-tile-content>
                       <v-checkbox 
                         :key="i" 
@@ -148,6 +162,12 @@
                       ></v-checkbox>
                     </v-list-tile-content>
                   </v-list-tile>
+                  </template>
+                  <template v-else>
+                    <li class="ics-msgNoItems text-xs-center">
+                      No people<br/>
+                      Add people first at "Each Person" Tab
+                    </li>
                   </template>
                 </v-list>
               </v-flex>
@@ -166,7 +186,7 @@
           Do you want to delete the item?
         </v-card-title>
         <v-card-actions>
-          <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
+          <v-btn color="grey darken-2" flat block @click.native="closeDialogDeletingItem">Cancel</v-btn>
           <v-btn color="red darken-1" flat block @click.native="confirmToDeleteItem">Confirm</v-btn>
         </v-card-actions>
       </v-card>
@@ -238,7 +258,8 @@
       confirmToAddItem () {
         this.$store.commit('addItemToMenu', {item: this.__modifyItemData(this.tempItem)})
 
-        this.tempItem = { name: '', price: '', people: [] }
+        // this.tempItem = { name: '', price: '', people: [] }
+        this.__resetItemData()
         this.activeDialog = {type: 'addingItem', bool: false}
       },
       openDialogEditingItem (item) {
@@ -249,8 +270,9 @@
       confirmToEditItem () {
         Object.assign(this.item, this.__modifyItemData(this.tempItem))
 
-        this.item = {}
-        this.tempItem = { name: '', price: '', people: [] }
+        // this.item = {}
+        // this.tempItem = { name: '', price: '', people: [] }
+        this.__resetItemData()
         this.activeDialog = {type: 'editingItem', bool: false}
       },
       openDialogDeletingItem (item) {
@@ -260,26 +282,44 @@
       confirmToDeleteItem () {
         this.$store.commit('deleteItemFromMenu', {item: this.item})
 
-        this.item = {}
-        this.tempItem = { name: '', price: '', people: [] }
+        this.__resetItemData()
+        // this.item = {}
+        // this.tempItem = { name: '', price: '', people: [] }
         this.activeDialog = {type: 'deletingItem', bool: false}
       },
       confirmToEditPeopleList () {
-        this.item = {}
-        this.tempItem = { name: '', price: '', people: [] }
+        this.__resetItemData()
+        // this.item = {}
+        // this.tempItem = { name: '', price: '', people: [] }
         this.activeDialog = {type: 'editingPeopleList', bool: false}
       },
       openDialogEditingPeopleList (item) {
         this.tempItem = item
         this.activeDialog = {type: 'editingPeopleList', bool: true}
       },
-      closeDialog () {
+      closeDialogAddingItem () {
+        this.__resetItemData()
+        this.activeDialog = {type: 'addingItem', bool: false}
+      },
+      // closeDialogPeopleList () {
+      //   this.__resetItemData()
+      //   this.activeDialog = {type: 'editingPeopleList', bool: false}
+      // },
+      closeDialogDeletingItem () {
+        this.__resetItemData()
+        this.activeDialog = {type: 'deletingItem', bool: false}
+      },
+      closeDialogEditingItem () {
+        this.__resetItemData()
+        this.activeDialog = {type: 'editingItem', bool: false}
+      },
+      __resetItemData () {
         this.item = {}
         this.tempItem = { name: '', price: '', people: [] }
-        this.activeDialog = {type: 'addingItem', bool: false}
-        this.activeDialog = {type: 'editingPeopleList', bool: false}
-        this.activeDialog = {type: 'deletingItem', bool: false}
-        this.activeDialog = {type: 'editingItem', bool: false}
+        // this.activeDialog = {type: 'addingItem', bool: false}
+        // this.activeDialog = {type: 'editingPeopleList', bool: false}
+        // this.activeDialog = {type: 'deletingItem', bool: false}
+        // this.activeDialog = {type: 'editingItem', bool: false}
       },
       dividedPrice (item) {
         return item.price / (item.people.length || 1)
@@ -312,4 +352,31 @@
 
   .ics-listActions{min-width: 35px;}
   .ics-floatingBtn{z-index: 1!important;}
+
+  .ics-msgNoItems{
+    /*padding: 5px 16px;*/
+    color: #717171; 
+    font-size: 14px;
+    /*font-weight: 500;*/
+    /*text-align:center;*/
+  }
+
+  .ics-msgNoItem-main{
+    font-size:16px;
+    color: #717171;
+  }
+
+  .ics-textField-detail{
+    padding-left:40px;
+    padding-top: 5px;
+    font-size: 13px;
+    color: #717171;
+  }
+
+  .ics-totalPrice{
+    font-size: 17px;
+    font-weight: 500;
+  }
+
+
 </style>

@@ -10,7 +10,7 @@
     <v-container fluid class="ics-grid">
       <v-layout row wrap>
         <template v-for="(person, i) in people">
-          <v-flex xs12>
+          <v-flex xs12 class="mb-3">
             <v-card class="ics-cardDecoration">
               <v-list>
                 <v-list-tile avatar class="ics-dashedBorder">
@@ -21,7 +21,7 @@
                     <v-list-tile-title>
                       {{ person.name }}
                     </v-list-tile-title>
-                    <v-list-tile-sub-title>Total: $ {{ $format.money(totalPriceWithoutSalesTax(person).toFixed(2)) }}</v-list-tile-sub-title>
+                    <!-- <v-list-tile-sub-title>Total: $ {{ $format.money(totalPriceWithoutSalesTax(person).toFixed(2)) }}</v-list-tile-sub-title> -->
                   </v-list-tile-content>
                   <v-list-tile-action class="ics-listActions">
                       <v-btn icon @click="openDialogEditingPerson(person)">
@@ -37,25 +37,38 @@
               </v-list>
               <v-list>
                 <v-subheader class="ics-subheader green--text">Added items ({{person.menu.length || 0}})</v-subheader>
-                <v-list-tile v-for="(item, i) in person.menu" :key="i">
-                  <v-list-tile-action class="ics-listActions">
-                    <v-btn icon small @click="confirmToRemoveItem(person, item)">
-                      <v-icon small color="grey lighten-2">close</v-icon>
-                    </v-btn>
-                  </v-list-tile-action>
-                  <v-list-tile-content>
-                    <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-                  </v-list-tile-content>
-                  <v-list-tile-action>
-                    $ {{ $format.money(item.price.toFixed(2)) }}
-                  </v-list-tile-action>
-                  <v-list-tile-action class="ics-listActions">
-                    <v-btn icon small @click="openDialogForItem(person, item)">
-                      <v-icon small color="grey lighten-2">edit</v-icon>
-                    </v-btn>
-                  </v-list-tile-action>
-                </v-list-tile>
+                <template v-if="person.menu.length">
+                  <v-list-tile v-for="(item, i) in person.menu" :key="i">
+                    <v-list-tile-action class="ics-listActions">
+                      <v-btn icon small @click="confirmToRemoveItem(person, item)">
+                        <v-icon small color="red lighten-3">close</v-icon>
+                      </v-btn>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                      <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                      $ {{ $format.money(item.price.toFixed(2)) }}
+                    </v-list-tile-action>
+                    <v-list-tile-action class="ics-listActions">
+                      <v-btn icon small @click="openDialogForItem(person, item)">
+                        <v-icon small color="grey lighten-2">edit</v-icon>
+                      </v-btn>
+                    </v-list-tile-action>
+                  </v-list-tile>
+                </template>
+                <template v-else>
+                  <li class="ics-msgNoItems text-xs-center pt-3">
+                    No items<br/>
+                    Add items you bought.
+                  </li>
+                </template>
               </v-list>
+              <v-card flat>
+                <v-card-text class="text-xs-right pt-1">
+                  <span class="ics-totalPrice">Total: $ {{ $format.money(totalPriceWithoutSalesTax(person).toFixed(2)) }}</span>
+                </v-card-text>
+              </v-card>
               <v-card-actions>
                 <v-btn icon small absolute bottom right dark fab color="green darken-1" @click="openDialogForItem(person)" class="ics-floatingBtn">
                   <v-icon>add</v-icon>
@@ -75,11 +88,10 @@
     >Add person</v-btn>
     </template>
     <template v-else>
-      <v-card flat>
-        <v-card-text>
-          <p class="text-xs-center body-2">Please add person</p>
-        </v-card-text>
-      </v-card>
+      <div class="ics-msgNoItem-main text-xs-center mt-5">
+        No people<br/>
+        Add people as pushing the button above
+      </div>
     </template>
     
     <!-- Section for dialog -->
@@ -96,6 +108,9 @@
             prepend-icon="person"
             v-model="tempPerson.name"
           ></v-text-field>
+          <div class="ics-textField-detail">
+            If you don't put the name, it'll be named randomly.
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingPerson">Cancel</v-btn>
@@ -117,6 +132,9 @@
             prepend-icon="person"
             v-model="tempPerson.name"
           ></v-text-field>
+          <div class="ics-textField-detail">
+            If you don't put the name, it'll be named randomly.
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogEditingPerson">Cancel</v-btn>
@@ -128,8 +146,8 @@
     <v-dialog v-model="dialogs.item" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
-          <template v-if="dialogMode == 'add'">Add Item</template>
-          <template v-else>Edit Item</template>
+          <template v-if="dialogMode == 'add'">Add Item you bought</template>
+          <template v-else>Edit the Item you bought</template>
         </v-card-title>
         <v-card-text>
           <v-text-field 
@@ -139,6 +157,9 @@
             prepend-icon="check"
             v-model="tempItem.name"
           ></v-text-field>
+          <div class="ics-textField-detail">
+            If you don't put the name, it'll be named randomly.
+          </div>
           <v-text-field 
             label="Input price" 
             type="number" 
@@ -348,7 +369,29 @@
   .ics-floatingBtn{
     z-index: 1!important;
   }
+  .ics-totalPrice{
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .ics-msgNoItems{
+    /*padding: 5px 16px;*/
+    color: #717171; 
+    font-size: 14px;
+    /*font-weight: 500;*/
+    /*text-align:center;*/
+  }
 
+  .ics-textField-detail{
+    padding-left:40px;
+    padding-top: 5px;
+    font-size: 13px;
+    color: #717171;
+  }
+  
+  .ics-msgNoItem-main{
+    font-size:16px;
+    color: #717171;
+  }
   .test-a{
     /*position: absolute;*/
     border:1px solid red;

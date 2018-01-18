@@ -81,8 +81,8 @@ export default {
           refresh: true
         },
         {
-          id: 'sharedMenu',
-          label: 'Shared<br/>menu',
+          id: 'sharedItem',
+          label: 'Shared<br/>Item',
           component: 'PriceSharedMenu',
           refresh: true
         },

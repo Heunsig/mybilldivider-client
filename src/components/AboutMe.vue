@@ -27,7 +27,7 @@
               <v-icon color="indigo">done</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>v 0.1.4</v-list-tile-title>
+              <v-list-tile-title>v 0.1.5</v-list-tile-title>
               <v-list-tile-sub-title>Version of Split Hero</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>

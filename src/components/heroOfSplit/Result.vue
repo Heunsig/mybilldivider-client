@@ -1,5 +1,6 @@
 <template>
   <div>
+    <template v-if="people.length">
     <v-container fluid class="ics-grid">
       <v-layout row wrap>
         <template v-for="(person, i) in people">
@@ -86,6 +87,13 @@
         </template>
       </v-layout>
     </v-container>
+    </template>
+    <template v-else>
+      <div class="ics-msgNoItem-main text-xs-center mt-5">
+        No result<br/>
+        Add people first at "Each Person" Tab
+      </div>
+    </template>
     
     <v-dialog v-model="dialogs.settingTip" persistent max-width="290">
       <v-card>
@@ -244,5 +252,10 @@
   }
   .ics-expansion-panel-content {
     max-width: 100%;
+  }
+
+  .ics-msgNoItem-main{
+    font-size:16px;
+    color: #717171;
   }
 </style>
