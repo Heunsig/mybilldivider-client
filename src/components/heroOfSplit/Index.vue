@@ -64,7 +64,6 @@ export default {
       dialogs: {
         refreshPage: false
       },
-      // dialogRefreshingPage: false,
       refresh: false,
       refreshMode: 'eachPerson',
       currentTab: {},
@@ -116,8 +115,8 @@ export default {
       this.activeDialog = {type: 'refreshPage', bool: true}
       if (this.currentTab.id === 'eachPerson') {
         this.refreshMode = 'eachPerson'
-      } else if (this.currentTab.id === 'sharedMenu') {
-        this.refreshMode = 'sharedMenu'
+      } else if (this.currentTab.id === 'sharedItem') {
+        this.refreshMode = 'sharedItem'
       }
     },
     confirmToClearEachPersonPage () {
