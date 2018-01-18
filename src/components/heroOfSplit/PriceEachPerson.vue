@@ -210,10 +210,6 @@
           deletingPerson: false,
           item: false
         },
-        // dialogAddingPerson: false,
-        // dialogEditingPerson: false,
-        // dialogDeletingPerson: false,
-        // dialogForItem: false,
         dialogMode: 'add',
         person: {},
         tempPerson: {
@@ -225,7 +221,9 @@
         tempItem: {
           name: '',
           price: ''
-        }
+        },
+        orderForPerson: 0,
+        orderForItem: 0
       }
     },
     computed: {
@@ -337,7 +335,7 @@
       __modifyPersonData (pureData) {
         let modifiedData = clone(pureData)
 
-        modifiedData.name = modifiedData.name || 'Person - ' + Math.floor(Math.random() * 100)
+        modifiedData.name = modifiedData.name || 'Person ' + this.orderForPerson++
         modifiedData.tip = modifiedData.tip || 0
         modifiedData.menu = modifiedData.menu || []
 
@@ -346,7 +344,7 @@
       __modifyItemData (pureData) {
         let modifiedData = clone(pureData)
 
-        modifiedData.name = modifiedData.name || 'Item - ' + Math.floor(Math.random() * 100)
+        modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
         modifiedData.price = parseFloat(modifiedData.price) || 0.00
 
         return modifiedData

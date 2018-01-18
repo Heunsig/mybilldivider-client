@@ -52,7 +52,7 @@
                 </v-card>
                 <v-card flat v-if="item.people.length">
                   <v-card-text class="text-xs-right pt-1">
-                    <span class="ics-totalPrice">Each person pay: $ {{ dividedPrice(item).toFixed(2) }}</span>
+                    <span class="ics-totalPrice">Each person pay: $ {{ $format.money(dividedPrice(item).toFixed(2)) }}</span>
                   </v-card-text>
                 </v-card>
                 <v-card-actions>
@@ -191,19 +191,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-    <!-- <v-dialog persistent v-model="dialogDeletingItem">
-      <v-card>
-        <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
-          Do you want to refresh this page?
-        </v-card-title>
-        <v-card-actions>
-          <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
-          <v-btn color="red darken-1" flat block @click.native="confirmToDeleteItem">Confirm</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog> -->
-    <!-- /Section for dialog -->
   </div>
 </template>
 <script>
@@ -229,7 +216,8 @@
           name: '',
           price: '',
           people: []
-        }
+        },
+        orderForItem: 0
       }
     },
     computed: {
@@ -316,10 +304,6 @@
       __resetItemData () {
         this.item = {}
         this.tempItem = { name: '', price: '', people: [] }
-        // this.activeDialog = {type: 'addingItem', bool: false}
-        // this.activeDialog = {type: 'editingPeopleList', bool: false}
-        // this.activeDialog = {type: 'deletingItem', bool: false}
-        // this.activeDialog = {type: 'editingItem', bool: false}
       },
       dividedPrice (item) {
         return item.price / (item.people.length || 1)
@@ -327,7 +311,8 @@
       __modifyItemData (pureData) {
         let modifiedData = clone(pureData)
 
-        modifiedData.name = modifiedData.name || 'Item - ' + Math.floor(Math.random() * 100)
+        // modifiedData.name = modifiedData.name || 'Item ' + Math.floor(Math.random() * 100)
+        modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
         modifiedData.price = parseFloat(modifiedData.price) || 0.00
         modifiedData.people = modifiedData.people || []
 
