@@ -172,11 +172,14 @@ export default {
       return this.$store.getters.getSalesTaxRate
     },
     calculatedSalesTax () {
-      return parseFloat(((this.priceOfTax / this.priceOfSubTotal) * 100).toFixed(2))
+      // return parseFloat(((this.priceOfTax / this.priceOfSubTotal) * 100).toFixed(2))
+      // console.log(this.$format.precisionRound((this.priceOfTax / this.priceOfSubTotal) * 100))
+      return this.$format.precisionRound((this.priceOfTax / this.priceOfSubTotal) * 100, 2)
     }
   },
   watch: {
     calculatedSalesTax (value) {
+      // console.log(value)
       if (typeof value === 'number' && value !== Infinity && !isNaN(value)) {
         this.tempSalesTax = value
       } else {

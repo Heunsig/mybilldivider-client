@@ -189,7 +189,8 @@
         this.menu.forEach(item => {
           item.people.forEach(name => {
             if (person.name === name) {
-              total += parseFloat((item.price / item.people.length).toFixed(2))
+              // total += parseFloat((item.price / item.people.length).toFixed(3))
+              total += this.$format.precisionRound((item.price / item.people.length), 2)
             }
           })
         })
@@ -197,10 +198,12 @@
         return total
       },
       tipPrice (price, tipRate) {
-        return parseFloat((price * (tipRate / 100)).toFixed(2))
+        // return parseFloat((price * (tipRate / 100)).toFixed(2))
+        return this.$format.precisionRound((price * (tipRate / 100)), 2)
       },
       salesTaxPrice (price) {
-        return parseFloat((price * (this.salesTax / 100)).toFixed(2))
+        // return parseFloat((price * (this.salesTax / 100)).toFixed(2))
+        return this.$format.precisionRound((price * (this.salesTax / 100)), 2)
       },
       total (subTotal, tax, tip) {
         return subTotal + tax + tip
@@ -215,7 +218,8 @@
         this.menu.forEach(item => {
           item.people.forEach(name => {
             if (person.name === name) {
-              list.push({name: item.name + ' ($' + item.price + '/' + item.people.length + ')', price: parseFloat((item.price / item.people.length).toFixed(2))})
+              // list.push({name: item.name + ' ($' + item.price + '/' + item.people.length + ')', price: parseFloat((item.price / item.people.length).toFixed(2))})
+              list.push({name: item.name + ' ($' + item.price + '/' + item.people.length + ')', price: this.$format.precisionRound((item.price / item.people.length), 2)})
             }
           })
         })

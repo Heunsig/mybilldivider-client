@@ -308,7 +308,8 @@
         this.tempItem = { name: '', price: '', people: [] }
       },
       dividedPrice (item) {
-        return parseFloat((item.price / (item.people.length || 1)).toFixed(2))
+        // return parseFloat((item.price / (item.people.length || 1)).toFixed(2))
+        return this.$format.precisionRound((item.price / (item.people.length || 1)), 2)
       },
       __modifyItemData (pureData) {
         let modifiedData = clone(pureData)

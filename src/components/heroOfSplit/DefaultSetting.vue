@@ -143,7 +143,13 @@
         return this.$store.getters.getSalesTaxRate
       },
       calculatedSalesTax () {
-        return parseFloat(((this.priceOfTax / this.priceOfSubTotal) * 100).toFixed(2))
+        // return parseFloat(((this.priceOfTax / this.priceOfSubTotal) * 100).toFixed(2))
+        // console.log('hi', this.$formant.precisionRound(((this.priceOfTax / this.priceOfSubTotal) * 100), 2))
+        return this.$format.precisionRound(((this.priceOfTax / this.priceOfSubTotal) * 100), 2)
+        // console.log(typeof this.priceOfTax)
+        // console.log(typeof this.priceOfSubTotal)
+        // console.log(this.priceOfTax / this.priceOfSubTotal)
+        // return this.$format.precisionRound(123124, 2)
       }
     },
     watch: {

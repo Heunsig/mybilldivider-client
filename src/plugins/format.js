@@ -7,6 +7,10 @@ const Format = {
       money (num) {
         return num.toLocaleString()
         // return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+      },
+      precisionRound (number, precision) {
+        var factor = Math.pow(10, precision)
+        return Math.round(number * factor) / factor
       }
     }
   }
