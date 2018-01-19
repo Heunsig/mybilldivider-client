@@ -95,7 +95,7 @@
             v-model="tempItem.name"
           ></v-text-field>      
           <div class="ics-textField-detail">
-            If you don't put the name, it'll be named randomly.
+            If you don't input the name, it'll be named randomly.
           </div>
           <v-text-field 
             label="Input price" 

@@ -7,7 +7,7 @@
             <v-list subheader>
               <!-- <v-subheader class="green--text">Sales Tax (%)</v-subheader> -->
               <li class="ics-customSubheader">
-                <div class="green--text">Sales Tax (%)</div>
+                <div class="green--text">Sales Tax</div>
                 <div>Set the sales tax that you can find it on your receipt.</div>
               </li>
               <v-list-tile @click.native="openDialog">
@@ -46,12 +46,49 @@
       </v-layout>
     </v-container>
     
-    <v-dialog v-model="dialogs.setSalesTax" lazy persistent max-width="290" content-class="abcd">
+    <v-dialog v-model="dialogs.setSalesTax" lazy persistent scrollable max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title blue white--text">
           Set Sales Tax Rate
         </v-card-title>
         <v-card-text>
+          <div class="pt-1 pb-2 grey--text text--darken-3">
+            <div>
+              Set the sales tax that you can find it on your receipt. Otherwise, click the button
+            </div>
+            <div class="text-xs-right">
+              <v-btn small outline color="primary" @click="openSalesTaxCalculator" v-if="!isSalesTaxCalculatorActive">
+                sales tax calculator
+              </v-btn>
+              <v-btn small outline color="red" @click="closeSalesTaxCalculator" v-else>
+                close calculator
+              </v-btn>
+            </div>
+          </div>
+          <template v-if="isSalesTaxCalculatorActive">
+            <v-card color="blue" flat dark>
+              <v-card-title>
+                <p class="subheading mb-1">Sales Tax Calculator</p>
+                <span class="caption">If you can't find sales tax rate on your receipt, put the price of tax and price of sub total into the form below. It automatically calculates sales tax rate.</span>
+              </v-card-title>
+              <v-card-text>
+                <v-text-field 
+                  label="Price of Sub Total" 
+                  type="number" 
+                  clearable
+                  hide-details
+                  v-model="priceOfSubTotal"
+                ></v-text-field>
+                <v-text-field 
+                  label="Price of Tax" 
+                  type="number" 
+                  clearable
+                  hide-details
+                  v-model="priceOfTax"
+                ></v-text-field>
+              </v-card-text>
+            </v-card>
+          </template>
           <v-text-field 
             label="Sales Tax Rate" 
             type="number" 
@@ -95,18 +132,36 @@
           setSalesTax: false,
           refreshAll: false
         },
+        priceOfTax: 0,
+        priceOfSubTotal: 0,
+        isSalesTaxCalculatorActive: false,
         tempSalesTax: ''
       }
     },
     computed: {
       salesTax () {
         return this.$store.getters.getSalesTaxRate
+      },
+      calculatedSalesTax () {
+        return parseFloat(((this.priceOfTax / this.priceOfSubTotal) * 100).toFixed(2))
+      }
+    },
+    watch: {
+      calculatedSalesTax (value) {
+        if (typeof value === 'number' && value !== Infinity && !isNaN(value)) {
+          this.tempSalesTax = value
+        } else {
+          this.tempSalesTax = 0
+        }
       }
     },
     methods: {
       confirmSalesTax () {
         this.$store.commit('setSalesTaxRate', this.tempSalesTax)
         this.tempSalesTax = ''
+        this.priceOfTax = 0
+        this.priceOfSubTotal = 0
+        this.isSalesTaxCalculatorActive = false
         this.activeDialog = {type: 'setSalesTax', bool: false}
       },
       openDialog () {
@@ -115,6 +170,9 @@
       },
       closeDialog () {
         this.tempSalesTax = ''
+        this.priceOfTax = 0
+        this.priceOfSubTotal = 0
+        this.isSalesTaxCalculatorActive = false
         this.activeDialog = {type: 'setSalesTax', bool: false}
       },
       openDialogRefreshingAll () {
@@ -126,6 +184,12 @@
       confirmToRefreshAll () {
         this.$store.commit('refreshAll')
         this.activeDialog = {type: 'refreshAll', bool: false}
+      },
+      openSalesTaxCalculator () {
+        this.isSalesTaxCalculatorActive = true
+      },
+      closeSalesTaxCalculator () {
+        this.isSalesTaxCalculatorActive = false
       }
     }
   }

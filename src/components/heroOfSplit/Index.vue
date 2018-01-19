@@ -47,6 +47,69 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <v-dialog v-model="dialogs.setSalesTax" lazy persistent scrollable max-width="290">
+    <v-card>
+      <v-card-title class="pb-3 pt-3 ics-dialog-title blue white--text">
+        Set Sales Tax Rate<br/>
+        Are you sure {{ salesTax + '%'}} Sales tax?
+      </v-card-title>
+      <v-card-text>
+        <div class="pt-1 pb-2 grey--text text--darken-3">
+          <div>
+            Set the sales tax that you can find it on your receipt. Otherwise, click the button
+          </div>
+          <div class="text-xs-right">
+            <v-btn small outline color="primary" @click="openSalesTaxCalculator" v-if="!isSalesTaxCalculatorActive">
+              sales tax calculator
+            </v-btn>
+            <v-btn small outline color="red" @click="closeSalesTaxCalculator" v-else>
+              close calculator
+            </v-btn>
+          </div>
+        </div>
+        <template v-if="isSalesTaxCalculatorActive">
+          <v-card color="blue" flat dark>
+            <v-card-title>
+              <p class="subheading mb-1">Sales Tax Calculator</p>
+              <span class="caption">If you can't find sales tax rate on your receipt, input the price of tax and price of sub total into the form below. It automatically calculates sales tax rate.</span>
+            </v-card-title>
+            <v-card-text>
+              <v-text-field 
+                label="Price of Sub Total" 
+                type="number" 
+                clearable
+                hide-details
+                v-model="priceOfSubTotal"
+              ></v-text-field>
+              <v-text-field 
+                label="Price of Tax" 
+                type="number" 
+                clearable
+                hide-details
+                v-model="priceOfTax"
+              ></v-text-field>
+            </v-card-text>
+          </v-card>
+        </template>
+        <v-text-field
+          label="Sales Tax Rate" 
+          type="number" 
+          clearable
+          hide-details
+          suffix="%"
+          v-model="tempSalesTax"
+          class="mt-4"
+        ></v-text-field>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="grey darken-2" flat @click.native="closeDialogSettingSalesTax">Cancel</v-btn>
+        <v-btn color="blue" flat @click.native="confirmToSetSalesTax">Confirm</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
   </div>
 </template>
 
@@ -62,8 +125,13 @@ export default {
   data () {
     return {
       dialogs: {
-        refreshPage: false
+        refreshPage: false,
+        setSalesTax: false
       },
+      priceOfTax: 0,
+      priceOfSubTotal: 0,
+      isSalesTaxCalculatorActive: false,
+      tempSalesTax: '',
       refresh: false,
       refreshMode: 'eachPerson',
       currentTab: {},
@@ -99,6 +167,21 @@ export default {
     },
     people () {
       return this.$store.getters.getPeople
+    },
+    salesTax () {
+      return this.$store.getters.getSalesTaxRate
+    },
+    calculatedSalesTax () {
+      return parseFloat(((this.priceOfTax / this.priceOfSubTotal) * 100).toFixed(2))
+    }
+  },
+  watch: {
+    calculatedSalesTax (value) {
+      if (typeof value === 'number' && value !== Infinity && !isNaN(value)) {
+        this.tempSalesTax = value
+      } else {
+        this.tempSalesTax = 0
+      }
     }
   },
   components: {
@@ -108,8 +191,20 @@ export default {
     Result
   },
   methods: {
+    openSalesTaxCalculator () {
+      this.isSalesTaxCalculatorActive = true
+    },
+    closeSalesTaxCalculator () {
+      this.isSalesTaxCalculatorActive = false
+    },
     closeDialogRefreshingPage () {
       this.activeDialog = {type: 'refreshPage', bool: false}
+    },
+    closeDialogSettingSalesTax () {
+      this.activeDialog = {type: 'setSalesTax', bool: false}
+      this.priceOfTax = 0
+      this.priceOfSubTotal = 0
+      this.isSalesTaxCalculatorActive = false
     },
     refreshPage () {
       this.activeDialog = {type: 'refreshPage', bool: true}
@@ -129,6 +224,14 @@ export default {
 
       this.activeDialog = {type: 'refreshPage', bool: false}
     },
+    confirmToSetSalesTax () {
+      this.$store.commit('setSalesTaxRate', this.tempSalesTax)
+      this.tempSalesTax = ''
+      this.priceOfTax = 0
+      this.priceOfSubTotal = 0
+      this.isSalesTaxCalculatorActive = false
+      this.activeDialog = {type: 'setSalesTax', bool: false}
+    },
     changeTab (tab) {
       this.tabs.forEach(obj => {
         if (obj.id === tab) {
@@ -141,6 +244,13 @@ export default {
           }
         }
       })
+
+      if (tab === 'result') {
+        if (this.salesTax === 0) {
+          this.activeDialog = {type: 'setSalesTax', bool: true}
+          this.tempSalesTax = this.salesTax
+        }
+      }
     }
   }
 }
@@ -177,6 +287,10 @@ export default {
   top: 0;
   right: 8px;
   z-index: 4;
+}
+
+.ics-msg-setSalesTax{
+  font-size: 14px;
 }
 
 </style>
