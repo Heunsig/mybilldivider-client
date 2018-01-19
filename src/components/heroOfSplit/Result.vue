@@ -23,7 +23,11 @@
                       </v-btn>
                     </v-list-tile-action>
                     <v-list-tile-action>
-                      <div class="stressedFont">Total $ {{ $format.money((subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person))).toFixed(2)) }}</div>
+                      <!-- <div class="stressedFont">Total $ {{ $format.money((subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person))).toFixed(2)) }}</div> -->
+                      <div class="stressedFont">
+                      <!-- Total $ {{ $format.money((subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person)))) }} -->
+                      Total: $ {{ $format.money(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }}
+                      </div>
                     </v-list-tile-action>
                   </v-list-tile>
                 </v-list>
@@ -46,7 +50,8 @@
                               <v-icon>subdirectory_arrow_right</v-icon> {{ item.name }}
                             </div>
                             <div class="ics-subTotalDetail-price">
-                              $ {{ $format.money(item.price.toFixed(2)) }}
+                              <!-- $ {{ $format.money(item.price.toFixed(2)) }} -->
+                              $ {{ $format.money(item.price) }}
                             </div>
                           </li>
                           <v-list-tile class="mt-2">
@@ -55,7 +60,8 @@
                               <v-list-tile-sub-title>({{ salesTax }} %)</v-list-tile-sub-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                              + $ {{ $format.money(salesTaxPrice(subTotalPrice(person)).toFixed(2)) }}
+                              <!-- + $ {{ $format.money(salesTaxPrice(subTotalPrice(person)).toFixed(2)) }} -->
+                              + $ {{ $format.money(salesTaxPrice(subTotalPrice(person))) }}
                             </v-list-tile-action>
                           </v-list-tile>
                           <v-list-tile class="mt-2">
@@ -64,7 +70,8 @@
                               <v-list-tile-sub-title>({{ person.tip }} %)</v-list-tile-sub-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                              + $ {{ $format.money(tipPrice(subTotalPrice(person), person.tip).toFixed(2)) }}
+                              <!-- + $ {{ $format.money(tipPrice(subTotalPrice(person), person.tip).toFixed(2)) }} -->
+                              + $ {{ $format.money(tipPrice(subTotalPrice(person), person.tip)) }}
                             </v-list-tile-action>
                           </v-list-tile>
                           <v-list-tile class="mt-2">
@@ -74,7 +81,15 @@
                               </v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                              <div class="stressedFont">$ {{ $format.money((subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person))).toFixed(2))  }}</div>
+                              <div class="stressedFont">
+                                <!-- $ {{ $format.money((subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person))).toFixed(2)) }} -->
+                                <!-- {{ subTotalPrice(person) }}<br/>
+                                {{ tipPrice(subTotalPrice(person), person.tip) }} <br/>
+                                {{ salesTaxPrice(subTotalPrice(person)) }} <br/>
+                                {{ subTotalPrice(person) + salesTaxPrice(subTotalPrice(person)) }} -->
+                                <!-- $ {{ $format.money(subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person))) }} -->
+                                $ {{ $format.money(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }}
+                              </div>
                             </v-list-tile-action>
                           </v-list-tile>
                         </v-list>
@@ -174,7 +189,7 @@
         this.menu.forEach(item => {
           item.people.forEach(name => {
             if (person.name === name) {
-              total += item.price / item.people.length
+              total += parseFloat((item.price / item.people.length).toFixed(2))
             }
           })
         })
@@ -182,10 +197,13 @@
         return total
       },
       tipPrice (price, tipRate) {
-        return price * (tipRate / 100)
+        return parseFloat((price * (tipRate / 100)).toFixed(2))
       },
       salesTaxPrice (price) {
-        return price * (this.salesTax / 100)
+        return parseFloat((price * (this.salesTax / 100)).toFixed(2))
+      },
+      total (subTotal, tax, tip) {
+        return subTotal + tax + tip
       },
       getItemList (person) {
         let list = []
@@ -197,7 +215,7 @@
         this.menu.forEach(item => {
           item.people.forEach(name => {
             if (person.name === name) {
-              list.push({name: item.name + ' ($' + item.price + '/' + item.people.length + ')', price: item.price / item.people.length})
+              list.push({name: item.name + ' ($' + item.price + '/' + item.people.length + ')', price: parseFloat((item.price / item.people.length).toFixed(2))})
             }
           })
         })

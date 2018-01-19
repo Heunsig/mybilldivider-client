@@ -21,7 +21,8 @@
                       <v-list-tile-title>
                         {{ item.name }}
                       </v-list-tile-title>
-                      <v-list-tile-sub-title>Total: $ {{ $format.money(item.price.toFixed(2)) }}</v-list-tile-sub-title>
+                      <!-- <v-list-tile-sub-title>Total: $ {{ $format.money(item.price.toFixed(2)) }}</v-list-tile-sub-title> -->
+                      <v-list-tile-sub-title>Total: $ {{ $format.money(item.price) }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                     <v-list-tile-action class="ics-listActions">
                       <v-btn icon @click="openDialogEditingItem(item)">
@@ -52,7 +53,8 @@
                 </v-card>
                 <v-card flat v-if="item.people.length">
                   <v-card-text class="text-xs-right pt-1">
-                    <span class="ics-totalPrice">Each person pay: $ {{ $format.money(dividedPrice(item).toFixed(2)) }}</span>
+                    <!-- <span class="ics-totalPrice">Each person pay: $ {{ $format.money(dividedPrice(item).toFixed(2)) }}</span> -->
+                    <span class="ics-totalPrice">Each person pay: $ {{ $format.money(dividedPrice(item)) }}</span>
                   </v-card-text>
                 </v-card>
                 <v-card-actions>
@@ -306,7 +308,7 @@
         this.tempItem = { name: '', price: '', people: [] }
       },
       dividedPrice (item) {
-        return item.price / (item.people.length || 1)
+        return parseFloat((item.price / (item.people.length || 1)).toFixed(2))
       },
       __modifyItemData (pureData) {
         let modifiedData = clone(pureData)

@@ -78,6 +78,11 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .ics-toolbar{
+    z-index: 4;
+  }
+</style>
 <style>
   .ics-cardDecoration{border-top:3px solid #4caf50;}
 

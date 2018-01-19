@@ -4,7 +4,7 @@
     <v-icon color="white">refresh</v-icon>
   </v-btn>
   <v-tabs dark grow class="ics-tabs" @input="changeTab">
-    <v-tabs-bar dark class="green ics-tabsBar">
+    <v-tabs-bar dark class="green ics-tabsBar elevation-5">
       <v-tabs-slider color="yellow"></v-tabs-slider>
       <v-tabs-item
         v-for="(tab, i) in tabs"
@@ -271,8 +271,8 @@ export default {
   position: fixed;
   top: 48px;
   left: 0;
-  z-index: 4;
-  box-shadow: 0px 5px 16px -5px #313131;
+  z-index: 3;
+  /*box-shadow: 0px 5px 16px -5px #313131;*/
 }
 .ics-tabItems{
   height: 100%;
