@@ -9,7 +9,7 @@
       <v-list>
         <v-list-tile tag="div">
           <v-list-tile-content>
-            <v-list-tile-title>Hero of Split</v-list-tile-title>
+            <v-list-tile-title>My Bill Divider</v-list-tile-title>
           </v-list-tile-content>
           <v-list-tile-action>
             <v-btn icon @click.stop="drawer = !drawer">
@@ -37,7 +37,7 @@
     </v-navigation-drawer>
     <v-toolbar app fixed flat dense color="green" dark class="ics-toolbar">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Hero of Split</v-toolbar-title>
+      <v-toolbar-title>My Bill Divider</v-toolbar-title>
     </v-toolbar>
     <v-content class="grey lighten-4">
       <router-view></router-view>
