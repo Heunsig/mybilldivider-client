@@ -124,7 +124,7 @@
     >
       <v-btn
         slot="activator"
-        color="light-green"
+        color="orange"
         dark
         fab
         v-model="fab"
@@ -145,7 +145,7 @@
         <div class="ics-box-combinedTotal-title caption">Tip : </div>
         <div class="ics-box-combinedTotal-content pl-2 caption">$ {{ $format.money(allTipPrice()) }}</div>
       </div>
-      <div class="ics-box-combinedTotal blue lighten-1 pa-2 ma-1 white--text">
+      <div class="ics-box-combinedTotal blue pa-2 ma-1 white--text">
         <div class="ics-box-combinedTotal-title">Sub Total + Tax : </div>
         <div class="ics-box-combinedTotal-content pl-2">$ {{ $format.money(allSubTotalPrice() + allSalesTaxPrice()) }}</div>
       </div>

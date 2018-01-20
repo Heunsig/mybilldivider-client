@@ -28,14 +28,14 @@
             <v-list subheader>
               <li class="ics-customSubheader">
                 <div class="green--text">Refresh All</div>
-                <div>It's going to refresh all of data.</div>
+                <div>It refreshes whole page</div>
               </li>
               <!-- <v-subheader class="green--text">
               Refresh All
               </v-subheader> -->
               <v-list-tile>
                 <v-list-tile-content>
-                  <v-btn block dark color="green darken-3" @click="openDialogRefreshingAll">
+                  <v-btn block dark color="red darken-2" @click="openDialogRefreshingAll">
                     Refresh All
                   </v-btn>
                 </v-list-tile-content>
@@ -56,13 +56,15 @@
             <div>
               Set the sales tax that you can find it on your receipt. Otherwise, click the button
             </div>
-            <div class="text-xs-right">
-              <v-btn small outline color="primary" @click="openSalesTaxCalculator" v-if="!isSalesTaxCalculatorActive">
-                sales tax calculator
-              </v-btn>
-              <v-btn small outline color="red" @click="closeSalesTaxCalculator" v-else>
-                close calculator
-              </v-btn>
+            <div>
+              <div class="text-xs-right">
+                <v-btn small outline color="primary" @click="openSalesTaxCalculator" v-if="!isSalesTaxCalculatorActive">
+                  sales tax calculator
+                </v-btn>
+                <v-btn small outline color="red" @click="closeSalesTaxCalculator" v-else>
+                  close calculator
+                </v-btn>
+              </div>
             </div>
           </div>
           <template v-if="isSalesTaxCalculatorActive">
@@ -86,6 +88,11 @@
                   hide-details
                   v-model="priceOfTax"
                 ></v-text-field>
+              </v-card-text>
+            </v-card>
+            <v-card flat>
+              <v-card-text class="text-xs-center pa-1 pb-2">
+                <v-icon>arrow_downward</v-icon>
               </v-card-text>
             </v-card>
           </template>
@@ -113,8 +120,8 @@
         It makes the app first state.
       </v-card-title>
       <v-card-actions>
-        <v-btn color="red darken-1" flat block @click.native="confirmToRefreshAll">Confirm</v-btn>
         <v-btn color="grey darken-2" flat block @click.native="closeDialogRefreshingAll">Cancel</v-btn>
+        <v-btn color="red darken-1" flat block @click.native="confirmToRefreshAll">Confirm</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

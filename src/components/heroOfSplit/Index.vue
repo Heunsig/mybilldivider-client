@@ -37,13 +37,13 @@
         Do you want to refresh this page?
       </v-card-title>
       <v-card-actions>
+        <v-btn color="grey darken-2" flat block @click.native="closeDialogRefreshingPage">Cancel</v-btn>
         <template v-if="refreshMode === 'eachPerson'">
           <v-btn color="red darken-1" flat block @click.native="confirmToClearEachPersonPage">Confirm</v-btn>
         </template>
         <template v-else>
           <v-btn color="red darken-1" flat block @click.native="confirmToClearSharedMenuPage">Confirm</v-btn>
         </template>
-        <v-btn color="grey darken-2" flat block @click.native="closeDialogRefreshingPage">Cancel</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -91,6 +91,11 @@
               ></v-text-field>
             </v-card-text>
           </v-card>
+          <v-card flat>
+            <v-card-text class="text-xs-center pa-1 pb-2">
+              <v-icon>arrow_downward</v-icon>
+            </v-card-text>
+          </v-card>
         </template>
         <v-text-field
           label="Sales Tax Rate" 
@@ -99,7 +104,6 @@
           hide-details
           suffix="%"
           v-model="tempSalesTax"
-          class="mt-4"
         ></v-text-field>
       </v-card-text>
       <v-card-actions>

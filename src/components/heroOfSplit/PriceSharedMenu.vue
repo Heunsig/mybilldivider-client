@@ -48,7 +48,8 @@
                   </v-card-text>
                   <v-card-text v-else class="ics-msgNoItems text-xs-center">
                     No people<br/>
-                    Add people shared with
+                    Pusth the orange button to add people shared with
+                    <!-- Add people shared with -->
                   </v-card-text>
                 </v-card>
                 <v-card flat v-if="item.people.length">
@@ -58,7 +59,7 @@
                   </v-card-text>
                 </v-card>
                 <v-card-actions>
-                  <v-btn icon small absolute bottom right dark fab color="green" @click="openDialogEditingPeopleList(item)" class="ics-floatingBtn">
+                  <v-btn icon small absolute bottom right dark fab color="orange" @click="openDialogEditingPeopleList(item)" class="ics-floatingBtn">
                     <v-icon>person_add</v-icon>
                   </v-btn>
                 </v-card-actions>
@@ -78,7 +79,8 @@
     <template v-else>
       <div class="ics-msgNoItem-main text-xs-center mt-5">
         No items<br/>
-        Add items as pushing the button above
+        <!-- Pusth a button on the right bottom to add people shared with -->
+        Add items as pushing the "ADD ITEM" button above
       </div>
     </template>
     
@@ -166,7 +168,7 @@
                   </v-list-tile>
                   </template>
                   <template v-else>
-                    <li class="ics-msgNoItems text-xs-center">
+                    <li class="ics-msgNoItems text-xs-center grey--text text--darken-2">
                       No people<br/>
                       Add people first at "Each Person" Tab
                     </li>
@@ -343,7 +345,7 @@
 
   .ics-msgNoItems{
     /*padding: 5px 16px;*/
-    color: #717171; 
+    /*color: #717171; */
     font-size: 14px;
     /*font-weight: 500;*/
     /*text-align:center;*/

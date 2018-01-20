@@ -27,7 +27,7 @@
               <v-icon color="indigo">done</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>v 0.1.14</v-list-tile-title>
+              <v-list-tile-title>v 0.1.15</v-list-tile-title>
               <v-list-tile-sub-title>Version of My Bill Divider</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>

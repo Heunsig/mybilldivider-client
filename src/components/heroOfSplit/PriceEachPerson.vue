@@ -58,9 +58,10 @@
                   </v-list-tile>
                 </template>
                 <template v-else>
-                  <li class="ics-msgNoItems text-xs-center pt-3">
+                  <li class="ics-msgNoItems text-xs-center pt-3 grey--text text--darken-2 pa-3">
                     No items<br/>
-                    Add items you bought.
+                    Push the orange button to add items
+                    <!-- Add items you bought. -->
                   </li>
                 </template>
               </v-list>
@@ -71,7 +72,7 @@
                 </v-card-text>
               </v-card>
               <v-card-actions>
-                <v-btn icon small absolute bottom right dark fab color="green darken-1" @click="openDialogForItem(person)" class="ics-floatingBtn">
+                <v-btn icon small absolute bottom right dark fab color="orange" @click="openDialogForItem(person)" class="ics-floatingBtn">
                   <v-icon>add</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -91,7 +92,7 @@
     <template v-else>
       <div class="ics-msgNoItem-main text-xs-center mt-5">
         No people<br/>
-        Add people as pushing the button above
+        Add people as pushing the "ADD PERSON" button above
       </div>
     </template>
     
@@ -375,7 +376,7 @@
   }
   .ics-msgNoItems{
     /*padding: 5px 16px;*/
-    color: #717171; 
+    /*color: #717171; */
     font-size: 14px;
     /*font-weight: 500;*/
     /*text-align:center;*/
