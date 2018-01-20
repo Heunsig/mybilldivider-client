@@ -113,8 +113,8 @@
         It makes the app first state.
       </v-card-title>
       <v-card-actions>
-        <v-btn color="grey darken-2" flat block @click.native="closeDialogRefreshingAll">Cancel</v-btn>
         <v-btn color="red darken-1" flat block @click.native="confirmToRefreshAll">Confirm</v-btn>
+        <v-btn color="grey darken-2" flat block @click.native="closeDialogRefreshingAll">Cancel</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

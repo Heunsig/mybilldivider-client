@@ -2,9 +2,9 @@
   <div>
     <template v-if="people.length">
     <v-container fluid class="ics-grid">
-      <v-layout row wrap>
+      <v-layout row wrap class="mb-5">
         <template v-for="(person, i) in people">
-          <v-flex xs12>
+          <v-flex xs12 class="mb-3">
             <v-card class="ics-cardDecoration">
                 <v-list>
                   <v-list-tile avatar class="ics-dashedBorder">
@@ -102,6 +102,56 @@
         </template>
       </v-layout>
     </v-container>
+    <v-speed-dial
+      v-model="fab"
+      bottom
+      left
+      fixed
+      direction="top"
+      transition="slide-y-reverse-transition"
+      class="ics-speed-dial-combinedPrice"
+    >
+      <v-btn
+        slot="activator"
+        color="light-green darken-3"
+        dark
+        fab
+        v-model="fab"
+        class="elevation-4"
+        @click="allSalesTaxPrice"
+      >
+        <v-icon>attach_money</v-icon>
+        <v-icon>close</v-icon>
+      </v-btn>
+      
+      <div class="text-xs-left ics-box-combinedTotal blue pa-2 ma-1 white--text">
+        <div class="ics-box-combinedTotal-title">Total :</div> 
+        <div class="ics-box-combinedTotal-content pl-2">$ {{ $format.money(allSubTotalPrice() + allSalesTaxPrice() + allTipPrice()) }}</div>
+      </div>
+      <div class="ics-box-combinedTotal light-green pa-2 ma-1 white--text">
+        <div class="ics-box-combinedTotal-title">Tip : </div>
+        <div class="ics-box-combinedTotal-content pl-2">$ {{ $format.money(allTipPrice()) }}</div>
+      </div>
+      <div class="ics-box-combinedTotal blue lighten-2 pa-2 ma-1 white--text">
+        <div class="ics-box-combinedTotal-title ics-combinedTotalAndTax">Sub Total + Tax : </div>
+        <div class="ics-box-combinedTotal-content pl-2 ics-combinedTotalAndTax">$ {{ $format.money(allSubTotalPrice() + allSalesTaxPrice()) }}</div>
+      </div>
+      <div class="ics-box-combinedTotal light-green pa-2 ma-1 white--text">
+        <div class="ics-box-combinedTotal-title">Tax : </div>
+        <div class="ics-box-combinedTotal-content pl-2">$ {{ $format.money(allSalesTaxPrice()) }}</div>
+      </div>
+      <div class="ics-box-combinedTotal light-green pa-2 ma-1 white--text">
+        <div class="ics-box-combinedTotal-title">Sub Total : </div>
+        <div class="ics-box-combinedTotal-content pl-2">$ {{ $format.money(allSubTotalPrice()) }}</div>
+      </div>
+      <!-- <v-btn
+        dark
+        <small></small>
+        color="indigo"
+      >
+        Hello World hahahahahahahsadfasdfaf
+      </v-btn> -->
+    </v-speed-dial>
     </template>
     <template v-else>
       <div class="ics-msgNoItem-main text-xs-center mt-5">
@@ -109,7 +159,6 @@
         Add people first at "Each Person" Tab
       </div>
     </template>
-    
     <v-dialog v-model="dialogs.settingTip" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title orange white--text">
@@ -208,6 +257,33 @@
       total (subTotal, tax, tip) {
         return subTotal + tax + tip
       },
+      allSalesTaxPrice () {
+        let total = 0
+
+        this.people.forEach(person => {
+          total += this.salesTaxPrice(this.subTotalPrice(person))
+        })
+
+        return total
+      },
+      allSubTotalPrice () {
+        let total = 0
+
+        this.people.forEach(person => {
+          total += this.subTotalPrice(person)
+        })
+
+        return total
+      },
+      allTipPrice () {
+        let total = 0
+
+        this.people.forEach(person => {
+          total += this.tipPrice(this.subTotalPrice(person), person.tip)
+        })
+
+        return total
+      },
       getItemList (person) {
         let list = []
 
@@ -279,5 +355,30 @@
   .ics-msgNoItem-main{
     font-size:16px;
     color: #717171;
+  }
+
+  .ics-box-combinedTotal {
+    white-space: nowrap;
+    display: flex;
+    border-radius: 8px;
+  }
+
+  .ics-box-combinedTotal .ics-box-combinedTotal-title {
+    min-width: 80px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align:right;
+  }
+
+  .ics-box-combinedTotal .ics-box-combinedTotal-content {
+  }
+
+  .ics-combinedTotalAndTax{
+    font-size: 11px!important;
+  }
+</style>
+<style>
+  .ics-speed-dial-combinedPrice .speed-dial__list{
+    align-items: left;
   }
 </style>

@@ -37,13 +37,13 @@
         Do you want to refresh this page?
       </v-card-title>
       <v-card-actions>
-        <v-btn color="grey darken-2" flat block @click.native="closeDialogRefreshingPage">Cancel</v-btn>
         <template v-if="refreshMode === 'eachPerson'">
           <v-btn color="red darken-1" flat block @click.native="confirmToClearEachPersonPage">Confirm</v-btn>
         </template>
         <template v-else>
           <v-btn color="red darken-1" flat block @click.native="confirmToClearSharedMenuPage">Confirm</v-btn>
         </template>
+        <v-btn color="grey darken-2" flat block @click.native="closeDialogRefreshingPage">Cancel</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
