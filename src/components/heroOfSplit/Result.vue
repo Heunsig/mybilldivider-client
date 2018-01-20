@@ -396,7 +396,7 @@
     align-items: left;
   }
   .ics-combinedTotal-tooltip{
-    position: fixed;
+    position: fixed!important;
     top: auto!important;
     bottom:36px!important;
     left: 94px!important;
