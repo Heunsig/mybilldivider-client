@@ -22,7 +22,7 @@
                         {{ item.name }}
                       </v-list-tile-title>
                       <!-- <v-list-tile-sub-title>Total: $ {{ $format.money(item.price.toFixed(2)) }}</v-list-tile-sub-title> -->
-                      <v-list-tile-sub-title>Total: $ {{ $format.money(item.price) }}</v-list-tile-sub-title>
+                      <v-list-tile-sub-title>Price: $ {{ $format.money(item.price) }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                     <v-list-tile-action class="ics-listActions">
                       <v-btn icon @click="openDialogEditingItem(item)">

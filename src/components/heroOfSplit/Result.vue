@@ -66,6 +66,14 @@
                           </v-list-tile>
                           <v-list-tile class="mt-2">
                             <v-list-tile-content>
+                              <v-list-tile-title class="stressedFont">Sub Total + Tax</v-list-tile-title>
+                            </v-list-tile-content>
+                            <v-list-tile-action>
+                              $ {{ $format.money(subTotalPrice(person) + salesTaxPrice(subTotalPrice(person))) }}
+                            </v-list-tile-action>
+                          </v-list-tile>
+                          <v-list-tile class="mt-2">
+                            <v-list-tile-content>
                               <v-list-tile-title>Tip</v-list-tile-title>
                               <v-list-tile-sub-title>({{ person.tip }} %)</v-list-tile-sub-title>
                             </v-list-tile-content>
@@ -76,9 +84,12 @@
                           </v-list-tile>
                           <v-list-tile class="mt-2">
                             <v-list-tile-content>
-                              <v-list-tile-title>
-                                <div class="stressedFont">Total</div>
-                              </v-list-tile-title>
+                                <v-list-tile-title class="stressedFont">Total</v-list-tile-title>
+                                <v-list-tile-sub-title>(Sub Total + Tax + Tip)</v-list-tile-sub-title>
+                                <!-- <div class="stressedFont">
+                                  Total<br/>
+                                  <span class="caption">(Sub Total + Tax + Tip)</span>
+                                </div> -->
                             </v-list-tile-content>
                             <v-list-tile-action>
                               <div class="stressedFont">
@@ -113,36 +124,38 @@
     >
       <v-btn
         slot="activator"
-        color="light-green darken-3"
+        color="light-green"
         dark
         fab
         v-model="fab"
         class="elevation-4"
-        @click="allSalesTaxPrice"
       >
         <v-icon>attach_money</v-icon>
         <v-icon>close</v-icon>
-      </v-btn>
+      </v-btn>      
+      <v-tooltip v-model="fab" right content-class="ics-combinedTotal-tooltip">
+        <span>This is combined price of all people</span>
+      </v-tooltip>
       
       <div class="text-xs-left ics-box-combinedTotal blue pa-2 ma-1 white--text">
-        <div class="ics-box-combinedTotal-title">Total :</div> 
+        <div class="ics-box-combinedTotal-title">Sub Total + Tax + Tip :</div> 
         <div class="ics-box-combinedTotal-content pl-2">$ {{ $format.money(allSubTotalPrice() + allSalesTaxPrice() + allTipPrice()) }}</div>
       </div>
       <div class="ics-box-combinedTotal light-green pa-2 ma-1 white--text">
-        <div class="ics-box-combinedTotal-title">Tip : </div>
-        <div class="ics-box-combinedTotal-content pl-2">$ {{ $format.money(allTipPrice()) }}</div>
+        <div class="ics-box-combinedTotal-title caption">Tip : </div>
+        <div class="ics-box-combinedTotal-content pl-2 caption">$ {{ $format.money(allTipPrice()) }}</div>
       </div>
-      <div class="ics-box-combinedTotal blue lighten-2 pa-2 ma-1 white--text">
-        <div class="ics-box-combinedTotal-title ics-combinedTotalAndTax">Sub Total + Tax : </div>
-        <div class="ics-box-combinedTotal-content pl-2 ics-combinedTotalAndTax">$ {{ $format.money(allSubTotalPrice() + allSalesTaxPrice()) }}</div>
-      </div>
-      <div class="ics-box-combinedTotal light-green pa-2 ma-1 white--text">
-        <div class="ics-box-combinedTotal-title">Tax : </div>
-        <div class="ics-box-combinedTotal-content pl-2">$ {{ $format.money(allSalesTaxPrice()) }}</div>
+      <div class="ics-box-combinedTotal blue lighten-1 pa-2 ma-1 white--text">
+        <div class="ics-box-combinedTotal-title">Sub Total + Tax : </div>
+        <div class="ics-box-combinedTotal-content pl-2">$ {{ $format.money(allSubTotalPrice() + allSalesTaxPrice()) }}</div>
       </div>
       <div class="ics-box-combinedTotal light-green pa-2 ma-1 white--text">
-        <div class="ics-box-combinedTotal-title">Sub Total : </div>
-        <div class="ics-box-combinedTotal-content pl-2">$ {{ $format.money(allSubTotalPrice()) }}</div>
+        <div class="ics-box-combinedTotal-title caption">Tax : </div>
+        <div class="ics-box-combinedTotal-content pl-2 caption">$ {{ $format.money(allSalesTaxPrice()) }}</div>
+      </div>
+      <div class="ics-box-combinedTotal light-green pa-2 ma-1 white--text">
+        <div class="ics-box-combinedTotal-title caption">Sub Total : </div>
+        <div class="ics-box-combinedTotal-content pl-2 caption">$ {{ $format.money(allSubTotalPrice()) }}</div>
       </div>
       <!-- <v-btn
         dark
@@ -190,6 +203,7 @@
     mixins: [fixingModalBugInIphone],
     data () {
       return {
+        tooltip: true,
         fab: false,
         person: {},
         tempTipRate: '',
@@ -364,7 +378,7 @@
   }
 
   .ics-box-combinedTotal .ics-box-combinedTotal-title {
-    min-width: 80px;
+    /*min-width: 80px;*/
     font-size: 14px;
     font-weight: 500;
     text-align:right;
@@ -380,5 +394,13 @@
 <style>
   .ics-speed-dial-combinedPrice .speed-dial__list{
     align-items: left;
+  }
+  .ics-combinedTotal-tooltip{
+    top: auto!important;
+    bottom:36px!important;
+    left: 94px!important;
+    right: auto!important;
+    font-size:11px;
+    
   }
 </style>
