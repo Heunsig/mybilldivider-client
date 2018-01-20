@@ -11,6 +11,8 @@ import GetPosition from './plugins/get-position'
 // index.js or main.js
 import 'vuetify/dist/vuetify.min.css'
 
+import eventBus from './event-bus'
+
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 
@@ -42,6 +44,10 @@ Vue.use(GetPosition)
 //     window.scrollTo(0, scrolledPosition)
 //   }
 // }
+
+router.afterEach((currentRoute) => {
+  eventBus.currentRoute = currentRoute
+})
 
 Vue.prototype.$window = window
 

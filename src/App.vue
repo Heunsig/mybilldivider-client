@@ -37,7 +37,7 @@
     </v-navigation-drawer>
     <v-toolbar app fixed flat dense color="green" dark class="ics-toolbar">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>My Bill Divider</v-toolbar-title>
+      <v-toolbar-title><span v-if="!isHome">My Bill Divider</span></v-toolbar-title>
     </v-toolbar>
     <v-content class="grey lighten-4">
       <router-view></router-view>
@@ -58,8 +58,13 @@ export default {
       drawer: false,
       nav: [
         {
-          label: 'Calculator',
+          label: 'Home',
           name: 'home',
+          icon: 'home'
+        },
+        {
+          label: 'Calculator',
+          name: 'calculator',
           icon: 'star'
         },
         {
@@ -68,6 +73,15 @@ export default {
           icon: 'info'
         }
       ]
+    }
+  },
+  computed: {
+    isHome () {
+      if (eventBus.currentRoute.name === 'home') {
+        return true
+      } else {
+        return false
+      }
     }
   },
   methods: {
