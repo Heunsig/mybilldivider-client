@@ -175,7 +175,17 @@
     <v-dialog v-model="dialogs.settingTip" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title orange white--text">
-          Tip Rate
+          Tip Rate 
+          <v-menu
+            offset-y
+          >
+            <v-btn slot="activator" class="ma-0 ml-1" dark small icon><v-icon>help</v-icon></v-btn>
+            <v-card color="blue" dark>
+              <v-card-text>
+                Tip is calculated with only Sub total
+              </v-card-text>
+            </v-card>
+          </v-menu>
         </v-card-title>
         <v-card-text>
           <v-text-field 
