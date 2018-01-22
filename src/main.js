@@ -7,6 +7,7 @@ import store from './store'
 import Vuetify from 'vuetify'
 import Format from './plugins/format'
 import GetPosition from './plugins/get-position'
+import VueClipboard from 'vue-clipboard2'
 
 // index.js or main.js
 import 'vuetify/dist/vuetify.min.css'
@@ -16,6 +17,7 @@ import eventBus from './event-bus'
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 
+Vue.use(VueClipboard)
 Vue.use(Format)
 Vue.use(GetPosition)
 
