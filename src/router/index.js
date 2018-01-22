@@ -8,12 +8,12 @@ import AboutMe from '@/components/AboutMe'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
       path: '/',
       component: Home,
-      name: 'home'
+      name: 'main'
     },
     {
       path: '/calculator',
@@ -26,4 +26,4 @@ export default new Router({
       name: 'aboutMe'
     }
   ]
-})  
+})

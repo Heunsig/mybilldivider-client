@@ -22,7 +22,9 @@
         :id="tab.id"
         class="ics-tabContent"
       >
-        <v-card flat class="grey lighten-4">
+        <!-- <v-card flat class="grey lighten-4"> -->
+        <v-card flat class="transparent">
+           
           <v-card-text>
             <div :is="tab.component"></div>
           </v-card-text>
@@ -287,6 +289,7 @@ export default {
 .ics-tabContent{
   padding-top: 48px;
   height: 100%;
+  background: url('http://icansplit.catchasoft.com/new/logo_background.png') fixed center bottom 100px no-repeat;
 }
 .ics-tabs{height: 100%;}
 .ics-btn-refresh{

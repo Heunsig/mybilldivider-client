@@ -124,7 +124,7 @@
     >
       <v-btn
         slot="activator"
-        color="orange"
+        color="green"
         dark
         fab
         v-model="fab"

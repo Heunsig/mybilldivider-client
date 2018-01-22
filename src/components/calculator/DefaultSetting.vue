@@ -23,16 +23,16 @@
             </v-list>      
           </v-card>
         </v-flex>
-        <v-flex xs12>
+        <!-- <v-flex xs12>
           <v-card class="ics-cardDecoration">
             <v-list subheader>
               <li class="ics-customSubheader">
                 <div class="green--text">Refresh All</div>
                 <div>It refreshes whole page</div>
               </li>
-              <!-- <v-subheader class="green--text">
+              <v-subheader class="green--text">
               Refresh All
-              </v-subheader> -->
+              </v-subheader>
               <v-list-tile>
                 <v-list-tile-content>
                   <v-btn block dark color="red darken-2" @click="openDialogRefreshingAll">
@@ -42,7 +42,7 @@
               </v-list-tile>
             </v-list>
           </v-card>
-        </v-flex>
+        </v-flex> -->
       </v-layout>
     </v-container>
     
@@ -113,7 +113,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog persistent v-model="dialogs.refreshAll">
+    <!-- <v-dialog persistent v-model="dialogs.refreshAll">
     <v-card>
       <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
         Do you want to refresh all?<br/>
@@ -124,7 +124,7 @@
         <v-btn color="red darken-1" flat block @click.native="confirmToRefreshAll">Confirm</v-btn>
       </v-card-actions>
     </v-card>
-  </v-dialog>
+  </v-dialog> -->
   <!-- <button @click="test">test</button> -->
   </div>
 </template>
@@ -136,8 +136,8 @@
     data () {
       return {
         dialogs: {
-          setSalesTax: false,
-          refreshAll: false
+          setSalesTax: false
+          // refreshAll: false
         },
         priceOfTax: 0,
         priceOfSubTotal: 0,
@@ -188,16 +188,16 @@
         this.isSalesTaxCalculatorActive = false
         this.activeDialog = {type: 'setSalesTax', bool: false}
       },
-      openDialogRefreshingAll () {
-        this.activeDialog = {type: 'refreshAll', bool: true}
-      },
-      closeDialogRefreshingAll () {
-        this.activeDialog = {type: 'refreshAll', bool: false}
-      },
-      confirmToRefreshAll () {
-        this.$store.commit('refreshAll')
-        this.activeDialog = {type: 'refreshAll', bool: false}
-      },
+      // openDialogRefreshingAll () {
+      //   this.activeDialog = {type: 'refreshAll', bool: true}
+      // },
+      // closeDialogRefreshingAll () {
+      //   this.activeDialog = {type: 'refreshAll', bool: false}
+      // },
+      // confirmToRefreshAll () {
+      //   this.$store.commit('refreshAll')
+      //   this.activeDialog = {type: 'refreshAll', bool: false}
+      // },
       openSalesTaxCalculator () {
         this.isSalesTaxCalculatorActive = true
       },
@@ -208,7 +208,9 @@
   }
 </script>
 <style scoped>
-  .container.ics-grid{padding: 3px;}
+  .container.ics-grid{
+    padding: 3px;
+  }
   .container.ics-grid > .layout:only-child{margin: -8px;}
   .container.ics-grid > .layout > .flex{padding: 20px 8px 8px 8px;}
 
