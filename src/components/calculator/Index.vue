@@ -289,7 +289,7 @@ export default {
 .ics-tabContent{
   padding-top: 48px;
   height: 100%;
-  background: url('http://icansplit.catchasoft.com/new/logo_background.png') fixed center bottom 100px no-repeat;
+  background: url('http://icansplit.catchasoft.com/new/logo_background.png') fixed center bottom 150px no-repeat;
 }
 .ics-tabs{height: 100%;}
 .ics-btn-refresh{
