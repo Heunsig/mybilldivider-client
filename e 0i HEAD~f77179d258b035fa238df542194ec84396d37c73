@@ -1,0 +1,270 @@
+[33mcommit 17fbe84c9e6c8de958e0a4f7d3e236d3c3d93c5b[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Mon Jan 22 20:50:35 2018 -0800
+
+    v 0.1.30 - Update: added alert components on top on Result page to explain about rounding half up and the button to see amount of price
+
+[33mcommit f77179d258b035fa238df542194ec84396d37c73[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Mon Jan 22 20:26:36 2018 -0800
+
+    v 0.1.30 - Update: modified input form for setting tip rate on Result page. when tip rate is zero, it doesn't input any value to input form
+
+[33mcommit 512e22076efe742bc6d8882326a17726153d783a[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Mon Jan 22 20:23:34 2018 -0800
+
+    v 0.1.28 - Update: change color for some button and text for using easily
+
+[33mcommit 5fbc9c2adfa2347d22447b2a0cb90d8baafa3e80[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Mon Jan 22 19:57:12 2018 -0800
+
+    v 0.1.27 - Update: enhanced Set sales tax dialog. the button for automatically calculating was changed location
+
+[33mcommit 658ed7573beb163c4c7fefedf2aab93b1df2df43[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Mon Jan 22 19:29:45 2018 -0800
+
+    v 0.1.26 - Update: enhanced Set sales tax dialog
+
+[33mcommit 3bb452d9be40f30984220ee5e16a373fc117d589[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Mon Jan 22 16:14:02 2018 -0800
+
+    v 0.0.25 - Update: modifed some words in correct grammar
+
+[33mcommit 6e10a3eef92b0d399cafe476fc1c5895aa660454[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sun Jan 21 23:59:22 2018 -0800
+
+    v 0.1.24 - Update: added tip on Tip Rate modal on result page to explain how tip calculates
+
+[33mcommit b6d7b786d15ea265d29ab54cbddd934dac500f0c[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sun Jan 21 20:26:45 2018 -0800
+
+    v 0.1.23 - Update: added google analytics
+
+[33mcommit bd60db0386f00ad7afd10b2a9513ad4312452d14[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sun Jan 21 19:40:04 2018 -0800
+
+    v 0.1.22 - Update added clipboard function on AboutMe page to copy email and added snackbar too, modified package.json that removed useless packages
+
+[33mcommit a6e310af11a2ee212696890bf0f66873d1947158[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sun Jan 21 18:34:09 2018 -0800
+
+    v 0.1.21 - Update: removed background which is on calcularot pages, installed clipboard.js
+
+[33mcommit 6d52587682d269dcf12d99c5e2f0a8a7bd80089f[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sun Jan 21 16:51:52 2018 -0800
+
+    v 0.1.20 - Update: modified background which was always showing to background which not always
+
+[33mcommit 51c615ca50f30380f738fa0c5fe8b23a4782c068[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sun Jan 21 16:36:08 2018 -0800
+
+    v 0.1.19 - Update: moved refresh function on setting page to nav bar, a button which show combied price on result page is changed color from orange to green, put background into calculator pages
+
+[33mcommit d38cb844709474cecc3038a3451d39dcebf2c5c6[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sat Jan 20 15:09:22 2018 -0800
+
+    v 0.1.18 - Update: added Home page
+
+[33mcommit a7b472d747ddd4fe3466fd1a5328b9abb422c5dc[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Fri Jan 19 20:45:16 2018 -0800
+
+    v 0.1.17 - Update: The floating button's tooltip on Result page was changed position attribute from fixed to fixed!important
+
+[33mcommit a671f4b0b7dc1a6fed6666d53bcb61afc59b3ecc[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Fri Jan 19 19:57:42 2018 -0800
+
+    v 0.1.16 - Update: fixed tooltip on Result page because it was set position absolute, so it couldn.t follow the button that shows combined price. its position change from absolute to fixed
+
+[33mcommit db0d905b68720066d736128d83e55a71e89f7a3f[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Fri Jan 19 19:55:04 2018 -0800
+
+    v 0.1.15 - Update: change some button's color, add the arrow downward icon below Sales tax calculator on set sales tax modal
+
+[33mcommit e56c74852f7cdd529448b9bbc0d5a888dc983396[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Fri Jan 19 18:17:44 2018 -0800
+
+    v 0.1.14 - Updtae: added tooltip on Result page when I click the button on the bottom of page
+
+[33mcommit e9af834affc3b4c0edacb1f945dd456e41d6de07[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Fri Jan 19 17:27:54 2018 -0800
+
+    v 0.1.13 - Update: change the app's name from Hero of Split to My Bill Divier
+
+[33mcommit e397cff282de9e0c11d2cabede7f4cac9c2da6fa[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Fri Jan 19 17:24:51 2018 -0800
+
+    v 0.1.11 - Update: add function showing total price on result page that all person's combined price, change buttons location on refresh modal switched between cancel and confirm because the location before makes people mistake
+
+[33mcommit cb875c49055337cae32b1c77007347e42dad2259[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Thu Jan 18 22:21:14 2018 -0800
+
+    v 0.1.10 - Update that change 'toFixed()'->precisionRound() in fotmat plugin
+
+[33mcommit c74218b9960ce7e76737646967a4425e1b4aa614[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Thu Jan 18 19:04:40 2018 -0800
+
+    v 0.1.9 - Update calculator method totally (removed toFixed(2) in HTML, just applied in script code), Enhance Nav bar shadow
+
+[33mcommit 9e1d01f90f37df5eb3c3045dd41083c9caa4172d[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Thu Jan 18 16:18:58 2018 -0800
+
+    v 0.1.8 - Update sates tax calculator, modify words 'put'->'input' in each modals or comments
+
+[33mcommit ceeadf781e436e26ad265c01996d2833b375f861[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Wed Jan 17 18:35:42 2018 -0800
+
+    v 0.1.7 - Caught a bug that refresh function doesn't work on Shared Item page
+
+[33mcommit bc451bb23fce77bf27da22fd87f645f2210ccf2e[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Wed Jan 17 18:29:36 2018 -0800
+
+    v 0.1.6 - Update person name and item name to named in numerical order when it isn't put any name into form, Remove legacy comments which are not needed
+
+[33mcommit de87b8d0ae4577e9c26f4f85738ede4a59e81118[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Wed Jan 17 17:24:44 2018 -0800
+
+    v 0.1.5 - enhanced comments on the App, caught the bug that the modal doesn't cancel
+
+[33mcommit c35c379616e66fd6a1a37c0899cb7a46b8c71dc6[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Tue Jan 16 23:20:12 2018 -0800
+
+    v 0.1.4 - same as before just changed version inforamtion
+
+[33mcommit 3af1f1b5b495888e0d5d361a9c5c510f40d40806[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Tue Jan 16 23:14:30 2018 -0800
+
+    v 0.1.4 - Update Iphone bug when put the word into Input form on modal,
+    the cursor on Iphone is get out from Input form
+
+[33mcommit fc28c04c9361c421da7d41cd80825102e07baa35[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Mon Jan 15 21:45:48 2018 -0800
+
+    v 0.1.3 - Uploaded logo images, Fixed the problem about input field on modal on Iphone
+
+[33mcommit 7288ac6d4394c0f55f0907c11a157b27005b84f6[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sun Jan 14 17:55:21 2018 -0800
+
+    v 0.1.2 - Added class ics-warpper on Index.vue
+
+[33mcommit 1946162fc6a5253152fdf6f8ab01ae0f43b46383[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sun Jan 14 16:49:05 2018 -0800
+
+    v 0.1.1 - Update list design on Each person page, bugs on PriceSharedMenu page, a bug about tip rate, refresh button on each person page and shared menu page, refresh all button on setting page
+
+[33mcommit 9b37fe53524e5d157794ab962ecd47429eaf00d6[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sun Jan 14 01:13:20 2018 -0800
+
+    v 0.1.0 - update Tip rate form that its input type was just text to number
+
+[33mcommit 67b883dae597beda000c08a2a14bdaa0c6ded910[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sun Jan 14 01:06:13 2018 -0800
+
+    v 0.1.0 - Update dialog form (delete v-container)
+
+[33mcommit 2636e59c3b20a36286567901390d42129401f856[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sun Jan 14 00:50:35 2018 -0800
+
+    v 0.0.9 - Updated dialog style and flow, enhanced edit method on dialog to change value, enhanced showing result on Result page,
+
+[33mcommit 23725fc0fe13bb6b2aa14ab3d2dfbccd23b61a7b[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sat Jan 13 16:34:06 2018 -0800
+
+    v 0.0.8 - before modify dialog
+
+[33mcommit f106d10bfed02d7e49545f384a91d1cc75a7b505[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Sat Jan 13 01:06:14 2018 -0800
+
+    v 0.0.7 - changed folder structure(add folder heroOfSplit), decorated dialog design on Settings and Each Person
+
+[33mcommit 5f8f5450cafa1b7b9309e750435ad70acf5c0b48[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Thu Jan 11 23:10:23 2018 -0800
+
+    v 0.0.6 - changed floating button's z-index value to 1
+
+[33mcommit c2179fa79bb960a6db936c9e3974b16105217d27[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Thu Jan 11 22:32:30 2018 -0800
+
+    v 0.0.5 - It is being changed whole design
+
+[33mcommit 8e47f632bbc705879253c4f5cc99ca3caa870f09[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Thu Jan 11 17:41:05 2018 -0800
+
+    v 0.0.4 - change nav, change tab-content height to 100%, add navigation drawer
+
+[33mcommit 6fec32dd1fe91c5adcd075a3b801158faed2823f[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Thu Jan 11 15:45:09 2018 -0800
+
+    v 0.0.3 - secondly remove legacy comment
+
+[33mcommit f1984923a82fe8203f83d73ee26df3a08bef326a[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Thu Jan 11 15:40:04 2018 -0800
+
+    v 0.03 - remove legacy comments in app
+
+[33mcommit 68353665c49dc0a2d81c9b78b7f82c06a44f48b0[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Thu Jan 11 15:35:35 2018 -0800
+
+    v 0.03 - complete all functions without design
+
+[33mcommit e68fa4df1a5da149e6c4d65c2b737aa7d3a7f0a5[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Thu Jan 11 00:07:08 2018 -0800
+
+    v 0.02 - changing detail list in Result page
+
+[33mcommit 48bfd3ca7f910bea68ca7def6229c1f9e919b76a[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Tue Jan 9 23:51:52 2018 -0800
+
+    v 0.02 - changing in Result page
+
+[33mcommit 167235faad38b4328ac7710fa552b3553feaea7b[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Mon Jan 8 22:08:07 2018 -0800
+
+    v0.02 - chaning design from Onsen to Vuetify
+
+[33mcommit 01d6463a33320ca7c89710dd785b12ae81af0794[m
+Author: Heunsig <heun3344@gmail.com>
+Date:   Mon Jan 8 13:19:08 2018 -0800
+
+    v0.01
