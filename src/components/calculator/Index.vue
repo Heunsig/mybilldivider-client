@@ -52,25 +52,86 @@
 
   <v-dialog v-model="dialogs.setSalesTax" lazy persistent scrollable max-width="290">
     <v-card>
-      <v-card-title class="pb-3 pt-3 ics-dialog-title blue white--text">
+      <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
         Set Sales Tax Rate<br/>
         Are you sure {{ salesTax + '%'}} Sales tax?
       </v-card-title>
       <v-card-text>
         <div class="pt-1 pb-2 grey--text text--darken-3">
-          <div>
-            Set the sales tax that you can find it on your receipt. Otherwise, click the button
-          </div>
-          <div class="text-xs-right">
+          <!-- <div> -->
+            You can find the sales tax rate on your receipt. 
+            <v-menu>
+              <a href="#" slot="activator">See an example</a>
+              <v-card>
+                <div class="pa-1">
+                  <!-- <img :src="images.imageExampleSalesTax" alt="An example of sales tax rate"/> -->
+                  <img src="http://icansplit.catchasoft.com/new/example_salesTax.gif" alt="An example of sales tax rate"/>
+                  <!-- <img :src="img" alt=""> -->
+                  <div class="caption">This picture is an example</div>
+                </div>
+                <!-- <v-card-media src="http://icansplit.catchasoft.com/new/example_test.gif" height="106px"></v-card-media> -->
+              </v-card>
+            </v-menu>
+            <br/>If it isn't listed, push the purple button.
+            <div class="text-xs-right">
+              <v-menu
+                offset-x
+                left
+                :close-on-content-click="false"
+                v-model="isGetSalesTaxMenuActive"
+              >
+                <v-btn slot="activator" class="elevation-3 ics-button-smaller" color="purple lighten-1" small dark fab></v-btn>
+                <v-card>
+                  <v-card-title>
+                    <p class="subheading mb-1">Get sales tax automatically</p>
+                    <div class="caption">This is function of calculating sales tax when you can't find sales tax. Input your bill's Sub total and Tax. 
+                      <v-menu>
+                          <a href="#" slot="activator">See an example</a>
+                          <v-card>
+                            <div class="pa-1">
+                              <img src="http://icansplit.catchasoft.com/new/example_subtotalAndTax.gif" alt="An example of subtotal and tax"/>
+                              <!-- <img :src="images.imageExampleSubtotalAndTax" alt="An example of subtotal and tax"/> -->
+                              <div class="caption">This picture is an example</div>
+                            </div>
+                          </v-card>
+                        </v-menu>
+                    </div>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-text-field 
+                      label="Sub Total" 
+                      type="number" 
+                      clearable
+                      hide-details
+                      v-model="priceOfSubTotal"
+                    ></v-text-field>
+                    <v-text-field 
+                      label="Tax" 
+                      type="number" 
+                      clearable
+                      hide-details
+                      v-model="priceOfTax"
+                    ></v-text-field>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-btn block flat color="grey darken-2" @click="closeMenuGettingSalesTaxAuto">Cancel</v-btn>
+                    <v-btn block flat color="light-green" @click="confirmToGetSalesTaxAuto">Confirm</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-menu>
+
+            </div>
+          <!-- </div> -->
+          <!-- <div class="text-xs-right">
             <v-btn small outline color="primary" @click="openSalesTaxCalculator" v-if="!isSalesTaxCalculatorActive">
               sales tax calculator
             </v-btn>
             <v-btn small outline color="red" @click="closeSalesTaxCalculator" v-else>
               close calculator
             </v-btn>
-          </div>
+          </div> -->
         </div>
-        <template v-if="isSalesTaxCalculatorActive">
+        <!-- <template v-if="isSalesTaxCalculatorActive">
           <v-card color="blue" flat dark>
             <v-card-title>
               <p class="subheading mb-1">Sales Tax Calculator</p>
@@ -98,7 +159,7 @@
               <v-icon>arrow_downward</v-icon>
             </v-card-text>
           </v-card>
-        </template>
+        </template> -->
         <v-text-field
           label="Sales Tax Rate" 
           type="number" 
@@ -109,9 +170,8 @@
         ></v-text-field>
       </v-card-text>
       <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="grey darken-2" flat @click.native="closeDialogSettingSalesTax">Cancel</v-btn>
-        <v-btn color="blue" flat @click.native="confirmToSetSalesTax">Confirm</v-btn>
+        <v-btn color="grey darken-2" block flat @click.native="closeDialogSettingSalesTax">Cancel</v-btn>
+        <v-btn color="light-green" block flat @click.native="confirmToSetSalesTax">Confirm</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -130,6 +190,7 @@ export default {
   mixins: [fixingModalBugInIphone],
   data () {
     return {
+      isGetSalesTaxMenuActive: false,
       dialogs: {
         refreshPage: false,
         setSalesTax: false
@@ -176,22 +237,22 @@ export default {
     },
     salesTax () {
       return this.$store.getters.getSalesTaxRate
-    },
-    calculatedSalesTax () {
-      // return parseFloat(((this.priceOfTax / this.priceOfSubTotal) * 100).toFixed(2))
-      // console.log(this.$format.precisionRound((this.priceOfTax / this.priceOfSubTotal) * 100))
-      return this.$format.precisionRound((this.priceOfTax / this.priceOfSubTotal) * 100, 2)
     }
+    // calculatedSalesTax () {
+    //   // return parseFloat(((this.priceOfTax / this.priceOfSubTotal) * 100).toFixed(2))
+    //   // console.log(this.$format.precisionRound((this.priceOfTax / this.priceOfSubTotal) * 100))
+    //   // return this.$format.precisionRound((this.priceOfTax / this.priceOfSubTotal) * 100, 2)
+    // }
   },
   watch: {
-    calculatedSalesTax (value) {
-      // console.log(value)
-      if (typeof value === 'number' && value !== Infinity && !isNaN(value)) {
-        this.tempSalesTax = value
-      } else {
-        this.tempSalesTax = 0
-      }
-    }
+    // calculatedSalesTax (value) {
+    //   // console.log(value)
+    //   if (typeof value === 'number' && value !== Infinity && !isNaN(value)) {
+    //     this.tempSalesTax = value
+    //   } else {
+    //     this.tempSalesTax = 0
+    //   }
+    // }
   },
   components: {
     DefaultSetting,
@@ -200,6 +261,21 @@ export default {
     Result
   },
   methods: {
+    confirmToGetSalesTaxAuto () {
+      let value = this.$format.precisionRound((((this.priceOfTax || 0) / (this.priceOfSubTotal || 0)) * 100), 2)
+      if (typeof value === 'number' && value !== Infinity && !isNaN(value)) {
+        this.tempSalesTax = value
+      } else {
+        this.tempSalesTax = 0
+      }
+
+      this.isGetSalesTaxMenuActive = false
+    },
+    closeMenuGettingSalesTaxAuto () {
+      this.priceOfTax = ''
+      this.priceOfSubTotal = ''
+      this.isGetSalesTaxMenuActive = false
+    },
     openSalesTaxCalculator () {
       this.isSalesTaxCalculatorActive = true
     },
@@ -257,7 +333,10 @@ export default {
       if (tab === 'result') {
         if (this.salesTax === 0) {
           this.activeDialog = {type: 'setSalesTax', bool: true}
-          this.tempSalesTax = this.salesTax
+
+          if (this.salesTax) {
+            this.tempSalesTax = this.salesTax
+          }
         }
       }
     }

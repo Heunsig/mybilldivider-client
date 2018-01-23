@@ -167,4 +167,9 @@ export default {
   }
 
   .overlay--active:before{opacity: 0.9;}
+
+  .ics-button-smaller {
+    width: 30px!important;
+    height: 30px!important;;
+  }
 </style>
