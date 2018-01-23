@@ -68,7 +68,7 @@
                   <v-card>
                     <v-card-title>
                       <p class="subheading mb-1">Get sales tax automatically</p>
-                      <div class="caption">This is function of calculating sales tax when you can't find sales tax. Input your bill's Sub total and Tax. 
+                      <div class="caption">This is function of calculating sales tax when you can't find sales tax. Input your bill's sub total and tax. 
                         <v-menu>
                           <a href="#" slot="activator">See an example</a>
                           <v-card>

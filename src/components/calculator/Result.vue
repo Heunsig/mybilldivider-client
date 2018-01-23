@@ -3,6 +3,14 @@
     <template v-if="people.length">
     <v-container fluid class="ics-grid">
       <v-layout row wrap class="mb-5">
+        <v-flex xs12>
+          <v-alert color="info" icon="info" dismissible v-model="alertInfo">
+            If you push the green button on left bottom on the screen, you can see amount of price.
+          </v-alert>
+          <v-alert color="orange" icon="priority_high" dismissible v-model="alertWarning">
+            This price is rounded half up, so it may be little diffrent in some cents.
+          </v-alert>
+        </v-flex>
         <template v-for="(person, i) in people">
           <v-flex xs12 class="mb-3">
             <v-card class="ics-cardDecoration">
@@ -124,7 +132,7 @@
     >
       <v-btn
         slot="activator"
-        color="orange"
+        color="green"
         dark
         fab
         v-model="fab"
@@ -213,6 +221,8 @@
     mixins: [fixingModalBugInIphone],
     data () {
       return {
+        alertWarning: true,
+        alertInfo: true,
         tooltip: true,
         fab: false,
         person: {},
@@ -238,7 +248,7 @@
       openDialogSettingTip (person) {
         this.person = person
         if (person.tip) {
-          this.tempTipRate = person.tip  
+          this.tempTipRate = person.tip
         }
         this.activeDialog = {type: 'settingTip', bool: true}
       },
