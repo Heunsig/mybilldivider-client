@@ -9,7 +9,7 @@
               <li class="ics-customSubheader">
                 <div class="green--text">Sales Tax</div>
                 <div>
-                  Push the <span class="orange--text">orange button</span> on right bottom to set the sales tax.
+                  <span class="orange--text">Push the orange button</span> on right bottom to set the sales tax.
                 </div>
               </li>
               <v-list-tile @click.native="openDialog">
@@ -51,34 +51,20 @@
     <v-dialog v-model="dialogs.setSalesTax" lazy persistent scrollable max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
-          Set Sales Tax Rate
-        </v-card-title>
-        <v-card-text>
-          <div class="pt-1 pb-2 grey--text text--darken-3">
-            <!-- <div> -->
-              You can find the sales tax rate on your receipt. 
-              <v-menu>
-                <a href="#" slot="activator">See an example</a>
-                <v-card>
-                  <div class="pa-1">
-                    <!-- <img :src="images.imageExampleSalesTax" alt="An example of sales tax rate"/> -->
-                    <img src="http://icansplit.catchasoft.com/new/example_salesTax.gif" alt="An example of sales tax rate"/>
-                    <!-- <img :src="img" alt=""> -->
-                    <div class="caption">This picture is an example</div>
-                  </div>
-                  <!-- <v-card-media src="http://icansplit.catchasoft.com/new/example_test.gif" height="106px"></v-card-media> -->
-                </v-card>
-              </v-menu>
-              <br/>
-              If it isn't listed, push the purple button.
-              <div class="text-xs-right">
+          <v-container fluid class="pa-0">
+            <v-layout row wrap class="ics-align-center">
+              <v-flex xs10>
+                Set Sales Tax Rate
+              </v-flex>
+              <v-flex xs2>
                 <v-menu
                   offset-x
                   left
+                  max-width="230"
                   :close-on-content-click="false"
                   v-model="isGetSalesTaxMenuActive"
                 >
-                  <v-btn slot="activator" class="elevation-3 ics-button-smaller" color="purple lighten-1" small dark fab></v-btn>
+                  <v-btn slot="activator" class="elevation-3 ics-button-smaller" color="red lighten-1" small dark fab></v-btn>
                   <v-card>
                     <v-card-title>
                       <p class="subheading mb-1">Get sales tax automatically</p>
@@ -95,7 +81,7 @@
                         </v-menu>
                       </div>
                     </v-card-title>
-                    <v-card-text>
+                    <v-card-text class="pt-0">
                       <v-text-field 
                         label="Sub Total" 
                         type="number" 
@@ -117,10 +103,34 @@
                     </v-card-actions>
                   </v-card>
                 </v-menu>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-title>
+        <v-card-text>
+          <div class="pt-1 pb-2 grey--text text--darken-3">
+            <!-- <div> -->
+              You can find the sales tax rate on your receipt. 
+              <v-menu>
+                <a href="#" slot="activator">See an example</a>
+                <v-card>
+                  <div class="pa-1">
+                    <!-- <img :src="images.imageExampleSalesTax" alt="An example of sales tax rate"/> -->
+                    <img src="http://icansplit.catchasoft.com/new/example_salesTax.gif" alt="An example of sales tax rate"/>
+                    <!-- <img :src="img" alt=""> -->
+                    <div class="caption">This picture is an example</div>
+                  </div>
+                  <!-- <v-card-media src="http://icansplit.catchasoft.com/new/example_test.gif" height="106px"></v-card-media> -->
+                </v-card>
+              </v-menu>
+              <br/>
+              If it isn't listed, <span class="red--text text--lighten-1">push the red button</span> above.
+              <!-- <div class="text-xs-right"> -->
+                
               <!-- </div> -->
               <!-- Set the sales tax written on your receipt. If it isn't listed, push the button. -->
               <!-- Set the sales tax that you can find it on your receipt. Otherwise, click the button -->
-            </div>
+              <!-- </div> -->
             <!-- <div>
               <div class="text-xs-right">
                 <v-btn small outline color="primary" @click="openSalesTaxCalculator" v-if="!isSalesTaxCalculatorActive">

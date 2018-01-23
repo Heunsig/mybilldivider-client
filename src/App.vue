@@ -169,7 +169,10 @@ export default {
   .overlay--active:before{opacity: 0.9;}
 
   .ics-button-smaller {
-    width: 30px!important;
-    height: 30px!important;;
+    width: 25px!important;
+    height: 25px!important;;
+  }
+  .ics-align-center {
+    align-items: center;
   }
 </style>
