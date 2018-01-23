@@ -27,14 +27,14 @@
                 Get a result
               </li>
             </ul> -->
-            <p class="white--text ics-sub-title">It's the easiest way to split the bill up.</p>
+            <p class="white--text ics-sub-title">It's the easiest way to split the bill</p>
           </v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12>
         <div class="text-xs-center mt-5 pt-4">
           <v-btn dark outline @click="routerPush('calculator')">
-            Get Start Calculating
+            Start Calculating
           </v-btn>
         </div>
       </v-flex>

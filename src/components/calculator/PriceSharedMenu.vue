@@ -47,7 +47,7 @@
                     </div>
                   </v-card-text>
                   <v-card-text v-else class="ics-msgNoItems text-xs-center">
-                    No people<br/>
+                    No people are selected yet<br/>
                     Pusth the orange button to add people shared with
                     <!-- Add people shared with -->
                   </v-card-text>
@@ -78,9 +78,9 @@
     </template>
     <template v-else>
       <div class="ics-msgNoItem-main text-xs-center mt-5">
-        No items<br/>
+        No items are listed yet<br/>
         <!-- Pusth a button on the right bottom to add people shared with -->
-        Add items as pushing the "ADD ITEM" button above
+        Add items by pushing the "ADD ITEM" button above
       </div>
     </template>
     
@@ -88,7 +88,7 @@
     <v-dialog v-model="dialogs.addingItem" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
-        Add Item shared with others
+        Add an item shared with others
         </v-card-title>
         <v-card-text>
           <v-text-field 
@@ -99,7 +99,7 @@
             v-model="tempItem.name"
           ></v-text-field>      
           <div class="ics-textField-detail">
-            If you don't input the name, it'll be named randomly.
+            If you don't input the name, it'll go by the item number.
           </div>
           <v-text-field 
             label="Input price" 
@@ -169,8 +169,8 @@
                   </template>
                   <template v-else>
                     <li class="ics-msgNoItems text-xs-center grey--text text--darken-2">
-                      No people<br/>
-                      Add people first at "Each Person" Tab
+                      No people are listed yet<br/>
+                      Add people first at "EACH PERSON" tab
                     </li>
                   </template>
                 </v-list>

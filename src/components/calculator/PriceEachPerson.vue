@@ -59,7 +59,7 @@
                 </template>
                 <template v-else>
                   <li class="ics-msgNoItems text-xs-center pt-3 grey--text text--darken-2 pa-3">
-                    No items<br/>
+                    No items are listed yet<br/>
                     Push the orange button to add items
                     <!-- Add items you bought. -->
                   </li>
@@ -91,8 +91,8 @@
     </template>
     <template v-else>
       <div class="ics-msgNoItem-main text-xs-center mt-5">
-        No people<br/>
-        Add people as pushing the "ADD PERSON" button above
+        No people are listed yet<br/>
+        Add people by pushing the "ADD PERSON" button above
       </div>
     </template>
     
@@ -100,7 +100,7 @@
     <v-dialog v-model="dialogs.addingPerson" lazy persistent max-width="290" content-class="test-a">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
-          Add Person
+          Add a person who ordered items
         </v-card-title>
         <v-card-text>
           <v-text-field 
@@ -111,7 +111,7 @@
             v-model="tempPerson.name"
           ></v-text-field>
           <div class="ics-textField-detail">
-            If you don't input the name, it'll be named randomly.
+            If you don't input a name, it'll go by the number of the person.
           </div>
         </v-card-text>
         <v-card-actions>

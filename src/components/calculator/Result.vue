@@ -33,7 +33,7 @@
                 </v-list>
                 <v-expansion-panel>
                   <v-expansion-panel-content class="ics-expansion-panel-content">
-                    <div slot="header" class="green--text">Detail</div>
+                    <div slot="header" class="green--text">Details</div>
                     <v-card flat>
                       <v-card-text class="grey lighten-3">
                         <v-list>
@@ -168,8 +168,8 @@
     </template>
     <template v-else>
       <div class="ics-msgNoItem-main text-xs-center mt-5">
-        No result<br/>
-        Add people first at "Each Person" Tab
+        No result are listed yet<br/>
+        Add people first at "EACH PERSON" tab
       </div>
     </template>
     <v-dialog v-model="dialogs.settingTip" persistent max-width="290">

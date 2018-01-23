@@ -8,7 +8,7 @@
               <!-- <v-subheader class="green--text">Sales Tax (%)</v-subheader> -->
               <li class="ics-customSubheader">
                 <div class="green--text">Sales Tax</div>
-                <div>Set the sales tax that you can find it on your receipt.</div>
+                <div>Set the sales tax. you can find it on your receipt.</div>
               </li>
               <v-list-tile @click.native="openDialog">
                 <v-list-tile-content>
@@ -54,7 +54,8 @@
         <v-card-text>
           <div class="pt-1 pb-2 grey--text text--darken-3">
             <div>
-              Set the sales tax that you can find it on your receipt. Otherwise, click the button
+              Set the sales tax written on your receipt. If it isn't listed, push the button.
+              <!-- Set the sales tax that you can find it on your receipt. Otherwise, click the button -->
             </div>
             <div>
               <div class="text-xs-right">

@@ -155,7 +155,7 @@ export default {
         },
         {
           id: 'sharedItem',
-          label: 'Shared<br/>Item',
+          label: 'Shared<br/>Items',
           component: 'PriceSharedMenu',
           refresh: true
         },
