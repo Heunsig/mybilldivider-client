@@ -60,7 +60,7 @@
                 <template v-else>
                   <li class="ics-msgNoItems text-xs-center pt-3 grey--text text--darken-2 pa-3">
                     No items are listed yet<br/>
-                    Push the orange button to add items
+                    <span class="orange--text">Push the orange button</span> to add items
                     <!-- Add items you bought. -->
                   </li>
                 </template>
@@ -92,7 +92,7 @@
     <template v-else>
       <div class="ics-msgNoItem-main text-xs-center mt-5">
         No people are listed yet<br/>
-        Add people by pushing the "ADD PERSON" button above
+        Add people by <span class="green--text">pushing the "ADD PERSON" button</span> above
       </div>
     </template>
     

@@ -48,7 +48,7 @@
                   </v-card-text>
                   <v-card-text v-else class="ics-msgNoItems text-xs-center">
                     No people are selected yet<br/>
-                    Pusth the orange button to add people shared with
+                    <span class="orange--text">Push the orange button</span> to add people shared with
                     <!-- Add people shared with -->
                   </v-card-text>
                 </v-card>
@@ -80,7 +80,7 @@
       <div class="ics-msgNoItem-main text-xs-center mt-5">
         No items are listed yet<br/>
         <!-- Pusth a button on the right bottom to add people shared with -->
-        Add items by pushing the "ADD ITEM" button above
+        Add items by <span class="green--text">pushing the "ADD ITEM" button</span> above
       </div>
     </template>
     
