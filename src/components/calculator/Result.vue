@@ -237,7 +237,9 @@
     methods: {
       openDialogSettingTip (person) {
         this.person = person
-        this.tempTipRate = person.tip
+        if (person.tip) {
+          this.tempTipRate = person.tip  
+        }
         this.activeDialog = {type: 'settingTip', bool: true}
       },
       confirmTipRate () {
