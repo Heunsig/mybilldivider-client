@@ -259,6 +259,9 @@
       openDialogEditingItem (item) {
         this.item = item
         this.tempItem = clone(item)
+        if (!this.tempItem.price) {
+          this.tempItem.price = ''
+        }
         this.activeDialog = {type: 'editingItem', bool: true}
       },
       confirmToEditItem () {

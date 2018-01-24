@@ -296,6 +296,9 @@
         if (typeof item !== 'undefined') {
           this.dialogMode = 'edit'
           this.tempItem = clone(item)
+          if (!this.tempItem.price) {
+            this.tempItem.price = ''
+          }
         } else {
           this.dialogMode = 'add'
         }
