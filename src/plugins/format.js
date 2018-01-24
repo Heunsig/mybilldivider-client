@@ -5,6 +5,7 @@ const Format = {
   install (Vue, options) {
     Vue.prototype.$format = {
       money (num) {
+        // return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
         return num.toLocaleString()
         // return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
       },

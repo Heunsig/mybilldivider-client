@@ -9,7 +9,7 @@
               <li class="ics-customSubheader">
                 <div class="green--text">Sales Tax</div>
                 <div>
-                  <span class="orange--text">Push the orange button</span> on right bottom to set the sales tax.
+                  <span class="orange--text">Push the orange button</span> to set the sales tax.
                 </div>
               </li>
               <v-list-tile @click.native="openDialog">
@@ -64,18 +64,20 @@
                   :close-on-content-click="false"
                   v-model="isGetSalesTaxMenuActive"
                 >
-                  <v-btn slot="activator" class="elevation-3 ics-button-smaller" color="red lighten-1" small dark fab></v-btn>
+                  <v-btn slot="activator" class="elevation-3 ics-button-smaller" color="red lighten-1" small dark fab>C</v-btn>
                   <v-card>
                     <v-card-title>
-                      <p class="subheading mb-1">Get sales tax automatically</p>
-                      <div class="caption">This is function of calculating sales tax when you can't find sales tax. Input your bill's sub total and tax. 
+                      <p class="subheading mb-1">Calculate sales tax</p>
+                      <div class="caption">
+                        This will calculate your sales tax if you can't find it. Input the sub total and tax on your bill into the form.
+                        <!-- This is function of calculating sales tax when you can't find sales tax. Input your bill's sub total and tax.  -->
                         <v-menu>
                           <a href="#" slot="activator">See an example</a>
                           <v-card>
                             <div class="pa-1">
-                              <img src="http://icansplit.catchasoft.com/new/example_subtotalAndTax.gif" alt="An example of subtotal and tax"/>
-                              <!-- <img :src="images.imageExampleSubtotalAndTax" alt="An example of subtotal and tax"/> -->
-                              <div class="caption">This picture is an example</div>
+                              <!-- <img src="http://icansplit.catchasoft.com/new/example_subtotalAndTax.gif" alt="An example of subtotal and tax"/> -->
+                              <img :src="images.imageExampleSubtotalAndTax" alt="An example of subtotal and tax"/>
+                              <div class="caption grey--text text--darken-1">This picture is an example</div>
                             </div>
                           </v-card>
                         </v-menu>
@@ -115,10 +117,10 @@
                 <a href="#" slot="activator">See an example</a>
                 <v-card>
                   <div class="pa-1">
-                    <!-- <img :src="images.imageExampleSalesTax" alt="An example of sales tax rate"/> -->
-                    <img src="http://icansplit.catchasoft.com/new/example_salesTax.gif" alt="An example of sales tax rate"/>
+                    <img :src="images.imageExampleSalesTax" alt="An example of sales tax rate"/>
+                    <!-- <img src="http://icansplit.catchasoft.com/new/example_salesTax.gif" alt="An example of sales tax rate"/> -->
                     <!-- <img :src="img" alt=""> -->
-                    <div class="caption">This picture is an example</div>
+                    <div class="caption grey--text text--darken-1">This picture is an example</div>
                   </div>
                   <!-- <v-card-media src="http://icansplit.catchasoft.com/new/example_test.gif" height="106px"></v-card-media> -->
                 </v-card>

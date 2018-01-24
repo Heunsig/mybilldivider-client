@@ -5,10 +5,13 @@
       <v-layout row wrap class="mb-5">
         <v-flex xs12>
           <v-alert color="info" icon="info" dismissible v-model="alertInfo">
-            If you push the green button on left bottom on the screen, you can see amount of price.
+            <!-- If you push the green button on left bottom on the screen, you can see amount of price. -->
+            If you push the green button on the bottom left of the screen, you can see the sum of all people's prices.
           </v-alert>
-          <v-alert color="orange" icon="priority_high" dismissible v-model="alertWarning">
-            This price is rounded half up, so it may be little diffrent in some cents.
+          <v-alert color="orange darken-1" icon="priority_high" dismissible v-model="alertWarning">
+            <!-- This price is rounded half up, so it may be little diffrent in some cents. -->
+            <!-- This price has been rounded up. There are the nearest cent for the combined price. -->
+            These prices has been rounded, so It could be a little different.
           </v-alert>
         </v-flex>
         <template v-for="(person, i) in people">
@@ -34,7 +37,12 @@
                       <!-- <div class="stressedFont">Total $ {{ $format.money((subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person))).toFixed(2)) }}</div> -->
                       <div class="stressedFont">
                       <!-- Total $ {{ $format.money((subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person)))) }} -->
-                      Total: $ {{ $format.money(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }}
+                        <div>
+                          Total: $ {{ $format.money(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }}
+                        </div>
+                        <div class="caption grey--text text--darken-1">
+                          (Sub total + Tax + Tip)
+                        </div>
                       </div>
                     </v-list-tile-action>
                   </v-list-tile>
@@ -142,7 +150,8 @@
         <v-icon>close</v-icon>
       </v-btn>      
       <v-tooltip v-model="fab" right content-class="ics-combinedTotal-tooltip">
-        <span>This is combined price of all people</span>
+        <!-- <span>This is combined price of all people</span> -->
+        <span>This price is the sum of all people's prices.</span>
       </v-tooltip>
       
       <div class="text-xs-left ics-box-combinedTotal blue pa-2 ma-1 white--text">
