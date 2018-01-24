@@ -16,6 +16,13 @@ export default {
         this.windowPosition = this.$getPosition.scrollTop()
         this.openDialogForIphone(this.windowPosition)
 
+        // Execute autofocus if it is active
+        if (payload.autofocus) {
+          requestAnimationFrame(() => {
+            this.$refs[payload.autofocus].focus()
+          })
+        }
+
         this.dialogs[payload.type] = payload.bool
       } else {
         this.closeDialogForIphone(this.windowPosition)

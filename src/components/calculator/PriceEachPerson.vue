@@ -104,7 +104,8 @@
           Add a person who ordered items
         </v-card-title>
         <v-card-text>
-          <v-text-field 
+          <v-text-field
+            ref="personNameFormForAdding"
             label="Input name (Optional)"
             clearable
             hide-details
@@ -129,6 +130,7 @@
         </v-card-title>
         <v-card-text>
           <v-text-field 
+            ref="personNameFormForEditing"
             label="Input name"
             clearable
             hide-details
@@ -149,7 +151,7 @@
     <v-dialog v-model="dialogs.item" persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
-          <template v-if="dialogMode == 'add'">Add Item you bought</template>
+          <template v-if="dialogMode == 'add'">Add an item you bought</template>
           <template v-else>Edit the Item you bought</template>
         </v-card-title>
         <v-card-text>
@@ -164,6 +166,7 @@
             If you don't input the name, it'll be named randomly.
           </div>
           <v-text-field 
+            ref="itemPriceForm"
             label="Input price" 
             type="number" 
             clearable
@@ -245,7 +248,7 @@
         return this.$format.precisionRound(total, 2)
       },
       openDialogAddingPerson () {
-        this.activeDialog = {type: 'addingPerson', bool: true}
+        this.activeDialog = {type: 'addingPerson', bool: true, autofocus: 'personNameFormForAdding'}
       },
       closeDialogAddingPerson () {
         this.person = {}
@@ -262,7 +265,7 @@
       openDialogEditingPerson (person) {
         this.person = person
         this.tempPerson = clone(person)
-        this.activeDialog = {type: 'editingPerson', bool: true}
+        this.activeDialog = {type: 'editingPerson', bool: true, autofocus: 'personNameFormForEditing'}
       },
       closeDialogEditingPerson () {
         this.person = {}
@@ -305,7 +308,7 @@
 
         this.person = person
         this.item = item
-        this.activeDialog = {type: 'item', bool: true}
+        this.activeDialog = {type: 'item', bool: true, autofocus: 'itemPriceForm'}
       },
       closeDialogForItem () {
         this.dialogMode = 'add'

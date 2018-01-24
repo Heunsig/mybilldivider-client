@@ -48,7 +48,7 @@
       </v-layout>
     </v-container>
     
-    <v-dialog v-model="dialogs.setSalesTax" lazy persistent scrollable max-width="290">
+    <v-dialog v-model="dialogs.setSalesTax" persistent scrollable max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
           <v-container fluid class="pa-0">
@@ -174,6 +174,7 @@
             </v-card>
           </template> -->
           <v-text-field 
+            ref="salesTaxForm"
             label="Sales Tax Rate" 
             type="number" 
             clearable
@@ -243,6 +244,13 @@
       }
     },
     watch: {
+      dialogs: {
+        handler: (val) => {
+          // console.log('aa')
+          // console.log(val)
+        },
+        deep: true
+      }
       // calculatedSalesTax (value) {
       //   if (typeof value === 'number' && value !== Infinity && !isNaN(value)) {
       //     this.tempSalesTax = value
@@ -279,7 +287,7 @@
         if (this.salesTax) {
           this.tempSalesTax = this.salesTax
         }
-        this.activeDialog = {type: 'setSalesTax', bool: true}
+        this.activeDialog = {type: 'setSalesTax', bool: true, autofocus: 'salesTaxForm'}
       },
       closeDialog () {
         this.tempSalesTax = ''

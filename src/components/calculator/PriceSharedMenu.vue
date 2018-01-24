@@ -103,7 +103,8 @@
           <div class="ics-textField-detail">
             If you don't input the name, it'll go by the item number.
           </div>
-          <v-text-field 
+          <v-text-field
+            ref="itemPriceFormForAdding"
             label="Input price" 
             type="number"
             clearable
@@ -121,7 +122,7 @@
 
     <v-dialog v-model="dialogs.editingItem" persistent max-width="290">
       <v-card>
-        <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Edit the Item shared with others</v-card-title>
+        <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Edit the item shared with others</v-card-title>
         <v-card-text>
           <v-text-field 
             label="Item name" 
@@ -130,7 +131,8 @@
             prepend-icon="check"
             v-model="tempItem.name"
           ></v-text-field>      
-          <v-text-field 
+          <v-text-field
+            ref="itemPriceFormForEditing"
             label="Item price"
             type="number"
             clearable
@@ -247,7 +249,7 @@
     },
     methods: {
       openDialogAddingItem () {
-        this.activeDialog = {type: 'addingItem', bool: true}
+        this.activeDialog = {type: 'addingItem', bool: true, autofocus: 'itemPriceFormForAdding'}
       },
       confirmToAddItem () {
         this.$store.commit('addItemToMenu', {item: this.__modifyItemData(this.tempItem)})
@@ -262,7 +264,7 @@
         if (!this.tempItem.price) {
           this.tempItem.price = ''
         }
-        this.activeDialog = {type: 'editingItem', bool: true}
+        this.activeDialog = {type: 'editingItem', bool: true, autofocus: 'itemPriceFormForEditing'}
       },
       confirmToEditItem () {
         Object.assign(this.item, this.__modifyItemData(this.tempItem))

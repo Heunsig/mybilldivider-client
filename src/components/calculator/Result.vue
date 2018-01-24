@@ -228,6 +228,7 @@
         </v-card-title>
         <v-card-text>
           <v-text-field 
+            ref="tipRateForm"
             label="Input Tip Rate"
             type="number"
             clearable
@@ -281,7 +282,7 @@
         if (person.tip) {
           this.tempTipRate = person.tip
         }
-        this.activeDialog = {type: 'settingTip', bool: true}
+        this.activeDialog = {type: 'settingTip', bool: true, autofocus: 'tipRateForm'}
       },
       confirmTipRate () {
         this.person.tip = this.__modifyTipRate(this.tempTipRate)
