@@ -29,8 +29,8 @@
                   <v-list-tile avatar class="ics-dashedBorder">
                     <v-spacer></v-spacer>
                     <v-list-tile-action>
-                      <v-btn small flat color="warning" class="ics-tipButton" @click="openDialogSettingTip(person)">
-                        <v-icon left class="ics-tipIcon">local_atm</v-icon>Tip ({{ person.tip }} %)
+                      <v-btn small flat color="warning" class="mr-2" @click="openDialogSettingTip(person)">
+                        <v-icon left class="mr-0">local_atm</v-icon>Tip ({{ person.tip }} %)
                       </v-btn>
                     </v-list-tile-action>
                     <v-list-tile-action>
@@ -38,7 +38,8 @@
                       <div class="stressedFont">
                       <!-- Total $ {{ $format.money((subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person)))) }} -->
                         <div>
-                          Total: $ {{ $format.money(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }}
+                          <!-- Total: $ {{ $format.money(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }} -->
+                          Total: {{ $accounting.formatMoney(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }}
                         </div>
                         <div class="caption grey--text text--darken-1">
                           (Sub total + Tax + Tip)
@@ -58,7 +59,8 @@
                               <v-list-tile-title>Sub Total</v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                              $ {{ $format.money(subTotalPrice(person)) }}
+                              <!-- $ {{ $format.money(subTotalPrice(person)) }} -->
+                              {{ $accounting.formatMoney(subTotalPrice(person)) }}
                             </v-list-tile-action>
                           </v-list-tile>
                           <li class="ics-subTotalDetail" v-for="item in getItemList(person)">
@@ -67,7 +69,8 @@
                             </div>
                             <div class="ics-subTotalDetail-price">
                               <!-- $ {{ $format.money(item.price.toFixed(2)) }} -->
-                              $ {{ $format.money(item.price) }}
+                              <!-- $ {{ $format.money(item.price) }} -->
+                              {{ $accounting.formatMoney(item.price) }}
                             </div>
                           </li>
                           <v-list-tile class="mt-2">
@@ -77,7 +80,8 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                               <!-- + $ {{ $format.money(salesTaxPrice(subTotalPrice(person)).toFixed(2)) }} -->
-                              + $ {{ $format.money(salesTaxPrice(subTotalPrice(person))) }}
+                              <!-- + $ {{ $format.money(salesTaxPrice(subTotalPrice(person))) }} -->
+                              + {{ $accounting.formatMoney(salesTaxPrice(subTotalPrice(person))) }}
                             </v-list-tile-action>
                           </v-list-tile>
                           <v-list-tile class="mt-2">
@@ -85,7 +89,8 @@
                               <v-list-tile-title class="stressedFont">Sub Total + Tax</v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                              $ {{ $format.money(subTotalPrice(person) + salesTaxPrice(subTotalPrice(person))) }}
+                              <!-- $ {{ $format.money(subTotalPrice(person) + salesTaxPrice(subTotalPrice(person))) }} -->
+                              {{ $accounting.formatMoney(subTotalPrice(person) + salesTaxPrice(subTotalPrice(person))) }}
                             </v-list-tile-action>
                           </v-list-tile>
                           <v-list-tile class="mt-2">
@@ -95,7 +100,8 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                               <!-- + $ {{ $format.money(tipPrice(subTotalPrice(person), person.tip).toFixed(2)) }} -->
-                              + $ {{ $format.money(tipPrice(subTotalPrice(person), person.tip)) }}
+                              <!-- + $ {{ $format.money(tipPrice(subTotalPrice(person), person.tip)) }} -->
+                              + {{ $accounting.formatMoney(tipPrice(subTotalPrice(person), person.tip)) }}
                             </v-list-tile-action>
                           </v-list-tile>
                           <v-list-tile class="mt-2">
@@ -115,7 +121,8 @@
                                 {{ salesTaxPrice(subTotalPrice(person)) }} <br/>
                                 {{ subTotalPrice(person) + salesTaxPrice(subTotalPrice(person)) }} -->
                                 <!-- $ {{ $format.money(subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person))) }} -->
-                                $ {{ $format.money(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }}
+                                <!-- $ {{ $format.money(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }} -->
+                                {{ $accounting.formatMoney(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }}
                               </div>
                             </v-list-tile-action>
                           </v-list-tile>
@@ -156,23 +163,38 @@
       
       <div class="text-xs-left ics-box-combinedTotal blue pa-2 ma-1 white--text">
         <div class="ics-box-combinedTotal-title">Sub Total + Tax + Tip :</div> 
-        <div class="ics-box-combinedTotal-content pl-2">$ {{ $format.money(allSubTotalPrice() + allSalesTaxPrice() + allTipPrice()) }}</div>
+        <div class="ics-box-combinedTotal-content pl-2">
+          <!-- $ {{ $format.money(allSubTotalPrice() + allSalesTaxPrice() + allTipPrice()) }} -->
+          {{ $accounting.formatMoney(allSubTotalPrice() + allSalesTaxPrice() + allTipPrice()) }}
+        </div>
       </div>
       <div class="ics-box-combinedTotal light-green pa-2 ma-1 white--text">
         <div class="ics-box-combinedTotal-title caption">Tip : </div>
-        <div class="ics-box-combinedTotal-content pl-2 caption">$ {{ $format.money(allTipPrice()) }}</div>
+        <div class="ics-box-combinedTotal-content pl-2 caption">
+          <!-- $ {{ $format.money(allTipPrice()) }} -->
+          {{ $accounting.formatMoney(allTipPrice()) }}
+        </div>
       </div>
       <div class="ics-box-combinedTotal blue pa-2 ma-1 white--text">
         <div class="ics-box-combinedTotal-title">Sub Total + Tax : </div>
-        <div class="ics-box-combinedTotal-content pl-2">$ {{ $format.money(allSubTotalPrice() + allSalesTaxPrice()) }}</div>
+        <div class="ics-box-combinedTotal-content pl-2">
+          <!-- $ {{ $format.money(allSubTotalPrice() + allSalesTaxPrice()) }} -->
+          {{ $accounting.formatMoney(allSubTotalPrice() + allSalesTaxPrice()) }}
+        </div>
       </div>
       <div class="ics-box-combinedTotal light-green pa-2 ma-1 white--text">
         <div class="ics-box-combinedTotal-title caption">Tax : </div>
-        <div class="ics-box-combinedTotal-content pl-2 caption">$ {{ $format.money(allSalesTaxPrice()) }}</div>
+        <div class="ics-box-combinedTotal-content pl-2 caption">
+          <!-- $ {{ $format.money(allSalesTaxPrice()) }} -->
+          {{ $accounting.formatMoney(allSalesTaxPrice()) }}
+        </div>
       </div>
       <div class="ics-box-combinedTotal light-green pa-2 ma-1 white--text">
         <div class="ics-box-combinedTotal-title caption">Sub Total : </div>
-        <div class="ics-box-combinedTotal-content pl-2 caption">$ {{ $format.money(allSubTotalPrice()) }}</div>
+        <div class="ics-box-combinedTotal-content pl-2 caption">
+          <!-- $ {{ $format.money(allSubTotalPrice()) }} -->
+          {{ $accounting.formatMoney(allSubTotalPrice()) }}
+        </div>
       </div>
       <!-- <v-btn
         dark

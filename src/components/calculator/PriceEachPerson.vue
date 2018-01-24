@@ -48,7 +48,8 @@
                       <v-list-tile-title>{{ item.name }}</v-list-tile-title>
                     </v-list-tile-content>
                     <v-list-tile-action>
-                      $ {{ $format.money(item.price) }}
+                      <!-- $ {{ $format.money(item.price) }} -->
+                      {{ $accounting.formatMoney(item.price) }}
                     </v-list-tile-action>
                     <v-list-tile-action class="ics-listActions">
                       <v-btn icon small @click="openDialogForItem(person, item)">
@@ -68,7 +69,7 @@
               <v-card flat>
                 <v-card-text class="text-xs-right pt-1">
                   <!-- <span class="ics-totalPrice">Total: $ {{ $format.money(totalPriceWithoutSalesTax(person).toFixed(2)) }}</span> -->
-                  <span class="ics-totalPrice">Total: $ {{ $format.money(totalPriceWithoutSalesTax(person)) }}</span>
+                  <span class="ics-totalPrice">Total: {{ $accounting.formatMoney(totalPriceWithoutSalesTax(person)) }}</span>
                 </v-card-text>
               </v-card>
               <v-card-actions>
@@ -240,8 +241,8 @@
         person.menu.forEach(item => {
           total += item.price
         })
-
-        return total
+        console.log(this.$format.precisionRound(total, 2))
+        return this.$format.precisionRound(total, 2)
       },
       openDialogAddingPerson () {
         this.activeDialog = {type: 'addingPerson', bool: true}
@@ -348,7 +349,7 @@
 
         modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
         // modifiedData.price = parseFloat(modifiedData.price) || 0.00
-        modifiedData.price = parseFloat(modifiedData.price) || 0.00
+        modifiedData.price = this.$format.precisionRound(modifiedData.price, 2) || 0.00
 
         return modifiedData
       }

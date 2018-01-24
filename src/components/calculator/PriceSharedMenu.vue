@@ -22,7 +22,8 @@
                         {{ item.name }}
                       </v-list-tile-title>
                       <!-- <v-list-tile-sub-title>Total: $ {{ $format.money(item.price.toFixed(2)) }}</v-list-tile-sub-title> -->
-                      <v-list-tile-sub-title>Price: $ {{ $format.money(item.price) }}</v-list-tile-sub-title>
+                      <!-- <v-list-tile-sub-title>Price: $ {{ $format.money(item.price) }}</v-list-tile-sub-title> -->
+                      <v-list-tile-sub-title>Price: {{ $accounting.formatMoney(item.price) }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                     <v-list-tile-action class="ics-listActions">
                       <v-btn icon @click="openDialogEditingItem(item)">
@@ -55,7 +56,8 @@
                 <v-card flat v-if="item.people.length">
                   <v-card-text class="text-xs-right pt-1">
                     <!-- <span class="ics-totalPrice">Each person pay: $ {{ $format.money(dividedPrice(item).toFixed(2)) }}</span> -->
-                    <span class="ics-totalPrice">Each person pay: $ {{ $format.money(dividedPrice(item)) }}</span>
+                    <!-- <span class="ics-totalPrice">Each person pay: $ {{ $format.money(dividedPrice(item)) }}</span> -->
+                    <span class="ics-totalPrice">Each person pay: {{ $accounting.formatMoney(dividedPrice(item)) }}</span>
                   </v-card-text>
                 </v-card>
                 <v-card-actions>
@@ -318,7 +320,8 @@
 
         // modifiedData.name = modifiedData.name || 'Item ' + Math.floor(Math.random() * 100)
         modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
-        modifiedData.price = parseFloat(modifiedData.price) || 0.00
+        // modifiedData.price = parseFloat(modifiedData.price) || 0.00
+        modifiedData.price = this.$format.precisionRound(modifiedData.price, 2) || 0.00
         modifiedData.people = modifiedData.people || []
 
         return modifiedData
