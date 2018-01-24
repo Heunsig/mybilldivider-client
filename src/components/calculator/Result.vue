@@ -75,7 +75,7 @@
                           </li>
                           <v-list-tile class="mt-2">
                             <v-list-tile-content>
-                              <v-list-tile-title>Sales Tax</v-list-tile-title>
+                              <v-list-tile-title>Tax</v-list-tile-title>
                               <v-list-tile-sub-title>({{ salesTax }} %)</v-list-tile-sub-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
@@ -218,10 +218,10 @@
           <v-menu
             offset-y
           >
-            <v-btn slot="activator" class="ma-0 ml-1" dark small icon><v-icon>help</v-icon></v-btn>
-            <v-card color="blue" dark>
+            <v-btn slot="activator" class="ma-0 ml-1" dark small icon><v-icon>info</v-icon></v-btn>
+            <v-card>
               <v-card-text>
-                Tip is calculated with only Sub total
+                A tip is calculated at a price that doesn't include a tax
               </v-card-text>
             </v-card>
           </v-menu>
