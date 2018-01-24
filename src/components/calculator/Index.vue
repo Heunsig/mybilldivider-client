@@ -78,8 +78,8 @@
                           <a href="#" slot="activator">See an example</a>
                           <v-card>
                             <div class="pa-1">
-                              <img src="http://icansplit.catchasoft.com/new/example_subtotalAndTax.gif" alt="An example of subtotal and tax"/>
-                              <!-- <img :src="images.imageExampleSubtotalAndTax" alt="An example of subtotal and tax"/> -->
+                              <!-- <img src="http://icansplit.catchasoft.com/new/example_subtotalAndTax.gif" alt="An example of subtotal and tax"/> -->
+                              <img :src="images.imageExampleSubtotalAndTax" alt="An example of subtotal and tax"/>
                               <div class="caption grey--text text--darken-1">This picture is an example</div>
                             </div>
                           </v-card>
@@ -120,8 +120,8 @@
               <a href="#" slot="activator">See an example</a>
               <v-card>
                 <div class="pa-1">
-                  <!-- <img :src="images.imageExampleSalesTax" alt="An example of sales tax rate"/> -->
-                  <img src="http://icansplit.catchasoft.com/new/example_salesTax.gif" alt="An example of sales tax rate"/>
+                  <img :src="images.imageExampleSalesTax" alt="An example of sales tax rate"/>
+                  <!-- <img src="http://icansplit.catchasoft.com/new/example_salesTax.gif" alt="An example of sales tax rate"/> -->
                   <!-- <img :src="img" alt=""> -->
                   <div class="caption grey--text text--darken-1">This picture is an example</div>
                 </div>
@@ -197,10 +197,17 @@ import PriceSharedMenu from './PriceSharedMenu'
 import Result from './Result'
 import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
 
+import imageExampleSalesTax from '@/assets/example_salesTax.gif'
+import imageExampleSubtotalAndTax from '@/assets/example_subtotalAndTax.gif'
+
 export default {
   mixins: [fixingModalBugInIphone],
   data () {
     return {
+      images: {
+        imageExampleSalesTax,
+        imageExampleSubtotalAndTax
+      },
       isGetSalesTaxMenuActive: false,
       dialogs: {
         refreshPage: false,
