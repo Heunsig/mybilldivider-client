@@ -144,6 +144,7 @@ export default {
     confirmToRefreshAll () {
       this.$store.commit('refreshAll')
       this.activeDialog = {type: 'refreshAll', bool: false}
+      this.routerPush('main')
     }
   }
 }

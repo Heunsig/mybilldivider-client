@@ -241,7 +241,7 @@
         person.menu.forEach(item => {
           total += item.price
         })
-        console.log(this.$format.precisionRound(total, 2))
+
         return this.$format.precisionRound(total, 2)
       },
       openDialogAddingPerson () {
