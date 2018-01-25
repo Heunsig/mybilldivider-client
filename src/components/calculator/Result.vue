@@ -6,7 +6,7 @@
         <v-flex xs12>
           <v-alert color="info" icon="info" dismissible v-model="alertInfo">
             <!-- If you push the green button on left bottom on the screen, you can see amount of price. -->
-            If you push the green button on the bottom left of the screen, you can see the sum of all people's prices.
+            If you push the green button on the bottom left of the screen, you can see the sum of everybody's payments.
           </v-alert>
           <v-alert color="orange darken-1" icon="priority_high" dismissible v-model="alertWarning">
             <!-- This price is rounded half up, so it may be little diffrent in some cents. -->
@@ -158,7 +158,7 @@
       </v-btn>      
       <v-tooltip v-model="fab" right content-class="ics-combinedTotal-tooltip">
         <!-- <span>This is combined price of all people</span> -->
-        <span>This price is the sum of all people's prices.</span>
+        <span>This price is the sum of everybody's payments.</span>
       </v-tooltip>
       
       <div class="text-xs-left ics-box-combinedTotal blue pa-2 ma-1 white--text">
