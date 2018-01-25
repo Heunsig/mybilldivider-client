@@ -6,7 +6,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     salesTax: 0,
-    people: [],
+    people: [
+      {
+        name: 'David',
+        tip: 0,
+        menu: [
+          {
+            name: 'Cheese Pizza',
+            price: 0
+          }
+        ]
+      }
+    ],
     menu: []
     // bodyElement: '',
     // savedScrollPosition: ''
