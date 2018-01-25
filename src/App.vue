@@ -52,9 +52,9 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app fixed flat dense color="green" dark class="ics-toolbar">
+    <v-toolbar app fixed flat dense :class="isExample ? 'blue':'green'" dark class="ics-toolbar">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title><span v-if="!isMain">My Bill Divider</span></v-toolbar-title>
+      <v-toolbar-title><span v-if="!isMain">My Bill Divider<span v-if="isExample" class="body-2">&nbsp;(Example)</span></span></v-toolbar-title>
     </v-toolbar>
     <v-content class="grey lighten-4">
       <router-view></router-view>
@@ -95,6 +95,11 @@ export default {
           icon: 'home'
         },
         {
+          label: 'Example',
+          name: 'example',
+          icon: 'help'
+        },
+        {
           label: 'Calculator',
           name: 'calculator',
           icon: 'star'
@@ -104,12 +109,6 @@ export default {
           name: 'aboutMe',
           icon: 'info'
         }
-        // {
-        //   label: 'Refresh',
-        //   name: 'refresh',
-        //   icon: 'refresh',
-        //   dialog: 'refreshAll'
-        // }
       ],
       navForFunction: [
         {
@@ -127,6 +126,13 @@ export default {
   computed: {
     isMain () {
       if (eventBus.currentRoute.name === 'main') {
+        return true
+      } else {
+        return false
+      }
+    },
+    isExample () {
+      if (eventBus.currentRoute.name === 'example') {
         return true
       } else {
         return false

@@ -12,6 +12,7 @@ import Accounting from './plugins/accounting.js'
 
 // index.js or main.js
 import 'vuetify/dist/vuetify.min.css'
+// import 'swiper/dist/css/swiper.css'
 
 import eventBus from './event-bus'
 
