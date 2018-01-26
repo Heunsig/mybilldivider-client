@@ -135,7 +135,7 @@ export default {
           <span class='ics-msg-closeDialog ics-font-roboto blue--text'>Finish the tutorial. Push the blue button on the bottom right to go to the app.</span>`
         ]
       },
-      dialog: false,
+      dialog: true,
       progressButtonLast: false,
       active: null,
       tabs: [
