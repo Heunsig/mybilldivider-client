@@ -1,25 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import example from './modules/example'
+import tutorial from './modules/tutorial'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     salesTax: 0,
-    people: [
-      {
-        name: 'David',
-        tip: 0,
-        menu: [
-          {
-            name: 'Cheese Pizza',
-            price: 0
-          }
-        ]
-      }
-    ],
+    people: [],
     menu: []
     // bodyElement: '',
     // savedScrollPosition: ''
@@ -113,6 +102,6 @@ export default new Vuex.Store({
     }
   },
   modules: {
-    example
+    tutorial
   }
 })

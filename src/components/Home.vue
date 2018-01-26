@@ -33,6 +33,9 @@
       </v-flex>
       <v-flex xs12>
         <div class="text-xs-center mt-5 pt-4">
+          <v-btn color="yellow" outline dark @click="routerPush('tutorial')">
+            Start Tutorial
+          </v-btn>
           <v-btn dark outline @click="routerPush('calculator')">
             Start Calculating
           </v-btn>

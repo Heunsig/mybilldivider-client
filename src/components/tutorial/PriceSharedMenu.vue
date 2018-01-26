@@ -108,7 +108,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingItem">Cancel</v-btn>
-          <v-btn color="light-blue" flat block @click.native="snackbar = true">Confirm</v-btn>
+          <v-btn color="light-blue" flat block @click.native="confirmToAddItem">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -136,7 +136,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogEditingItem">Cancel</v-btn>
-          <v-btn color="light-blue" flat block @click.native="snackbar = true">Confirm</v-btn>
+          <v-btn color="light-blue" flat block @click.native="confirmToEditItem">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -176,8 +176,7 @@
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="grey darken-2" flat block @click.native="activeDialog = {type: 'editingPeopleList', bool: false}">Cancel</v-btn>
-          <v-btn color="light-blue" flat block @click.native="snackbar = true">Confirm</v-btn>
+          <v-btn color="light-blue" flat block @click.native="confirmToEditPeopleList">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -189,20 +188,11 @@
         </v-card-title>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogDeletingItem">Cancel</v-btn>
-          <v-btn color="red darken-1" flat block @click.native="snackbar = true">Confirm</v-btn>
+          <v-btn color="red darken-1" flat block @click.native="confirmToDeleteItem">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-    <v-snackbar
-      :timeout="2000"
-      bottom
-      color="error"
-      v-model="snackbar"
-    >
-      You can't proceed in example mode
-    </v-snackbar>
-  </div>
+    </div>
 </template>
 <script>
   import clone from 'lodash.clone'
@@ -212,7 +202,6 @@
     mixins: [fixingModalBugInIphone],
     data () {
       return {
-        snackbar: false,
         dialogs: {
           addingItem: false,
           editingPeopleList: false,
@@ -234,10 +223,10 @@
     },
     computed: {
       menu () {
-        return this.$store.getters['example/getMenu']
+        return this.$store.getters['tutorial/getMenu']
       },
       people () {
-        return this.$store.getters['example/getPeople']
+        return this.$store.getters['tutorial/getPeople']
       }
     },
     methods: {
@@ -278,6 +267,37 @@
       },
       dividedPrice (item) {
         return this.$format.precisionRound((item.price / (item.people.length || 1)), 2)
+      },
+      confirmToAddItem () {
+        this.$store.commit('tutorial/addItemToMenu', {item: this.__modifyItemData(this.tempItem)})
+
+        this.__resetItemData()
+        this.activeDialog = {type: 'addingItem', bool: false}
+      },
+      confirmToEditItem () {
+        Object.assign(this.item, this.__modifyItemData(this.tempItem))
+
+        this.__resetItemData()
+        this.activeDialog = {type: 'editingItem', bool: false}
+      },
+      confirmToEditPeopleList () {
+        this.__resetItemData()
+        this.activeDialog = {type: 'editingPeopleList', bool: false}
+      },
+      confirmToDeleteItem () {
+        this.$store.commit('tutorial/deleteItemFromMenu', {item: this.item})
+
+        this.__resetItemData()
+        this.activeDialog = {type: 'deletingItem', bool: false}
+      },
+      __modifyItemData (pureData) {
+        let modifiedData = clone(pureData)
+
+        modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
+        modifiedData.price = this.$format.precisionRound(modifiedData.price, 2) || 0.00
+        modifiedData.people = modifiedData.people || []
+
+        return modifiedData
       }
     }
   }

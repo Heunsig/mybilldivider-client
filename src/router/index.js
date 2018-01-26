@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Home from '@/components/Home'
-import Example from '@/components/example'
+import Tutorial from '@/components/tutorial'
 import Calculator from '@/components/calculator'
 import AboutMe from '@/components/AboutMe'
 
@@ -17,9 +17,9 @@ export default new Router({
       name: 'main'
     },
     {
-      path: '/example',
-      component: Example,
-      name: 'example'
+      path: '/tutorial',
+      component: Tutorial,
+      name: 'tutorial'
     },
     {
       path: '/calculator',

@@ -194,19 +194,11 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialog">Cancel</v-btn>
-          <v-btn color="orange" flat block @click.native="snackbar = true">Confirm</v-btn>
+          <v-btn color="orange" flat block @click.native="confirmTipRate">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-snackbar
-      :timeout="2000"
-      bottom
-      color="error"
-      v-model="snackbar"
-    >
-      You can't proceed in example mode
-    </v-snackbar>
   </div>
 </template>
 <script>
@@ -216,7 +208,6 @@
     mixins: [fixingModalBugInIphone],
     data () {
       return {
-        snackbar: false,
         tooltip: true,
         fab: false,
         person: {},
@@ -229,13 +220,13 @@
     },
     computed: {
       people () {
-        return this.$store.getters['example/getPeople']
+        return this.$store.getters['tutorial/getPeople']
       },
       menu () {
-        return this.$store.getters['example/getMenu']
+        return this.$store.getters['tutorial/getMenu']
       },
       salesTax () {
-        return this.$store.getters['example/getSalesTax']
+        return this.$store.getters['tutorial/getSalesTax']
       }
     },
     methods: {
@@ -320,6 +311,20 @@
         })
 
         return list
+      },
+      confirmTipRate () {
+        this.person.tip = this.__modifyTipRate(this.tempTipRate)
+
+        this.person = {}
+        this.tempTipRate = ''
+        this.activeDialog = {type: 'settingTip', bool: false}
+      },
+      __modifyTipRate (pureData) {
+        let modifedData = pureData
+
+        modifedData = parseFloat(modifedData) || 0
+
+        return modifedData
       }
     }
   }

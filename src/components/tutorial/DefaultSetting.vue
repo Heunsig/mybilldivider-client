@@ -113,19 +113,11 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" block flat @click.native="closeDialog">Cancel</v-btn>
-          <v-btn color="light-blue" block flat @click.native="snackbar = true">Confirm</v-btn>
+          <v-btn color="light-blue" block flat @click.native="confirmSalesTax">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-snackbar
-      :timeout="2000"
-      bottom
-      color="error"
-      v-model="snackbar"
-    >
-      You can't proceed in example mode
-    </v-snackbar>
   </div>
 </template>
 <script>
@@ -137,7 +129,6 @@
     mixins: [fixingModalBugInIphone],
     data () {
       return {
-        snackbar: false,
         isGetSalesTaxMenuActive: false,
         dialogs: {
           setSalesTax: false
@@ -154,7 +145,7 @@
     },
     computed: {
       salesTax () {
-        return this.$store.getters['example/getSalesTax']
+        return this.$store.getters['tutorial/getSalesTax']
       }
     },
     methods: {
@@ -180,6 +171,14 @@
         this.activeDialog = {type: 'setSalesTax', bool: true, autofocus: 'salesTaxForm'}
       },
       closeDialog () {
+        this.tempSalesTax = ''
+        this.priceOfTax = ''
+        this.priceOfSubTotal = ''
+        this.isSalesTaxCalculatorActive = false
+        this.activeDialog = {type: 'setSalesTax', bool: false}
+      },
+      confirmSalesTax () {
+        this.$store.commit('tutorial/setSalesTaxRate', this.tempSalesTax)
         this.tempSalesTax = ''
         this.priceOfTax = ''
         this.priceOfSubTotal = ''

@@ -31,7 +31,7 @@
     <v-dialog v-model="dialog" persistent scrollable max-width="290">
       <v-card>  
         <v-toolbar color="blue" dark dense flat>
-          <v-toolbar-title>Situation</v-toolbar-title>
+          <v-toolbar-title>Tutorial</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn icon @click="dialog = false">
             <v-icon>close</v-icon>
@@ -103,27 +103,36 @@ export default {
       currentScript: null,
       scripts: {
         setting: [
+          `<div class="ics-font-roboto">
+             <h6 class="pb-1">My Bill Divider absolutely helps you.</h6> 
+             <div class="body-1">
+                <p>This app has made for splitting the bill easy after eating with friends. If you input your some information into forms given, you can get a result about how much each person pay for foods.</p>
+                <p>I've made a situation that you usually face it in real, so you might easily understand how to use the app if you follow the tutorial process.</p> 
+                Click the Next button.
+             </div>
+           </div>
+           `,
           `David, Michael, Mary and Rose have spent lovely time with fabulous food in the restaurant.
            "May I have a bill, please?" Mary said after eating dinner. When we took the bill, we encountered an
-          annoying situation.`,
+          annoying situation.</div></div>`,
           `We couldn't split the bill because we ordered different foods each person. "How should we break the bill?" Michael said.
-          "I have no idea" Rose said. "Don't worry. I can do it." David said, and he took his cellphone out. he connected My Bill Divider`,
+          "I have no idea" Rose said. "Don't worry. I can do it." David said, and he took his cellphone out. he connected to My Bill Divider`,
           `"Okey. First, we should set the sales tax. We can find it on our receipt. If not, we can use the sales tax calculator that you could see on the dialog. Here, LA is 9.5% sales tax."<br/>
-          <span class='ics-msg-closeDialog blue--text'>Look around this tab after close this dialog. If you finish, go to the next tab.</span>`
+          <span class='ics-msg-closeDialog ics-font-roboto blue--text'>Look around the tab after close this dialog. If you finish, go to the next tab.</span>`
         ],
         eachPerson: [
           `"Second, we should input what we've eaten each person. I've eaten a Double cheese burger and French fries. Michael is a Cheese burger and a soda.
           Mary is a Hot dog and a soda. Rose is a Sandwich and a cup of coffee."<br/>
-          <span class='ics-msg-closeDialog blue--text'>Look around this tab after close this dialog.</span>`
+          <span class='ics-msg-closeDialog ics-font-roboto blue--text'>Look around this tab after close this dialog.</span>`
         ],
         sharedItem: [
           `"Third, we together have eaten a Pepperoni pizza, and Michael and I have eaten a Salmon salad as well, so we should input also these foods. The app is going to automatically split prices."<br/>
-          <span class='ics-msg-closeDialog blue--text'>Look around this tab after close this dialog.</span>`
+          <span class='ics-msg-closeDialog ics-font-roboto blue--text'>Look around this tab after close this dialog.</span>`
         ],
         result: [
-          `"Finally, we've gotten a result how much each person has to pay. Oh! I forgot to set the tip rate. I like this place, so I'll give 20% tip. Here we are. We can see total payments, "`,
+          `"Finally, we've gotten a result how much each person has to pay. Oh! I forgot to set the tip rate. I like this place, so I'll give 25% tip. Here we are. We can see total payments, "`,
           `details, and If you push the green button on the bottom left of the screen, you can see the sum of everybody's payments.<br/>
-          <span class='ics-msg-closeDialog blue--text'>Finish the tutorial. Push the blue button on the bottom right to go to the app.</span>`
+          <span class='ics-msg-closeDialog ics-font-roboto blue--text'>Finish the tutorial. Push the blue button on the bottom right to go to the app.</span>`
         ]
       },
       dialog: false,
@@ -260,5 +269,8 @@ export default {
 .ics-font-patrick-hand {
   font-family: 'Patrick Hand', cursive;
 }
-.ics-msg-closeDialog {font-size:15px; font-family: 'Roboto', sans-serif;}
+.ics-font-roboto {
+  font-family: 'Roboto', sans-serif;
+}
+.ics-msg-closeDialog {font-size:15px;}
 </style>

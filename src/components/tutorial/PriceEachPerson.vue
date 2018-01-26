@@ -114,7 +114,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingPerson">Cancel</v-btn>
-          <v-btn color="light-blue" flat block @click.native="snackbar = true">Confirm</v-btn>
+          <v-btn color="light-blue" flat block @click.native="confirmToAddPerson">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -139,7 +139,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogEditingPerson">Cancel</v-btn>
-          <v-btn color="light-blue" flat block @click.native="snackbar = true">Confirm</v-btn>
+          <v-btn color="light-blue" flat block @click.native="confirmToEditPerson">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -174,11 +174,11 @@
         <v-card-actions>
           <template v-if="dialogMode == 'add'">
             <v-btn color="grey darken-2" flat block @click.native="closeDialogForItem">Cancel</v-btn>
-            <v-btn color="light-blue" flat block @click.native="snackbar = true">Confirm</v-btn>
+            <v-btn color="light-blue" flat block @click.native="confirmToAddItem">Confirm</v-btn>
           </template>
           <template  v-else> 
             <v-btn color="grey darken-2" flat block @click.native="closeDialogForItem">Cancel</v-btn>
-            <v-btn color="light-blue" flat block @click.native="snackbar = true">Confirm</v-btn>
+            <v-btn color="light-blue" flat block @click.native="confirmToEditItem">Confirm</v-btn>
           </template>
         </v-card-actions>
       </v-card>
@@ -191,19 +191,11 @@
         </v-card-title>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogDeletingPerson">Cancel</v-btn>
-          <v-btn color="red darken-1" flat block @click.native="snackbar = true">Confirm</v-btn>
+          <v-btn color="red darken-1" flat block @click.native="confirmToDeletePerson">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-snackbar
-      :timeout="2000"
-      bottom
-      color="error"
-      v-model="snackbar"
-    >
-      You can't proceed in example mode
-    </v-snackbar>
   </div>
   <!-- /Section for dialog -->
 </template>
@@ -215,7 +207,6 @@
     mixins: [fixingModalBugInIphone],
     data () {
       return {
-        snackbar: false,
         dialogs: {
           addingPerson: false,
           editingPerson: false,
@@ -233,12 +224,14 @@
         tempItem: {
           name: '',
           price: ''
-        }
+        },
+        orderForPerson: 0,
+        orderForItem: 0
       }
     },
     computed: {
       people () {
-        return this.$store.getters['example/getPeople']
+        return this.$store.getters['tutorial/getPeople']
       }
     },
     methods: {
@@ -300,6 +293,61 @@
         this.item = {}
         this.tempItem = {name: '', price: ''}
         this.activeDialog = {type: 'item', bool: false}
+      },
+      confirmToAddPerson () {
+        this.$store.commit('tutorial/addPerson', {person: this.__modifyPersonData(this.tempPerson)})
+
+        this.person = {}
+        this.tempPerson = { name: '', tip: '', menu: [] }
+        this.activeDialog = {type: 'addingPerson', bool: false}
+      },
+      confirmToEditPerson () {
+        Object.assign(this.person, this.__modifyPersonData(this.tempPerson))
+
+        this.person = {}
+        this.tempPerson = {name: '', tip: '', menu: []}
+        this.activeDialog = {type: 'editingPerson', bool: false}
+      },
+      confirmToAddItem () {
+        this.$store.commit('tutorial/addItemToPerson', {person: this.person, item: this.__modifyItemData(this.tempItem)})
+
+        this.person = {}
+        this.item = {}
+        this.tempItem = {name: '', price: ''}
+        this.activeDialog = {type: 'item', bool: false}
+      },
+      confirmToEditItem () {
+        Object.assign(this.item, this.__modifyItemData(this.tempItem))
+
+        this.person = {}
+        this.item = {}
+        this.tempItem = {name: '', price: ''}
+        this.activeDialog = {type: 'item', bool: false}
+      },
+      confirmToDeletePerson () {
+        this.$store.commit('tutorial/deletePersonFromPeople', {person: this.person})
+
+        this.person = {}
+        this.tempPerson = {name: '', tip: '', menu: []}
+        this.activeDialog = {type: 'deletingPerson', bool: false}
+      },
+      __modifyPersonData (pureData) {
+        let modifiedData = clone(pureData)
+
+        modifiedData.name = modifiedData.name || 'Person ' + this.orderForPerson++
+        modifiedData.tip = modifiedData.tip || 0
+        modifiedData.menu = modifiedData.menu || []
+
+        return modifiedData
+      },
+      __modifyItemData (pureData) {
+        let modifiedData = clone(pureData)
+
+        modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
+        // modifiedData.price = parseFloat(modifiedData.price) || 0.00
+        modifiedData.price = this.$format.precisionRound(modifiedData.price, 2) || 0.00
+
+        return modifiedData
       }
     }
   }
