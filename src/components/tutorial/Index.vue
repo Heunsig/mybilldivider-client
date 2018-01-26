@@ -106,7 +106,7 @@ export default {
           `<div class="ics-font-roboto">
              <h6 class="pb-1">My Bill Divider absolutely helps you.</h6> 
              <div class="body-1">
-                <p>This app has made for splitting the bill easy after eating with friends. If you input your some information into forms given, you can get a result about how much each person pay for foods.</p>
+                <p>This app has been made for splitting the bill easy after eating with friends. If you input your some information into forms given, you can get a result about how much each person pay for foods.</p>
                 <p>I've made a situation that you usually face it in real, so you might easily understand how to use the app if you follow the tutorial process.</p> 
                 Click the Next button.
              </div>
