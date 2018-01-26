@@ -176,6 +176,7 @@
           </v-container>
         </v-card-text>
         <v-card-actions>
+          <v-btn color="grey darken-2" flat block @click.native="activeDialog = {type: 'editingPeopleList', bool: false}">Cancel</v-btn>
           <v-btn color="light-blue" flat block @click.native="snackbar = true">Confirm</v-btn>
         </v-card-actions>
       </v-card>

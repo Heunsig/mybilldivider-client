@@ -54,7 +54,7 @@
     </v-navigation-drawer>
     <v-toolbar app fixed flat dense :class="isExample ? 'blue':'green'" dark class="ics-toolbar">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title><span v-if="!isMain">My Bill Divider<span v-if="isExample" class="body-2">&nbsp;(Example)</span></span></v-toolbar-title>
+      <v-toolbar-title><span v-if="!isMain">My Bill Divider<span v-if="isExample" class="body-2">&nbsp;(Tutorial)</span></span></v-toolbar-title>
     </v-toolbar>
     <v-content class="grey lighten-4">
       <router-view></router-view>

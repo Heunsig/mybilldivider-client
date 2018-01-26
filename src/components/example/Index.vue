@@ -28,17 +28,27 @@
       </v-tabs-items>
     </v-tabs>
     
-    <v-dialog v-model="dialog" persistent max-width="290">
-      <v-toolbar color="blue" dark dense>
-        <v-toolbar-title>Situation</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn icon @click="dialog = false">
-          <v-icon>close</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <v-card>
+    <v-dialog v-model="dialog" persistent scrollable max-width="290">
+      <v-card>  
+        <v-toolbar color="blue" dark dense flat>
+          <v-toolbar-title>Situation</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="dialog = false">
+            <v-icon>close</v-icon>
+          </v-btn>
+        </v-toolbar>
         <v-card-text>
+          <swiper :options="swiperOption" style="font-size:22px;">
+            <swiper-slide v-for="content in scripts[currentScript]" :key="content" v-html="content" class="ics-font-patrick-hand"></swiper-slide>
+          </swiper>
+          <div class="text-xs-right">
+            <v-btn flat class="pa-0 ma-0 ics-swiper-button-next ics-font-patrick-hand" style="font-size:20px;">Next</v-btn>
+          </div>
         </v-card-text>
+        <v-card-actions class="pa-0 pb-3 pr-3">
+          <v-spacer></v-spacer>
+          <div class="ics-swiper-pagination"></div>
+        </v-card-actions>
       </v-card>
     </v-dialog>
 
@@ -61,10 +71,10 @@
       fixed
       bottom
       right
-      @click.native="next"
+      @click.native="routerPush('calculator')"
       v-else
     >
-      <v-icon>close</v-icon>
+      <v-icon>grade</v-icon>
     </v-btn>
   </div>
 </template>
@@ -82,11 +92,41 @@ export default {
   data () {
     return {
       swiperOption: {
+        navigation: {
+          nextEl: '.ics-swiper-button-next'
+        },
         pagination: {
-          el: '.swiper-pagination'
+          el: '.ics-swiper-pagination',
+          clickable: true
         }
       },
-      dialog: true,
+      currentScript: null,
+      scripts: {
+        setting: [
+          `David, Michael, Mary and Rose have spent lovely time with fabulous food in the restaurant.
+           "May I have a bill, please?" Mary said after eating dinner. When we took the bill, we encountered an
+          annoying situation.`,
+          `We couldn't split the bill because we ordered different foods each person. "How should we break the bill?" Michael said.
+          "I have no idea" Rose said. "Don't worry. I can do it." David said, and he took his cellphone out. he connected My Bill Divider`,
+          `"Okey. First, we should set the sales tax. We can find it on our receipt. If not, we can use the sales tax calculator that you could see on the dialog. Here, LA is 9.5% sales tax."<br/>
+          <span class='ics-msg-closeDialog blue--text'>Look around this tab after close this dialog. If you finish, go to the next tab.</span>`
+        ],
+        eachPerson: [
+          `"Second, we should input what we've eaten each person. I've eaten a Double cheese burger and French fries. Michael is a Cheese burger and a soda.
+          Mary is a Hot dog and a soda. Rose is a Sandwich and a cup of coffee."<br/>
+          <span class='ics-msg-closeDialog blue--text'>Look around this tab after close this dialog.</span>`
+        ],
+        sharedItem: [
+          `"Third, we together have eaten a Pepperoni pizza, and Michael and I have eaten a Salmon salad as well, so we should input also these foods. The app is going to automatically split prices."<br/>
+          <span class='ics-msg-closeDialog blue--text'>Look around this tab after close this dialog.</span>`
+        ],
+        result: [
+          `"Finally, we've gotten a result how much each person has to pay. Oh! I forgot to set the tip rate. I like this place, so I'll give 20% tip. Here we are. We can see total payments, "`,
+          `details, and If you push the green button on the bottom left of the screen, you can see the sum of everybody's payments.<br/>
+          <span class='ics-msg-closeDialog blue--text'>Finish the tutorial. Push the blue button on the bottom right to go to the app.</span>`
+        ]
+      },
+      dialog: false,
       progressButtonLast: false,
       active: null,
       tabs: [
@@ -146,6 +186,12 @@ export default {
       } else {
         this.progressButtonLast = false
       }
+
+      this.dialog = true
+      this.currentScript = id
+    },
+    routerPush (name) {
+      this.$router.push({name: name})
     }
   }
 }
@@ -187,4 +233,32 @@ export default {
   font-size: 14px;
 }
 
+.swiper-pagination{
+  position: relative!important;
+  bottom: auto!important;
+}
+
+.swiper-button-next{
+  top: auto!important;
+  width: auto!important;
+  bottom: 10px!important;
+  background:none!important;
+}
+
+</style>
+<style>
+.swiper-wrapper {}
+
+.swiper-pagination-bullet{
+  margin:3px;
+}
+
+.swiper-button-disabled {
+  color:#b1b1b1!important;
+}
+
+.ics-font-patrick-hand {
+  font-family: 'Patrick Hand', cursive;
+}
+.ics-msg-closeDialog {font-size:15px; font-family: 'Roboto', sans-serif;}
 </style>
