@@ -8,7 +8,8 @@ import Vuetify from 'vuetify'
 import Format from './plugins/format'
 import GetPosition from './plugins/get-position'
 import VueClipboard from 'vue-clipboard2'
-import Accounting from './plugins/accounting.js'
+import Accounting from './plugins/accounting'
+import VueAnalytics from 'vue-analytics'
 
 // index.js or main.js
 import 'vuetify/dist/vuetify.min.css'
@@ -23,6 +24,11 @@ Vue.use(VueClipboard)
 Vue.use(Format)
 Vue.use(GetPosition)
 Vue.use(Accounting)
+
+Vue.use(VueAnalytics, {
+  id: 'UA-113181415-1',
+  router
+})
 
 // Formatting number - old
 // Vue.prototype.$formatNumber = (num) => {
