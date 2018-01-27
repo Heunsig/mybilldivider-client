@@ -3,42 +3,28 @@
     <v-layout row wrap>
       <v-flex xs12>
         <div class="text-xs-center mt-3">
-          <!-- <img src="http://icansplit.catchasoft.com/new/logo_new.png" alt="My bill divider"/> -->
           <h1 class="white--text ics-main-title">My Bill Divider</h1>
         </div>
       </v-flex>
       <v-flex xs12>
         <v-card flat class="transparent mt-3">
           <v-card-text class="text-xs-center">
-            <!-- <ul class="ics-explanation">
-              <li>
-                <div class="ics-explanation-order">1</div>
-                <div class="ics-explanation-content">Set sales tax rate</div>
-              </li>
-              <li>
-                <div class="ics-explanation-order">2</div>
-                <div class="ics-explanation-content">Add people and items</div>
-              </li>
-              <li>
-                <div class="ics-explanation-order">3</div>
-                <div class="ics-explanation-content">Add shared items</div>
-              </li>
-              <li>
-                Get a result
-              </li>
-            </ul> -->
             <p class="white--text ics-sub-title">It's the easiest way to split the bill</p>
           </v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12>
-        <div class="text-xs-center mt-5 pt-4">
-          <v-btn color="yellow" outline dark @click="routerPush('tutorial')">
-            Start Tutorial
-          </v-btn>
-          <v-btn dark outline @click="routerPush('calculator')">
-            Start Calculating
-          </v-btn>
+        <div class="text-xs-center mt-5 pt-5">
+          <div>
+            <v-btn color="yellow" outline dark @click="routerPush('tutorial')">
+              Start Tutorial
+            </v-btn>
+          </div>
+          <div>
+            <v-btn dark outline @click="routerPush('calculator')">
+              Start Calculating
+            </v-btn>
+          </div>
         </div>
       </v-flex>
     </v-layout>
