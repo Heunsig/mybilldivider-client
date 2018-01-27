@@ -26,7 +26,7 @@ Vue.use(GetPosition)
 Vue.use(Accounting)
 
 Vue.use(VueAnalytics, {
-  id: 'UA-113181415-1',
+  id: ['UA-113181415-1', 'UA-112759985-1'],
   router
 })
 
