@@ -19,8 +19,6 @@
         </v-list-tile>
       </v-list>
       <v-list class="pt-0">
-        <!-- <v-subheader>Navigation Menu</v-subheader> -->
-        <!-- <v-divider light></v-divider> -->
         <template v-for="item in nav">
           <v-list-tile :key="item.label" @click="routerPush(item.router)">
             <v-list-tile-action>
@@ -29,11 +27,6 @@
             <v-list-tile-content>
               <v-list-tile-title>{{ item.label }}</v-list-tile-title>
             </v-list-tile-content>
-            <!-- <v-list-tile-action>
-              <v-btn icon @click.stop="drawer = !drawer">
-                <v-icon>chevron_left</v-icon>
-              </v-btn>
-            </v-list-tile-action> -->
           </v-list-tile>
         </template>
       </v-list>
@@ -159,7 +152,7 @@ export default {
     confirmToRefreshAll () {
       this.$store.commit('refreshAll')
       this.activeDialog = {type: 'refreshAll', bool: false}
-      this.routerPush('main')
+      this.routerPush({name: 'main'})
     }
   }
 }

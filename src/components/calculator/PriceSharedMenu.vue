@@ -114,25 +114,25 @@
           ></v-text-field>
           <v-container class="pa-0 pt-2">
             <v-layout row warp>
-              <v-flex offset-xs5 xs1 class="mr-2">
+              <v-flex offset-xs4 xs1 class="mr-2">
                 <v-menu
                   offset-y
                 >
                   <v-btn slot="activator" class="ma-0" small icon><v-icon color="grey">info</v-icon></v-btn>
                   <v-card>
                     <v-card-text>
-                      A tip is calculated at a price that doesn't include a tax
+                      Select this item is taxable or non-taxable
                     </v-card-text>
                   </v-card>
                 </v-menu>
               </v-flex>
-              <v-flex xs6>
-                <v-checkbox
+              <v-flex xs7>
+                <v-switch
                   :label="tempItem.taxable ? 'Taxable':'Non-taxable'"
                   v-model="tempItem.taxable"
                   color="orange"
                   hide-details>
-                </v-checkbox>
+                </v-switch>
               </v-flex>
             </v-layout>
           </v-container>    
@@ -166,25 +166,25 @@
           ></v-text-field>
           <v-container class="pa-0 pt-2">
             <v-layout row warp>
-              <v-flex offset-xs5 xs1 class="mr-2">
+              <v-flex offset-xs4 xs1 class="mr-2">
                 <v-menu
                   offset-y
                 >
                   <v-btn slot="activator" class="ma-0" small icon><v-icon color="grey">info</v-icon></v-btn>
                   <v-card>
                     <v-card-text>
-                      A tip is calculated at a price that doesn't include a tax
+                      Select this item is taxable or non-taxable
                     </v-card-text>
                   </v-card>
                 </v-menu>
               </v-flex>
-              <v-flex xs6>
-                <v-checkbox
+              <v-flex xs7>
+                <v-switch
                   :label="tempItem.taxable ? 'Taxable':'Non-taxable'"
                   v-model="tempItem.taxable"
                   color="orange"
                   hide-details>
-                </v-checkbox>
+                </v-switch>
               </v-flex>
             </v-layout>
           </v-container>

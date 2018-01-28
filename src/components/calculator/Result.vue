@@ -5,12 +5,9 @@
       <v-layout row wrap class="mb-5">
         <v-flex xs12>
           <v-alert color="info" icon="info" dismissible v-model="alertInfo">
-            <!-- If you push the green button on left bottom on the screen, you can see amount of price. -->
             If you push the green button on the bottom left of the screen, you can see the sum of everybody's payments.
           </v-alert>
           <v-alert color="orange darken-1" icon="priority_high" dismissible v-model="alertWarning">
-            <!-- This price is rounded half up, so it may be little diffrent in some cents. -->
-            <!-- This price has been rounded up. There are the nearest cent for the combined price. -->
             These prices has been rounded, so It could be a little different.
           </v-alert>
         </v-flex>
@@ -34,12 +31,9 @@
                       </v-btn>
                     </v-list-tile-action>
                     <v-list-tile-action>
-                      <!-- <div class="stressedFont">Total $ {{ $format.money((subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person))).toFixed(2)) }}</div> -->
                       <div class="stressedFont">
-                      <!-- Total $ {{ $format.money((subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person)))) }} -->
                         <div>
-                          <!-- Total: $ {{ $format.money(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }} -->
-                          Total: {{ $accounting.formatMoney(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }}
+                          Total: {{ $accounting.formatMoney(totalPayment(subTotal(getItemList(person)), tipPayment(subTotal(getItemList(person)), person.tip), salesTaxPayment(subTotalWithoutNonTaxable(getItemList(person))))) }}
                         </div>
                         <div class="caption grey--text text--darken-1">
                           (Sub total + Tax + Tip)
@@ -59,29 +53,24 @@
                               <v-list-tile-title>Sub Total</v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                              <!-- $ {{ $format.money(subTotalPrice(person)) }} -->
-                              {{ $accounting.formatMoney(subTotalPrice(person)) }}
+                              {{ $accounting.formatMoney(subTotal(getItemList(person))) }}
                             </v-list-tile-action>
                           </v-list-tile>
                           <li class="ics-subTotalDetail" v-for="item in getItemList(person)">
                             <div class="ics-subTotalDetail-label">
-                              <v-icon>subdirectory_arrow_right</v-icon> {{ item.name }} <span class="caption">{{ item.taxable?'':'No tax' }}</span>
+                              <v-icon style="font-size:20px;">subdirectory_arrow_right</v-icon> {{ item.name }} <span class="caption">{{ item.taxable ? '' : 'No tax' }}</span>
                             </div>
                             <div class="ics-subTotalDetail-price">
-                              <!-- $ {{ $format.money(item.price.toFixed(2)) }} -->
-                              <!-- $ {{ $format.money(item.price) }} -->
                               {{ $accounting.formatMoney(item.price) }}
                             </div>
                           </li>
                           <v-list-tile class="mt-2">
                             <v-list-tile-content>
                               <v-list-tile-title>Tax</v-list-tile-title>
-                              <v-list-tile-sub-title>({{ salesTax }} %)</v-list-tile-sub-title>
+                              <v-list-tile-sub-title>({{ salesTax }} % on {{ $accounting.formatMoney(subTotalWithoutNonTaxable(getItemList(person))) }})</v-list-tile-sub-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                              <!-- + $ {{ $format.money(salesTaxPrice(subTotalPrice(person)).toFixed(2)) }} -->
-                              <!-- + $ {{ $format.money(salesTaxPrice(subTotalPrice(person))) }} -->
-                              + {{ $accounting.formatMoney(salesTaxPrice(subTotalPrice(person))) }}
+                              + {{ $accounting.formatMoney(salesTaxPayment(subTotalWithoutNonTaxable(getItemList(person)))) }}
                             </v-list-tile-action>
                           </v-list-tile>
                           <v-list-tile class="mt-2">
@@ -89,8 +78,7 @@
                               <v-list-tile-title class="stressedFont">Sub Total + Tax</v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                              <!-- $ {{ $format.money(subTotalPrice(person) + salesTaxPrice(subTotalPrice(person))) }} -->
-                              {{ $accounting.formatMoney(subTotalPrice(person) + salesTaxPrice(subTotalPrice(person))) }}
+                              {{ $accounting.formatMoney(subTotal(getItemList(person)) + salesTaxPayment(subTotalWithoutNonTaxable(getItemList(person)))) }}
                             </v-list-tile-action>
                           </v-list-tile>
                           <v-list-tile class="mt-2">
@@ -99,30 +87,17 @@
                               <v-list-tile-sub-title>({{ person.tip }} %)</v-list-tile-sub-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                              <!-- + $ {{ $format.money(tipPrice(subTotalPrice(person), person.tip).toFixed(2)) }} -->
-                              <!-- + $ {{ $format.money(tipPrice(subTotalPrice(person), person.tip)) }} -->
-                              + {{ $accounting.formatMoney(tipPrice(subTotalPrice(person), person.tip)) }}
+                              + {{ $accounting.formatMoney(tipPayment(subTotal(getItemList(person)), person.tip)) }}
                             </v-list-tile-action>
                           </v-list-tile>
                           <v-list-tile class="mt-2">
                             <v-list-tile-content>
                                 <v-list-tile-title class="stressedFont">Total</v-list-tile-title>
                                 <v-list-tile-sub-title>(Sub Total + Tax + Tip)</v-list-tile-sub-title>
-                                <!-- <div class="stressedFont">
-                                  Total<br/>
-                                  <span class="caption">(Sub Total + Tax + Tip)</span>
-                                </div> -->
                             </v-list-tile-content>
                             <v-list-tile-action>
                               <div class="stressedFont">
-                                <!-- $ {{ $format.money((subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person))).toFixed(2)) }} -->
-                                <!-- {{ subTotalPrice(person) }}<br/>
-                                {{ tipPrice(subTotalPrice(person), person.tip) }} <br/>
-                                {{ salesTaxPrice(subTotalPrice(person)) }} <br/>
-                                {{ subTotalPrice(person) + salesTaxPrice(subTotalPrice(person)) }} -->
-                                <!-- $ {{ $format.money(subTotalPrice(person) + tipPrice(subTotalPrice(person), person.tip) + salesTaxPrice(subTotalPrice(person))) }} -->
-                                <!-- $ {{ $format.money(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }} -->
-                                {{ $accounting.formatMoney(total(subTotalPrice(person), tipPrice(subTotalPrice(person), person.tip), salesTaxPrice(subTotalPrice(person)))) }}
+                                {{ $accounting.formatMoney(totalPayment(subTotal(getItemList(person)), tipPayment(subTotal(getItemList(person)), person.tip), salesTaxPayment(subTotalWithoutNonTaxable(getItemList(person))))) }}
                               </div>
                             </v-list-tile-action>
                           </v-list-tile>
@@ -157,52 +132,39 @@
         <v-icon>close</v-icon>
       </v-btn>      
       <v-tooltip v-model="fab" right content-class="ics-combinedTotal-tooltip">
-        <!-- <span>This is combined price of all people</span> -->
         <span>This price is the sum of everybody's payments.</span>
       </v-tooltip>
       
       <div class="text-xs-left ics-box-combinedTotal blue pa-2 ma-1 white--text">
         <div class="ics-box-combinedTotal-title">Sub Total + Tax + Tip :</div> 
         <div class="ics-box-combinedTotal-content pl-2">
-          <!-- $ {{ $format.money(allSubTotalPrice() + allSalesTaxPrice() + allTipPrice()) }} -->
-          {{ $accounting.formatMoney(allSubTotalPrice() + allSalesTaxPrice() + allTipPrice()) }}
+          {{ $accounting.formatMoney(sumSubTotal() + sumSalesTaxPayments() + sumTipPayments()) }}
         </div>
       </div>
       <div class="ics-box-combinedTotal light-green pa-2 ma-1 white--text">
         <div class="ics-box-combinedTotal-title caption">Tip : </div>
         <div class="ics-box-combinedTotal-content pl-2 caption">
-          <!-- $ {{ $format.money(allTipPrice()) }} -->
-          {{ $accounting.formatMoney(allTipPrice()) }}
+          {{ $accounting.formatMoney(sumTipPayments()) }}
         </div>
       </div>
       <div class="ics-box-combinedTotal blue pa-2 ma-1 white--text">
         <div class="ics-box-combinedTotal-title">Sub Total + Tax : </div>
         <div class="ics-box-combinedTotal-content pl-2">
-          <!-- $ {{ $format.money(allSubTotalPrice() + allSalesTaxPrice()) }} -->
-          {{ $accounting.formatMoney(allSubTotalPrice() + allSalesTaxPrice()) }}
+          {{ $accounting.formatMoney(sumSubTotal() + sumSalesTaxPayments()) }}
         </div>
       </div>
       <div class="ics-box-combinedTotal light-green pa-2 ma-1 white--text">
         <div class="ics-box-combinedTotal-title caption">Tax : </div>
         <div class="ics-box-combinedTotal-content pl-2 caption">
-          <!-- $ {{ $format.money(allSalesTaxPrice()) }} -->
-          {{ $accounting.formatMoney(allSalesTaxPrice()) }}
+          {{ $accounting.formatMoney(sumSalesTaxPayments()) }}
         </div>
       </div>
       <div class="ics-box-combinedTotal light-green pa-2 ma-1 white--text">
         <div class="ics-box-combinedTotal-title caption">Sub Total : </div>
         <div class="ics-box-combinedTotal-content pl-2 caption">
-          <!-- $ {{ $format.money(allSubTotalPrice()) }} -->
-          {{ $accounting.formatMoney(allSubTotalPrice()) }}
+          {{ $accounting.formatMoney(sumSubTotal()) }}
         </div>
       </div>
-      <!-- <v-btn
-        dark
-        <small></small>
-        color="indigo"
-      >
-        Hello World hahahahahahahsadfasdfaf
-      </v-btn> -->
     </v-speed-dial>
     </template>
     <template v-else>
@@ -296,62 +258,6 @@
         this.tempTipRate = ''
         this.activeDialog = {type: 'settingTip', bool: false}
       },
-      subTotalPrice (person) {
-        let total = 0
-
-        person.menu.forEach(item => {
-          total += item.price
-        })
-
-        this.menu.forEach(item => {
-          item.people.forEach(name => {
-            if (person.name === name) {
-              // total += parseFloat((item.price / item.people.length).toFixed(3))
-              total += this.$format.precisionRound((item.price / item.people.length), 2)
-            }
-          })
-        })
-
-        return total
-      },
-      tipPrice (price, tipRate) {
-        // return parseFloat((price * (tipRate / 100)).toFixed(2))
-        return this.$format.precisionRound((price * (tipRate / 100)), 2)
-      },
-      salesTaxPrice (price) {
-        // return parseFloat((price * (this.salesTax / 100)).toFixed(2))
-        return this.$format.precisionRound((price * (this.salesTax / 100)), 2)
-      },
-      total (subTotal, tax, tip) {
-        return subTotal + tax + tip
-      },
-      allSalesTaxPrice () {
-        let total = 0
-
-        this.people.forEach(person => {
-          total += this.salesTaxPrice(this.subTotalPrice(person))
-        })
-
-        return total
-      },
-      allSubTotalPrice () {
-        let total = 0
-
-        this.people.forEach(person => {
-          total += this.subTotalPrice(person)
-        })
-
-        return total
-      },
-      allTipPrice () {
-        let total = 0
-
-        this.people.forEach(person => {
-          total += this.tipPrice(this.subTotalPrice(person), person.tip)
-        })
-
-        return total
-      },
       getItemList (person) {
         let list = []
 
@@ -366,7 +272,6 @@
         this.menu.forEach(item => {
           item.people.forEach(name => {
             if (person.name === name) {
-              // list.push({name: item.name + ' ($' + item.price + '/' + item.people.length + ')', price: parseFloat((item.price / item.people.length).toFixed(2))})
               list.push({
                 name: item.name + ' ($' + item.price + '/' + item.people.length + ')',
                 price: this.$format.precisionRound((item.price / item.people.length), 2),
@@ -377,6 +282,62 @@
         })
 
         return list
+      },
+      subTotal (itemList) {
+        let total = 0
+
+        itemList.forEach(item => {
+          total += item.price
+        })
+
+        return total
+      },
+      subTotalWithoutNonTaxable (itemList) {
+        let total = 0
+
+        itemList.forEach(item => {
+          if (item.taxable) {
+            total += item.price
+          }
+        })
+
+        return total
+      },
+      tipPayment (subTotal, tipRate) {
+        return this.$format.precisionRound((subTotal * (tipRate / 100)), 2)
+      },
+      salesTaxPayment (subTotal) {
+        return this.$format.precisionRound((subTotal * (this.salesTax / 100)), 2)
+      },
+      totalPayment (subTotal, taxPayment, tipPayment) {
+        return subTotal + taxPayment + tipPayment
+      },
+      sumSubTotal () {
+        let total = 0
+
+        this.people.forEach(person => {
+          total += this.subTotal(this.getItemList(person))
+        })
+
+        return total
+      },
+      sumSalesTaxPayments () {
+        let total = 0
+
+        this.people.forEach(person => {
+          total += this.salesTaxPayment(this.subTotalWithoutNonTaxable(this.getItemList(person)))
+        })
+
+        return total
+      },
+      sumTipPayments () {
+        let total = 0
+
+        this.people.forEach(person => {
+          total += this.tipPayment(this.subTotal(this.getItemList(person)), person.tip)
+        })
+
+        return total
       },
       __modifyTipRate (pureData) {
         let modifedData = pureData
