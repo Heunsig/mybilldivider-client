@@ -45,7 +45,7 @@
                       </v-btn>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                      <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+                      <v-list-tile-title>{{ item.name }} <span class="caption">{{ item.taxable ? '':'No tax' }}</span></v-list-tile-title>
                     </v-list-tile-content>
                     <v-list-tile-action>
                       <!-- $ {{ $format.money(item.price) }} -->
@@ -138,7 +138,7 @@
             v-model="tempPerson.name"
           ></v-text-field>
           <div class="ics-textField-detail">
-            If you don't input the name, it'll be named randomly.
+            If you don't input a name, it'll go by the number of the person.
           </div>
         </v-card-text>
         <v-card-actions>
@@ -163,7 +163,7 @@
             v-model="tempItem.name"
           ></v-text-field>
           <div class="ics-textField-detail">
-            If you don't input the name, it'll be named randomly.
+            If you don't input a name, it'll go by the number of the person.
           </div>
           <v-text-field 
             ref="itemPriceForm"
@@ -174,6 +174,30 @@
             prepend-icon="attach_money"
             v-model="tempItem.price"
           ></v-text-field>
+          <v-container class="pa-0 pt-2">
+            <v-layout row warp>
+              <v-flex offset-xs5 xs1 class="mr-2">
+                <v-menu
+                  offset-y
+                >
+                  <v-btn slot="activator" class="ma-0" small icon><v-icon color="grey">info</v-icon></v-btn>
+                  <v-card>
+                    <v-card-text>
+                      A tip is calculated at a price that doesn't include a tax
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </v-flex>
+              <v-flex xs6>
+                <v-checkbox
+                  :label="tempItem.taxable ? 'Taxable':'Non-taxable'"
+                  v-model="tempItem.taxable"
+                  color="orange"
+                  hide-details>
+                </v-checkbox>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </v-card-text>
         <v-card-actions>
           <template v-if="dialogMode == 'add'">
@@ -226,7 +250,8 @@
         item: {},
         tempItem: {
           name: '',
-          price: ''
+          price: '',
+          taxable: true
         },
         orderForPerson: 0,
         orderForItem: 0
@@ -315,7 +340,7 @@
 
         this.person = {}
         this.item = {}
-        this.tempItem = {name: '', price: ''}
+        this.tempItem = {name: '', price: '', taxable: true}
         this.activeDialog = {type: 'item', bool: false}
       },
       confirmToAddItem () {
@@ -323,7 +348,7 @@
 
         this.person = {}
         this.item = {}
-        this.tempItem = {name: '', price: ''}
+        this.tempItem = {name: '', price: '', taxable: true}
         this.activeDialog = {type: 'item', bool: false}
       },
       confirmToEditItem () {
@@ -331,7 +356,7 @@
 
         this.person = {}
         this.item = {}
-        this.tempItem = {name: '', price: ''}
+        this.tempItem = {name: '', price: '', taxable: null}
         this.activeDialog = {type: 'item', bool: false}
       },
       confirmToRemoveItem (person, item) {
@@ -356,6 +381,7 @@
         modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
         // modifiedData.price = parseFloat(modifiedData.price) || 0.00
         modifiedData.price = this.$format.precisionRound(modifiedData.price, 2) || 0.00
+        modifiedData.taxable = modifiedData.taxable
 
         return modifiedData
       }

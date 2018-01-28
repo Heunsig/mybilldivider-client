@@ -55,7 +55,7 @@
         snackbar: false,
         name: 'Heunsig',
         email: 'heun3344@gmail.com',
-        version: 'v 0.4.3'
+        version: 'v 0.4.4'
       }
     },
     methods: {

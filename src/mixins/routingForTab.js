@@ -1,10 +1,6 @@
 export default {
   created () {
-    if (this.$route.params.page) {
-      this.tab = this.$route.params.page
-    } else {
-      console.log('heror')
-    }
+    this.tabInMixin = this.$route.params.page
   },
   data () {
     return {

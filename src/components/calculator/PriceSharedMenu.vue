@@ -19,7 +19,7 @@
                     </v-list-tile-avatar>
                     <v-list-tile-content>
                       <v-list-tile-title>
-                        {{ item.name }}
+                        {{ item.name }} <span class="caption">{{ item.taxable? '':'No tax' }}</span>
                       </v-list-tile-title>
                       <!-- <v-list-tile-sub-title>Total: $ {{ $format.money(item.price.toFixed(2)) }}</v-list-tile-sub-title> -->
                       <!-- <v-list-tile-sub-title>Price: $ {{ $format.money(item.price) }}</v-list-tile-sub-title> -->
@@ -111,7 +111,31 @@
             hide-details
             prepend-icon="attach_money"
             v-model="tempItem.price"
-          ></v-text-field>      
+          ></v-text-field>
+          <v-container class="pa-0 pt-2">
+            <v-layout row warp>
+              <v-flex offset-xs5 xs1 class="mr-2">
+                <v-menu
+                  offset-y
+                >
+                  <v-btn slot="activator" class="ma-0" small icon><v-icon color="grey">info</v-icon></v-btn>
+                  <v-card>
+                    <v-card-text>
+                      A tip is calculated at a price that doesn't include a tax
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </v-flex>
+              <v-flex xs6>
+                <v-checkbox
+                  :label="tempItem.taxable ? 'Taxable':'Non-taxable'"
+                  v-model="tempItem.taxable"
+                  color="orange"
+                  hide-details>
+                </v-checkbox>
+              </v-flex>
+            </v-layout>
+          </v-container>    
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingItem">Cancel</v-btn>
@@ -140,6 +164,30 @@
             prepend-icon="attach_money"
             v-model="tempItem.price"
           ></v-text-field>
+          <v-container class="pa-0 pt-2">
+            <v-layout row warp>
+              <v-flex offset-xs5 xs1 class="mr-2">
+                <v-menu
+                  offset-y
+                >
+                  <v-btn slot="activator" class="ma-0" small icon><v-icon color="grey">info</v-icon></v-btn>
+                  <v-card>
+                    <v-card-text>
+                      A tip is calculated at a price that doesn't include a tax
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </v-flex>
+              <v-flex xs6>
+                <v-checkbox
+                  :label="tempItem.taxable ? 'Taxable':'Non-taxable'"
+                  v-model="tempItem.taxable"
+                  color="orange"
+                  hide-details>
+                </v-checkbox>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogEditingItem">Cancel</v-btn>
@@ -218,12 +266,14 @@
         tempItem: {
           name: '',
           price: '',
+          taxable: true,
           people: []
         },
         item: {
-          name: '',
-          price: '',
-          people: []
+          // name: '',
+          // price: '',
+          // taxable: true,
+          // people: []
         },
         orderForItem: 0
       }
@@ -254,7 +304,6 @@
       confirmToAddItem () {
         this.$store.commit('addItemToMenu', {item: this.__modifyItemData(this.tempItem)})
 
-        // this.tempItem = { name: '', price: '', people: [] }
         this.__resetItemData()
         this.activeDialog = {type: 'addingItem', bool: false}
       },
@@ -269,8 +318,6 @@
       confirmToEditItem () {
         Object.assign(this.item, this.__modifyItemData(this.tempItem))
 
-        // this.item = {}
-        // this.tempItem = { name: '', price: '', people: [] }
         this.__resetItemData()
         this.activeDialog = {type: 'editingItem', bool: false}
       },
@@ -282,14 +329,10 @@
         this.$store.commit('deleteItemFromMenu', {item: this.item})
 
         this.__resetItemData()
-        // this.item = {}
-        // this.tempItem = { name: '', price: '', people: [] }
         this.activeDialog = {type: 'deletingItem', bool: false}
       },
       confirmToEditPeopleList () {
         this.__resetItemData()
-        // this.item = {}
-        // this.tempItem = { name: '', price: '', people: [] }
         this.activeDialog = {type: 'editingPeopleList', bool: false}
       },
       openDialogEditingPeopleList (item) {
@@ -314,7 +357,7 @@
       },
       __resetItemData () {
         this.item = {}
-        this.tempItem = { name: '', price: '', people: [] }
+        this.tempItem = { name: '', price: '', taxable: true, people: [] }
       },
       dividedPrice (item) {
         // return parseFloat((item.price / (item.people.length || 1)).toFixed(2))
@@ -327,6 +370,7 @@
         modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
         // modifiedData.price = parseFloat(modifiedData.price) || 0.00
         modifiedData.price = this.$format.precisionRound(modifiedData.price, 2) || 0.00
+        modifiedData.taxable = modifiedData.taxable
         modifiedData.people = modifiedData.people || []
 
         return modifiedData

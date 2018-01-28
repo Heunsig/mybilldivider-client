@@ -65,7 +65,7 @@
                           </v-list-tile>
                           <li class="ics-subTotalDetail" v-for="item in getItemList(person)">
                             <div class="ics-subTotalDetail-label">
-                              <v-icon>subdirectory_arrow_right</v-icon> {{ item.name }}
+                              <v-icon>subdirectory_arrow_right</v-icon> {{ item.name }} <span class="caption">{{ item.taxable?'':'No tax' }}</span>
                             </div>
                             <div class="ics-subTotalDetail-price">
                               <!-- $ {{ $format.money(item.price.toFixed(2)) }} -->
@@ -356,14 +356,22 @@
         let list = []
 
         person.menu.forEach(item => {
-          list.push({name: item.name, price: item.price})
+          list.push({
+            name: item.name,
+            price: item.price,
+            taxable: item.taxable
+          })
         })
 
         this.menu.forEach(item => {
           item.people.forEach(name => {
             if (person.name === name) {
               // list.push({name: item.name + ' ($' + item.price + '/' + item.people.length + ')', price: parseFloat((item.price / item.people.length).toFixed(2))})
-              list.push({name: item.name + ' ($' + item.price + '/' + item.people.length + ')', price: this.$format.precisionRound((item.price / item.people.length), 2)})
+              list.push({
+                name: item.name + ' ($' + item.price + '/' + item.people.length + ')',
+                price: this.$format.precisionRound((item.price / item.people.length), 2),
+                taxable: item.taxable
+              })
             }
           })
         })

@@ -191,4 +191,8 @@ export default {
   .ics-align-center {
     align-items: center;
   }
+
+  .ics-spacer-taxableSelector {
+    flex-grow: 0.6!important;
+  }
 </style>
