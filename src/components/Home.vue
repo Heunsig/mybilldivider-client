@@ -16,12 +16,12 @@
       <v-flex xs12>
         <div class="text-xs-center mt-5 pt-5">
           <div>
-            <v-btn color="yellow" outline dark @click="routerPush('tutorial')">
+            <v-btn color="yellow" outline dark @click="routerPush({name: 'tutorial', params:{page: 'setting'}})">
               Start Tutorial
             </v-btn>
           </div>
           <div>
-            <v-btn dark outline @click="routerPush('calculator')">
+            <v-btn dark outline @click="routerPush({name: 'calculator', params:{page: 'setting'}})">
               Start Calculating
             </v-btn>
           </div>
@@ -33,8 +33,8 @@
 <script>
   export default {
     methods: {
-      routerPush (name) {
-        this.$router.push({name: name})
+      routerPush (routerOptions) {
+        this.$router.push(routerOptions)
         this.drawer = false
       }
     }

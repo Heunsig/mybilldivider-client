@@ -1,6 +1,6 @@
 <template>
   <div class="ics-warpper">
-    <v-tabs dark grow class="ics-tabs" @input="changeTab" v-model="active">
+    <v-tabs dark grow class="ics-tabs" @input="changeTab" v-model="tabInMixin">
       <v-tabs-bar dark class="blue ics-tabsBar elevation-5">
         <v-tabs-slider color="yellow"></v-tabs-slider>
         <v-tabs-item
@@ -141,11 +141,13 @@ import DefaultSetting from './DefaultSetting'
 import PriceEachPerson from './PriceEachPerson'
 import PriceSharedMenu from './PriceSharedMenu'
 import Result from './Result'
+import routingForTab from '@/mixins/routingForTab'
 
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 
 export default {
+  mixins: [routingForTab],
   data () {
     return {
       swiperOption: {
@@ -167,10 +169,9 @@ export default {
         }
       },
       // currentScript: null,
-      dialog: true,
+      dialog: false,
       dialog2: false,
       progressButtonLast: false,
-      active: null,
       tabs: [
         {
           id: 'setting',

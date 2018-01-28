@@ -3,7 +3,7 @@
   <v-btn icon flat class="ics-btn-refresh" v-if="refresh" @click="refreshPage">
     <v-icon color="white">refresh</v-icon>
   </v-btn>
-  <v-tabs dark grow class="ics-tabs" @input="changeTab">
+  <v-tabs dark grow class="ics-tabs" @input="changeTab" v-model="tabInMixin">
     <v-tabs-bar dark class="green ics-tabsBar elevation-5">
       <v-tabs-slider color="yellow"></v-tabs-slider>
       <v-tabs-item
@@ -196,12 +196,13 @@ import PriceEachPerson from './PriceEachPerson'
 import PriceSharedMenu from './PriceSharedMenu'
 import Result from './Result'
 import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
+import routingForTab from '@/mixins/routingForTab'
 
 import imageExampleSalesTax from '@/assets/example_salesTax.gif'
 import imageExampleSubtotalAndTax from '@/assets/example_subtotalAndTax.gif'
 
 export default {
-  mixins: [fixingModalBugInIphone],
+  mixins: [fixingModalBugInIphone, routingForTab],
   data () {
     return {
       images: {
@@ -256,21 +257,6 @@ export default {
     salesTax () {
       return this.$store.getters.getSalesTaxRate
     }
-    // calculatedSalesTax () {
-    //   // return parseFloat(((this.priceOfTax / this.priceOfSubTotal) * 100).toFixed(2))
-    //   // console.log(this.$format.precisionRound((this.priceOfTax / this.priceOfSubTotal) * 100))
-    //   // return this.$format.precisionRound((this.priceOfTax / this.priceOfSubTotal) * 100, 2)
-    // }
-  },
-  watch: {
-    // calculatedSalesTax (value) {
-    //   // console.log(value)
-    //   if (typeof value === 'number' && value !== Infinity && !isNaN(value)) {
-    //     this.tempSalesTax = value
-    //   } else {
-    //     this.tempSalesTax = 0
-    //   }
-    // }
   },
   components: {
     DefaultSetting,

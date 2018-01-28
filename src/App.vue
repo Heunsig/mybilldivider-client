@@ -22,7 +22,7 @@
         <!-- <v-subheader>Navigation Menu</v-subheader> -->
         <!-- <v-divider light></v-divider> -->
         <template v-for="item in nav">
-          <v-list-tile :key="item.label" @click="routerPush(item.name) ">
+          <v-list-tile :key="item.label" @click="routerPush(item.router)">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -91,29 +91,38 @@ export default {
       nav: [
         {
           label: 'Main',
-          name: 'main',
-          icon: 'home'
+          icon: 'home',
+          router: {
+            name: 'main'
+          }
         },
         {
           label: 'Tutorial',
-          name: 'tutorial',
-          icon: 'help'
+          icon: 'help',
+          router: {
+            name: 'tutorial',
+            params: { page: 'setting' }
+          }
         },
         {
           label: 'Calculator',
-          name: 'calculator',
-          icon: 'star'
+          icon: 'star',
+          router: {
+            name: 'calculator',
+            params: { page: 'setting' }
+          }
         },
         {
           label: 'About me',
-          name: 'aboutMe',
-          icon: 'info'
+          icon: 'info',
+          router: {
+            name: 'aboutMe'
+          }
         }
       ],
       navForFunction: [
         {
           label: 'Refresh',
-          // name: 'refresh',
           icon: 'refresh',
           dialog: 'refreshAll'
         }
@@ -140,8 +149,8 @@ export default {
     }
   },
   methods: {
-    routerPush (name) {
-      this.$router.push({name: name})
+    routerPush (routerOptions) {
+      this.$router.push(routerOptions)
       this.drawer = false
     },
     openDialog (dialog) {

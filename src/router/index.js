@@ -9,7 +9,7 @@ import AboutMe from '@/components/AboutMe'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
       path: '/',
@@ -17,12 +17,12 @@ export default new Router({
       name: 'main'
     },
     {
-      path: '/tutorial',
+      path: '/tutorial/:page',
       component: Tutorial,
       name: 'tutorial'
     },
     {
-      path: '/calculator',
+      path: '/calculator/:page',
       component: Calculator,
       name: 'calculator'
     },
