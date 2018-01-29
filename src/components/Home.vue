@@ -10,6 +10,7 @@
         <v-card flat class="transparent mt-3">
           <v-card-text class="text-xs-center">
             <p class="white--text ics-sub-title">It's the easiest way to split the bill</p>
+            <p class="white--text body-2">Last updated 01/28/2018</p>
           </v-card-text>
         </v-card>
       </v-flex>
