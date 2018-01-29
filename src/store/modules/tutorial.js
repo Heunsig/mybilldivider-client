@@ -9,11 +9,13 @@ const tutorial = {
         menu: [
           {
             name: 'Double Cheese Burger',
-            price: 12.00
+            price: 12.00,
+            taxable: true
           },
           {
             name: 'French Fries',
-            price: 4.50
+            price: 4.50,
+            taxable: true
           }
         ]
       },
@@ -23,11 +25,13 @@ const tutorial = {
         menu: [
           {
             name: 'Cheese Burger',
-            price: 9.00
+            price: 9.00,
+            taxable: true
           },
           {
             name: 'Soda',
-            price: 2.50
+            price: 2.50,
+            taxable: true
           }
         ]
       },
@@ -37,11 +41,13 @@ const tutorial = {
         menu: [
           {
             name: 'Hot Dog',
-            price: 10.00
+            price: 10.00,
+            taxable: true
           },
           {
             name: 'Soda',
-            price: 2.50
+            price: 2.50,
+            taxable: true
           }
         ]
       },
@@ -51,11 +57,13 @@ const tutorial = {
         menu: [
           {
             name: 'Sandwich',
-            price: 8.00
+            price: 8.00,
+            taxable: true
           },
           {
             name: 'coffee',
-            price: 3.00
+            price: 3.00,
+            taxable: true
           }
         ]
       }
@@ -64,6 +72,7 @@ const tutorial = {
       {
         name: 'Pepperoni Pizza',
         price: 16.00,
+        taxable: true,
         people: [
           'David',
           'Mary',
@@ -74,6 +83,7 @@ const tutorial = {
       {
         name: 'Salmon Salad',
         price: 6.99,
+        taxable: true,
         people: [
           'David',
           'Michael'

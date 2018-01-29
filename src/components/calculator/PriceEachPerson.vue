@@ -21,7 +21,6 @@
                     <v-list-tile-title>
                       {{ person.name }}
                     </v-list-tile-title>
-                    <!-- <v-list-tile-sub-title>Total: $ {{ $format.money(totalPriceWithoutSalesTax(person).toFixed(2)) }}</v-list-tile-sub-title> -->
                   </v-list-tile-content>
                   <v-list-tile-action class="ics-listActions">
                       <v-btn icon @click="openDialogEditingPerson(person)">
@@ -45,10 +44,9 @@
                       </v-btn>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                      <v-list-tile-title>{{ item.name }} <span class="caption">{{ item.taxable ? '':'No tax' }}</span></v-list-tile-title>
+                      <v-list-tile-title>{{ item.name }} <span class="caption red--text">{{ item.taxable ? '':'No tax' }}</span></v-list-tile-title>
                     </v-list-tile-content>
                     <v-list-tile-action>
-                      <!-- $ {{ $format.money(item.price) }} -->
                       {{ $accounting.formatMoney(item.price) }}
                     </v-list-tile-action>
                     <v-list-tile-action class="ics-listActions">
@@ -68,7 +66,6 @@
               </v-list>
               <v-card flat>
                 <v-card-text class="text-xs-right pt-1">
-                  <!-- <span class="ics-totalPrice">Total: $ {{ $format.money(totalPriceWithoutSalesTax(person).toFixed(2)) }}</span> -->
                   <span class="ics-totalPrice">Total: {{ $accounting.formatMoney(totalPriceWithoutSalesTax(person)) }}</span>
                 </v-card-text>
               </v-card>
@@ -118,7 +115,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingPerson">Cancel</v-btn>
-          <v-btn color="light-green" flat block @click.native="confirmToAddPerson">Confirm</v-btn>
+          <v-btn color="light-green" flat block @click.native="confirmToAddPerson('addPerson')">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -183,7 +180,7 @@
                   <v-btn slot="activator" class="ma-0" small icon><v-icon color="grey">info</v-icon></v-btn>
                   <v-card>
                     <v-card-text>
-                      Select this item is taxable or non-taxable
+                      Select item is taxable or non-taxable.
                     </v-card-text>
                   </v-card>
                 </v-menu>
@@ -202,7 +199,7 @@
         <v-card-actions>
           <template v-if="dialogMode == 'add'">
             <v-btn color="grey darken-2" flat block @click.native="closeDialogForItem">Cancel</v-btn>
-            <v-btn color="light-green" flat block @click.native="confirmToAddItem">Confirm</v-btn>
+            <v-btn color="light-green" flat block @click.native="confirmToAddItem('addItemToPerson')">Confirm</v-btn>
           </template>
           <template  v-else> 
             <v-btn color="grey darken-2" flat block @click.native="closeDialogForItem">Cancel</v-btn>
@@ -219,7 +216,7 @@
         </v-card-title>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogDeletingPerson">Cancel</v-btn>
-          <v-btn color="red darken-1" flat block @click.native="confirmToDeletePerson">Confirm</v-btn>
+          <v-btn color="red darken-1" flat block @click.native="confirmToDeletePerson('deletePersonFromPeople')">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -227,164 +224,17 @@
   <!-- /Section for dialog -->
 </template>
 <script>
-  import clone from 'lodash.clone'
   import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
+  import eachPerson from '@/mixins/calculator/eachPerson'
 
   export default {
-    mixins: [fixingModalBugInIphone],
-    data () {
-      return {
-        dialogs: {
-          addingPerson: false,
-          editingPerson: false,
-          deletingPerson: false,
-          item: false
-        },
-        dialogMode: 'add',
-        person: {},
-        tempPerson: {
-          name: '',
-          tip: '',
-          menu: []
-        },
-        item: {},
-        tempItem: {
-          name: '',
-          price: '',
-          taxable: true
-        },
-        orderForPerson: 0,
-        orderForItem: 0
-      }
-    },
+    mixins: [
+      fixingModalBugInIphone,
+      eachPerson
+    ],
     computed: {
       people () {
         return this.$store.getters.getPeople
-      }
-    },
-    methods: {
-      totalPriceWithoutSalesTax (person) {
-        let total = 0
-
-        person.menu.forEach(item => {
-          total += item.price
-        })
-
-        return this.$format.precisionRound(total, 2)
-      },
-      openDialogAddingPerson () {
-        this.activeDialog = {type: 'addingPerson', bool: true, autofocus: 'personNameFormForAdding'}
-      },
-      closeDialogAddingPerson () {
-        this.person = {}
-        this.tempPerson = { name: '', tip: '', menu: [] }
-        this.activeDialog = {type: 'addingPerson', bool: false}
-      },
-      confirmToAddPerson () {
-        this.$store.commit('addPerson', {person: this.__modifyPersonData(this.tempPerson)})
-
-        this.person = {}
-        this.tempPerson = { name: '', tip: '', menu: [] }
-        this.activeDialog = {type: 'addingPerson', bool: false}
-      },
-      openDialogEditingPerson (person) {
-        this.person = person
-        this.tempPerson = clone(person)
-        this.activeDialog = {type: 'editingPerson', bool: true, autofocus: 'personNameFormForEditing'}
-      },
-      closeDialogEditingPerson () {
-        this.person = {}
-        this.tempPerson = {name: '', tip: '', menu: []}
-        this.activeDialog = {type: 'editingPerson', bool: false}
-      },
-      confirmToEditPerson () {
-        Object.assign(this.person, this.__modifyPersonData(this.tempPerson))
-
-        this.person = {}
-        this.tempPerson = {name: '', tip: '', menu: []}
-        this.activeDialog = {type: 'editingPerson', bool: false}
-      },
-      openDialogDeletingPerson (person) {
-        this.person = person
-        this.activeDialog = {type: 'deletingPerson', bool: true}
-      },
-      confirmToDeletePerson () {
-        this.$store.commit('deletePersonFromPeople', {person: this.person})
-
-        this.person = {}
-        this.tempPerson = {name: '', tip: '', menu: []}
-        this.activeDialog = {type: 'deletingPerson', bool: false}
-      },
-      closeDialogDeletingPerson () {
-        this.person = {}
-        this.tempPerson = {name: '', tip: '', menu: []}
-        this.activeDialog = {type: 'deletingPerson', bool: false}
-      },
-      openDialogForItem (person, item) {
-        if (typeof item !== 'undefined') {
-          this.dialogMode = 'edit'
-          this.tempItem = clone(item)
-          if (!this.tempItem.price) {
-            this.tempItem.price = ''
-          }
-        } else {
-          this.dialogMode = 'add'
-          this.tempItem = {name: '', price: '', taxable: true}
-        }
-
-        this.person = person
-        this.item = item
-        this.activeDialog = {type: 'item', bool: true, autofocus: 'itemPriceForm'}
-      },
-      closeDialogForItem () {
-        this.dialogMode = 'add'
-
-        this.person = {}
-        this.item = {}
-        this.tempItem = {name: '', price: '', taxable: true}
-        this.activeDialog = {type: 'item', bool: false}
-      },
-      confirmToAddItem () {
-        this.$store.commit('addItemToPerson', {person: this.person, item: this.__modifyItemData(this.tempItem)})
-
-        this.person = {}
-        this.item = {}
-        this.tempItem = {name: '', price: '', taxable: true}
-        this.activeDialog = {type: 'item', bool: false}
-      },
-      confirmToEditItem () {
-        Object.assign(this.item, this.__modifyItemData(this.tempItem))
-
-        this.person = {}
-        this.item = {}
-        this.tempItem = {name: '', price: '', taxable: null}
-        this.activeDialog = {type: 'item', bool: false}
-      },
-      confirmToRemoveItem (person, item) {
-        person.menu.forEach((obj, i) => {
-          if (obj === item) {
-            person.menu.splice(i, 1)
-          }
-        })
-      },
-      __modifyPersonData (pureData) {
-        let modifiedData = clone(pureData)
-
-        modifiedData.name = modifiedData.name || 'Person ' + this.orderForPerson++
-        modifiedData.tip = modifiedData.tip || 0
-        modifiedData.menu = modifiedData.menu || []
-
-        return modifiedData
-      },
-      __modifyItemData (pureData) {
-        let modifiedData = clone(pureData)
-
-        modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
-        // modifiedData.price = parseFloat(modifiedData.price) || 0.00
-        modifiedData.price = this.$format.precisionRound(modifiedData.price, 2) || 0.00
-        modifiedData.taxable = modifiedData.taxable
-
-        return modifiedData
       }
     }
   }

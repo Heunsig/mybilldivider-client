@@ -113,7 +113,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" block flat @click.native="closeDialog">Cancel</v-btn>
-          <v-btn color="light-blue" block flat @click.native="confirmSalesTax">Confirm</v-btn>
+          <v-btn color="light-blue" block flat @click.native="confirmSalesTax('tutorial/setSalesTaxRate')">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -122,68 +122,16 @@
 </template>
 <script>
   import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
-  import imageExampleSalesTax from '@/assets/example_salesTax.gif'
-  import imageExampleSubtotalAndTax from '@/assets/example_subtotalAndTax.gif'
+  import defaultSetting from '@/mixins/calculator/defaultSetting'
 
   export default {
-    mixins: [fixingModalBugInIphone],
-    data () {
-      return {
-        isGetSalesTaxMenuActive: false,
-        dialogs: {
-          setSalesTax: false
-        },
-        priceOfTax: '',
-        priceOfSubTotal: '',
-        isSalesTaxCalculatorActive: false,
-        tempSalesTax: '',
-        images: {
-          imageExampleSalesTax,
-          imageExampleSubtotalAndTax
-        }
-      }
-    },
+    mixins: [
+      fixingModalBugInIphone,
+      defaultSetting
+    ],
     computed: {
       salesTax () {
         return this.$store.getters['tutorial/getSalesTax']
-      }
-    },
-    methods: {
-      confirmToGetSalesTaxAuto () {
-        let value = this.$format.precisionRound((((this.priceOfTax || 0) / (this.priceOfSubTotal || 0)) * 100), 2)
-        if (typeof value === 'number' && value !== Infinity && !isNaN(value)) {
-          this.tempSalesTax = value
-        } else {
-          this.tempSalesTax = 0
-        }
-
-        this.isGetSalesTaxMenuActive = false
-      },
-      closeMenuGettingSalesTaxAuto () {
-        this.priceOfTax = ''
-        this.priceOfSubTotal = ''
-        this.isGetSalesTaxMenuActive = false
-      },
-      openDialog () {
-        if (this.salesTax) {
-          this.tempSalesTax = this.salesTax
-        }
-        this.activeDialog = {type: 'setSalesTax', bool: true, autofocus: 'salesTaxForm'}
-      },
-      closeDialog () {
-        this.tempSalesTax = ''
-        this.priceOfTax = ''
-        this.priceOfSubTotal = ''
-        this.isSalesTaxCalculatorActive = false
-        this.activeDialog = {type: 'setSalesTax', bool: false}
-      },
-      confirmSalesTax () {
-        this.$store.commit('tutorial/setSalesTaxRate', this.tempSalesTax)
-        this.tempSalesTax = ''
-        this.priceOfTax = ''
-        this.priceOfSubTotal = ''
-        this.isSalesTaxCalculatorActive = false
-        this.activeDialog = {type: 'setSalesTax', bool: false}
       }
     }
   }

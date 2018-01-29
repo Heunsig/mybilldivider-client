@@ -248,12 +248,12 @@ export default {
     }
   },
   computed: {
-    menu () {
-      return this.$store.getters.getMenu
-    },
-    people () {
-      return this.$store.getters.getPeople
-    },
+    // menu () {
+    //   return this.$store.getters.getMenu
+    // },
+    // people () {
+    //   return this.$store.getters.getPeople
+    // },
     salesTax () {
       return this.$store.getters.getSalesTaxRate
     }
@@ -280,12 +280,12 @@ export default {
       this.priceOfSubTotal = ''
       this.isGetSalesTaxMenuActive = false
     },
-    openSalesTaxCalculator () {
-      this.isSalesTaxCalculatorActive = true
-    },
-    closeSalesTaxCalculator () {
-      this.isSalesTaxCalculatorActive = false
-    },
+    // openSalesTaxCalculator () {
+    //   this.isSalesTaxCalculatorActive = true
+    // },
+    // closeSalesTaxCalculator () {
+    //   this.isSalesTaxCalculatorActive = false
+    // },
     closeDialogRefreshingPage () {
       this.activeDialog = {type: 'refreshPage', bool: false}
     },

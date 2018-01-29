@@ -19,10 +19,8 @@
                     </v-list-tile-avatar>
                     <v-list-tile-content>
                       <v-list-tile-title>
-                        {{ item.name }} <span class="caption">{{ item.taxable? '':'No tax' }}</span>
+                        {{ item.name }} <span class="caption red--text">{{ item.taxable? '':'No tax' }}</span>
                       </v-list-tile-title>
-                      <!-- <v-list-tile-sub-title>Total: $ {{ $format.money(item.price.toFixed(2)) }}</v-list-tile-sub-title> -->
-                      <!-- <v-list-tile-sub-title>Price: $ {{ $format.money(item.price) }}</v-list-tile-sub-title> -->
                       <v-list-tile-sub-title>Price: {{ $accounting.formatMoney(item.price) }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                     <v-list-tile-action class="ics-listActions">
@@ -40,7 +38,6 @@
                 <v-card flat>
                   <div class="ics-customSubheader">
                     <div class="green--text">Sharing people ({{item.people.length || 0}})</div>
-                    <!-- <div v-if="item.people.length">Each person pay: $ {{ dividedPrice(item).toFixed(2) }}</div> -->
                   </div>
                   <v-card-text v-if="item.people.length">
                     <div class="text-xs-left">
@@ -55,8 +52,6 @@
                 </v-card>
                 <v-card flat v-if="item.people.length">
                   <v-card-text class="text-xs-right pt-1">
-                    <!-- <span class="ics-totalPrice">Each person pay: $ {{ $format.money(dividedPrice(item).toFixed(2)) }}</span> -->
-                    <!-- <span class="ics-totalPrice">Each person pay: $ {{ $format.money(dividedPrice(item)) }}</span> -->
                     <span class="ics-totalPrice">Each person pay: {{ $accounting.formatMoney(dividedPrice(item)) }}</span>
                   </v-card-text>
                 </v-card>
@@ -81,7 +76,6 @@
     <template v-else>
       <div class="ics-msgNoItem-main text-xs-center mt-5">
         No items are listed yet<br/>
-        <!-- Pusth a button on the right bottom to add people shared with -->
         Add items by <span class="green--text">pushing the "ADD ITEM" button</span> above
       </div>
     </template>
@@ -121,7 +115,7 @@
                   <v-btn slot="activator" class="ma-0" small icon><v-icon color="grey">info</v-icon></v-btn>
                   <v-card>
                     <v-card-text>
-                      Select this item is taxable or non-taxable
+                      Select item is taxable or non-taxable.
                     </v-card-text>
                   </v-card>
                 </v-menu>
@@ -139,7 +133,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingItem">Cancel</v-btn>
-          <v-btn color="light-green" flat block @click.native="confirmToAddItem">Confirm</v-btn>
+          <v-btn color="light-green" flat block @click.native="confirmToAddItem('addItemToMenu')">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -173,7 +167,7 @@
                   <v-btn slot="activator" class="ma-0" small icon><v-icon color="grey">info</v-icon></v-btn>
                   <v-card>
                     <v-card-text>
-                      Select this item is taxable or non-taxable
+                      Select item is taxable or non-taxable.
                     </v-card-text>
                   </v-card>
                 </v-menu>
@@ -243,137 +237,27 @@
         </v-card-title>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogDeletingItem">Cancel</v-btn>
-          <v-btn color="red darken-1" flat block @click.native="confirmToDeleteItem">Confirm</v-btn>
+          <v-btn color="red darken-1" flat block @click.native="confirmToDeleteItem('deleteItemFromMenu')">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
 </template>
 <script>
-  import clone from 'lodash.clone'
   import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
+  import sharedItems from '@/mixins/calculator/sharedItems'
 
   export default {
-    mixins: [fixingModalBugInIphone],
-    data () {
-      return {
-        dialogs: {
-          addingItem: false,
-          editingPeopleList: false,
-          deletingItem: false,
-          editingItem: false
-        },
-        tempItem: {
-          name: '',
-          price: '',
-          taxable: true,
-          people: []
-        },
-        item: {
-          // name: '',
-          // price: '',
-          // taxable: true,
-          // people: []
-        },
-        orderForItem: 0
-      }
-    },
+    mixins: [
+      fixingModalBugInIphone,
+      sharedItems
+    ],
     computed: {
       menu () {
         return this.$store.getters.getMenu
       },
       people () {
         return this.$store.getters.getPeople
-      },
-      peopleNameList () {
-        let nameList = []
-        this.$store.getters.getPeople.forEach(person => {
-          nameList.push(person.name)
-        })
-
-        return nameList
-      },
-      bodyElement () {
-        return this.$store.getters.getBodyElement
-      }
-    },
-    methods: {
-      openDialogAddingItem () {
-        this.activeDialog = {type: 'addingItem', bool: true, autofocus: 'itemPriceFormForAdding'}
-      },
-      confirmToAddItem () {
-        this.$store.commit('addItemToMenu', {item: this.__modifyItemData(this.tempItem)})
-
-        this.__resetItemData()
-        this.activeDialog = {type: 'addingItem', bool: false}
-      },
-      openDialogEditingItem (item) {
-        this.item = item
-        this.tempItem = clone(item)
-        if (!this.tempItem.price) {
-          this.tempItem.price = ''
-        }
-        this.activeDialog = {type: 'editingItem', bool: true, autofocus: 'itemPriceFormForEditing'}
-      },
-      confirmToEditItem () {
-        Object.assign(this.item, this.__modifyItemData(this.tempItem))
-
-        this.__resetItemData()
-        this.activeDialog = {type: 'editingItem', bool: false}
-      },
-      openDialogDeletingItem (item) {
-        this.item = item
-        this.activeDialog = {type: 'deletingItem', bool: true}
-      },
-      confirmToDeleteItem () {
-        this.$store.commit('deleteItemFromMenu', {item: this.item})
-
-        this.__resetItemData()
-        this.activeDialog = {type: 'deletingItem', bool: false}
-      },
-      confirmToEditPeopleList () {
-        this.__resetItemData()
-        this.activeDialog = {type: 'editingPeopleList', bool: false}
-      },
-      openDialogEditingPeopleList (item) {
-        this.tempItem = item
-        this.activeDialog = {type: 'editingPeopleList', bool: true}
-      },
-      closeDialogAddingItem () {
-        this.__resetItemData()
-        this.activeDialog = {type: 'addingItem', bool: false}
-      },
-      // closeDialogPeopleList () {
-      //   this.__resetItemData()
-      //   this.activeDialog = {type: 'editingPeopleList', bool: false}
-      // },
-      closeDialogDeletingItem () {
-        this.__resetItemData()
-        this.activeDialog = {type: 'deletingItem', bool: false}
-      },
-      closeDialogEditingItem () {
-        this.__resetItemData()
-        this.activeDialog = {type: 'editingItem', bool: false}
-      },
-      __resetItemData () {
-        this.item = {}
-        this.tempItem = { name: '', price: '', taxable: true, people: [] }
-      },
-      dividedPrice (item) {
-        // return parseFloat((item.price / (item.people.length || 1)).toFixed(2))
-        return this.$format.precisionRound((item.price / (item.people.length || 1)), 2)
-      },
-      __modifyItemData (pureData) {
-        let modifiedData = clone(pureData)
-
-        // modifiedData.name = modifiedData.name || 'Item ' + Math.floor(Math.random() * 100)
-        modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
-        // modifiedData.price = parseFloat(modifiedData.price) || 0.00
-        modifiedData.price = this.$format.precisionRound(modifiedData.price, 2) || 0.00
-        modifiedData.taxable = modifiedData.taxable
-        modifiedData.people = modifiedData.people || []
-
-        return modifiedData
       }
     }
   }

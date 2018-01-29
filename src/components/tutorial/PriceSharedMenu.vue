@@ -19,7 +19,7 @@
                     </v-list-tile-avatar>
                     <v-list-tile-content>
                       <v-list-tile-title>
-                        {{ item.name }}
+                        {{ item.name }} <span class="caption red--text">{{ item.taxable? '':'No tax' }}</span>
                       </v-list-tile-title>
                       <v-list-tile-sub-title>Price: {{ $accounting.formatMoney(item.price) }}</v-list-tile-sub-title>
                     </v-list-tile-content>
@@ -104,11 +104,35 @@
             hide-details
             prepend-icon="attach_money"
             v-model="tempItem.price"
-          ></v-text-field>      
+          ></v-text-field>
+          <v-container class="pa-0 pt-2">
+            <v-layout row warp>
+              <v-flex offset-xs4 xs1 class="mr-2">
+                <v-menu
+                  offset-y
+                >
+                  <v-btn slot="activator" class="ma-0" small icon><v-icon color="grey">info</v-icon></v-btn>
+                  <v-card>
+                    <v-card-text>
+                      Select item is taxable or non-taxable.
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </v-flex>
+              <v-flex xs7>
+                <v-switch
+                  :label="tempItem.taxable ? 'Taxable':'Non-taxable'"
+                  v-model="tempItem.taxable"
+                  color="orange"
+                  hide-details>
+                </v-switch>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingItem">Cancel</v-btn>
-          <v-btn color="light-blue" flat block @click.native="confirmToAddItem">Confirm</v-btn>
+          <v-btn color="light-blue" flat block @click.native="confirmToAddItem('tutorial/addItemToMenu')">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -133,6 +157,30 @@
             prepend-icon="attach_money"
             v-model="tempItem.price"
           ></v-text-field>
+          <v-container class="pa-0 pt-2">
+            <v-layout row warp>
+              <v-flex offset-xs4 xs1 class="mr-2">
+                <v-menu
+                  offset-y
+                >
+                  <v-btn slot="activator" class="ma-0" small icon><v-icon color="grey">info</v-icon></v-btn>
+                  <v-card>
+                    <v-card-text>
+                      Select item is taxable or non-taxable.
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </v-flex>
+              <v-flex xs7>
+                <v-switch
+                  :label="tempItem.taxable ? 'Taxable':'Non-taxable'"
+                  v-model="tempItem.taxable"
+                  color="orange"
+                  hide-details>
+                </v-switch>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogEditingItem">Cancel</v-btn>
@@ -188,116 +236,27 @@
         </v-card-title>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogDeletingItem">Cancel</v-btn>
-          <v-btn color="red darken-1" flat block @click.native="confirmToDeleteItem">Confirm</v-btn>
+          <v-btn color="red darken-1" flat block @click.native="confirmToDeleteItem('tutorial/deleteItemFromMenu')">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     </div>
 </template>
 <script>
-  import clone from 'lodash.clone'
   import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
+  import sharedItems from '@/mixins/calculator/sharedItems'
 
   export default {
-    mixins: [fixingModalBugInIphone],
-    data () {
-      return {
-        dialogs: {
-          addingItem: false,
-          editingPeopleList: false,
-          deletingItem: false,
-          editingItem: false
-        },
-        tempItem: {
-          name: '',
-          price: '',
-          people: []
-        },
-        item: {
-          name: '',
-          price: '',
-          people: []
-        },
-        orderForItem: 0
-      }
-    },
+    mixins: [
+      fixingModalBugInIphone,
+      sharedItems
+    ],
     computed: {
       menu () {
         return this.$store.getters['tutorial/getMenu']
       },
       people () {
         return this.$store.getters['tutorial/getPeople']
-      }
-    },
-    methods: {
-      openDialogAddingItem () {
-        this.activeDialog = {type: 'addingItem', bool: true, autofocus: 'itemPriceFormForAdding'}
-      },
-      openDialogEditingItem (item) {
-        this.item = item
-        this.tempItem = clone(item)
-        if (!this.tempItem.price) {
-          this.tempItem.price = ''
-        }
-        this.activeDialog = {type: 'editingItem', bool: true, autofocus: 'itemPriceFormForEditing'}
-      },
-      openDialogDeletingItem (item) {
-        this.item = item
-        this.activeDialog = {type: 'deletingItem', bool: true}
-      },
-      openDialogEditingPeopleList (item) {
-        this.tempItem = item
-        this.activeDialog = {type: 'editingPeopleList', bool: true}
-      },
-      closeDialogAddingItem () {
-        this.__resetItemData()
-        this.activeDialog = {type: 'addingItem', bool: false}
-      },
-      closeDialogDeletingItem () {
-        this.__resetItemData()
-        this.activeDialog = {type: 'deletingItem', bool: false}
-      },
-      closeDialogEditingItem () {
-        this.__resetItemData()
-        this.activeDialog = {type: 'editingItem', bool: false}
-      },
-      __resetItemData () {
-        this.item = {}
-        this.tempItem = { name: '', price: '', people: [] }
-      },
-      dividedPrice (item) {
-        return this.$format.precisionRound((item.price / (item.people.length || 1)), 2)
-      },
-      confirmToAddItem () {
-        this.$store.commit('tutorial/addItemToMenu', {item: this.__modifyItemData(this.tempItem)})
-
-        this.__resetItemData()
-        this.activeDialog = {type: 'addingItem', bool: false}
-      },
-      confirmToEditItem () {
-        Object.assign(this.item, this.__modifyItemData(this.tempItem))
-
-        this.__resetItemData()
-        this.activeDialog = {type: 'editingItem', bool: false}
-      },
-      confirmToEditPeopleList () {
-        this.__resetItemData()
-        this.activeDialog = {type: 'editingPeopleList', bool: false}
-      },
-      confirmToDeleteItem () {
-        this.$store.commit('tutorial/deleteItemFromMenu', {item: this.item})
-
-        this.__resetItemData()
-        this.activeDialog = {type: 'deletingItem', bool: false}
-      },
-      __modifyItemData (pureData) {
-        let modifiedData = clone(pureData)
-
-        modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
-        modifiedData.price = this.$format.precisionRound(modifiedData.price, 2) || 0.00
-        modifiedData.people = modifiedData.people || []
-
-        return modifiedData
       }
     }
   }

@@ -44,7 +44,7 @@
                       </v-btn>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                      <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+                      <v-list-tile-title>{{ item.name }} <span class="caption red--text">{{ item.taxable ? '':'No tax' }}</span></v-list-tile-title>
                     </v-list-tile-content>
                     <v-list-tile-action>
                       {{ $accounting.formatMoney(item.price) }}
@@ -114,7 +114,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingPerson">Cancel</v-btn>
-          <v-btn color="light-blue" flat block @click.native="confirmToAddPerson">Confirm</v-btn>
+          <v-btn color="light-blue" flat block @click.native="confirmToAddPerson('tutorial/addPerson')">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -170,11 +170,35 @@
             prepend-icon="attach_money"
             v-model="tempItem.price"
           ></v-text-field>
+          <v-container class="pa-0 pt-2">
+            <v-layout row warp>
+              <v-flex offset-xs4 xs1 class="mr-2">
+                <v-menu
+                  offset-y
+                >
+                  <v-btn slot="activator" class="ma-0" small icon><v-icon color="grey">info</v-icon></v-btn>
+                  <v-card>
+                    <v-card-text>
+                      Select item is taxable or non-taxable.
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </v-flex>
+              <v-flex xs7>
+                <v-switch
+                  :label="tempItem.taxable ? 'Taxable':'Non-taxable'"
+                  v-model="tempItem.taxable"
+                  color="orange"
+                  hide-details>
+                </v-switch>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </v-card-text>
         <v-card-actions>
           <template v-if="dialogMode == 'add'">
             <v-btn color="grey darken-2" flat block @click.native="closeDialogForItem">Cancel</v-btn>
-            <v-btn color="light-blue" flat block @click.native="confirmToAddItem">Confirm</v-btn>
+            <v-btn color="light-blue" flat block @click.native="confirmToAddItem('tutorial/addItemToPerson')">Confirm</v-btn>
           </template>
           <template  v-else> 
             <v-btn color="grey darken-2" flat block @click.native="closeDialogForItem">Cancel</v-btn>
@@ -191,7 +215,7 @@
         </v-card-title>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogDeletingPerson">Cancel</v-btn>
-          <v-btn color="red darken-1" flat block @click.native="confirmToDeletePerson">Confirm</v-btn>
+          <v-btn color="red darken-1" flat block @click.native="confirmToDeletePerson('tutorial/deletePersonFromPeople')">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -200,154 +224,17 @@
   <!-- /Section for dialog -->
 </template>
 <script>
-  import clone from 'lodash.clone'
   import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
+  import eachPerson from '@/mixins/calculator/eachPerson'
 
   export default {
-    mixins: [fixingModalBugInIphone],
-    data () {
-      return {
-        dialogs: {
-          addingPerson: false,
-          editingPerson: false,
-          deletingPerson: false,
-          item: false
-        },
-        dialogMode: 'add',
-        person: {},
-        tempPerson: {
-          name: '',
-          tip: '',
-          menu: []
-        },
-        item: {},
-        tempItem: {
-          name: '',
-          price: ''
-        },
-        orderForPerson: 0,
-        orderForItem: 0
-      }
-    },
+    mixins: [
+      fixingModalBugInIphone,
+      eachPerson
+    ],
     computed: {
       people () {
         return this.$store.getters['tutorial/getPeople']
-      }
-    },
-    methods: {
-      totalPriceWithoutSalesTax (person) {
-        let total = 0
-
-        person.menu.forEach(item => {
-          total += item.price
-        })
-
-        return this.$format.precisionRound(total, 2)
-      },
-      openDialogAddingPerson () {
-        this.activeDialog = {type: 'addingPerson', bool: true, autofocus: 'personNameFormForAdding'}
-      },
-      closeDialogAddingPerson () {
-        this.person = {}
-        this.tempPerson = { name: '', tip: '', menu: [] }
-        this.activeDialog = {type: 'addingPerson', bool: false}
-      },
-      openDialogEditingPerson (person) {
-        this.person = person
-        this.tempPerson = clone(person)
-        this.activeDialog = {type: 'editingPerson', bool: true, autofocus: 'personNameFormForEditing'}
-      },
-      closeDialogEditingPerson () {
-        this.person = {}
-        this.tempPerson = {name: '', tip: '', menu: []}
-        this.activeDialog = {type: 'editingPerson', bool: false}
-      },
-      openDialogDeletingPerson (person) {
-        this.person = person
-        this.activeDialog = {type: 'deletingPerson', bool: true}
-      },
-      closeDialogDeletingPerson () {
-        this.person = {}
-        this.tempPerson = {name: '', tip: '', menu: []}
-        this.activeDialog = {type: 'deletingPerson', bool: false}
-      },
-      openDialogForItem (person, item) {
-        if (typeof item !== 'undefined') {
-          this.dialogMode = 'edit'
-          this.tempItem = clone(item)
-          if (!this.tempItem.price) {
-            this.tempItem.price = ''
-          }
-        } else {
-          this.dialogMode = 'add'
-        }
-
-        this.person = person
-        this.item = item
-        this.activeDialog = {type: 'item', bool: true, autofocus: 'itemPriceForm'}
-      },
-      closeDialogForItem () {
-        this.dialogMode = 'add'
-
-        this.person = {}
-        this.item = {}
-        this.tempItem = {name: '', price: ''}
-        this.activeDialog = {type: 'item', bool: false}
-      },
-      confirmToAddPerson () {
-        this.$store.commit('tutorial/addPerson', {person: this.__modifyPersonData(this.tempPerson)})
-
-        this.person = {}
-        this.tempPerson = { name: '', tip: '', menu: [] }
-        this.activeDialog = {type: 'addingPerson', bool: false}
-      },
-      confirmToEditPerson () {
-        Object.assign(this.person, this.__modifyPersonData(this.tempPerson))
-
-        this.person = {}
-        this.tempPerson = {name: '', tip: '', menu: []}
-        this.activeDialog = {type: 'editingPerson', bool: false}
-      },
-      confirmToAddItem () {
-        this.$store.commit('tutorial/addItemToPerson', {person: this.person, item: this.__modifyItemData(this.tempItem)})
-
-        this.person = {}
-        this.item = {}
-        this.tempItem = {name: '', price: ''}
-        this.activeDialog = {type: 'item', bool: false}
-      },
-      confirmToEditItem () {
-        Object.assign(this.item, this.__modifyItemData(this.tempItem))
-
-        this.person = {}
-        this.item = {}
-        this.tempItem = {name: '', price: ''}
-        this.activeDialog = {type: 'item', bool: false}
-      },
-      confirmToDeletePerson () {
-        this.$store.commit('tutorial/deletePersonFromPeople', {person: this.person})
-
-        this.person = {}
-        this.tempPerson = {name: '', tip: '', menu: []}
-        this.activeDialog = {type: 'deletingPerson', bool: false}
-      },
-      __modifyPersonData (pureData) {
-        let modifiedData = clone(pureData)
-
-        modifiedData.name = modifiedData.name || 'Person ' + this.orderForPerson++
-        modifiedData.tip = modifiedData.tip || 0
-        modifiedData.menu = modifiedData.menu || []
-
-        return modifiedData
-      },
-      __modifyItemData (pureData) {
-        let modifiedData = clone(pureData)
-
-        modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
-        // modifiedData.price = parseFloat(modifiedData.price) || 0.00
-        modifiedData.price = this.$format.precisionRound(modifiedData.price, 2) || 0.00
-
-        return modifiedData
       }
     }
   }
