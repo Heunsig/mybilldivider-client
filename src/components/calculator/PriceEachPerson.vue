@@ -95,7 +95,7 @@
     </template>
     
     <!-- Section for dialog -->
-    <v-dialog v-model="dialogs.addingPerson" lazy persistent max-width="290" content-class="test-a">
+    <v-dialog v-model="dialogs.addingPerson" lazy persistent scrollable max-width="290" content-class="test-a">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
           Add a person who ordered items
@@ -120,7 +120,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogs.editingPerson" persistent max-width="290">
+    <v-dialog v-model="dialogs.editingPerson" scrollable persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
           Edit Person
@@ -145,7 +145,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogs.item" persistent max-width="290">
+    <v-dialog v-model="dialogs.item" scrollable persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
           <template v-if="dialogMode == 'add'">Add an item you bought</template>

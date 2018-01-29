@@ -80,7 +80,7 @@
     </template>
     
     <!-- Section for dialog -->
-    <v-dialog v-model="dialogs.addingItem" persistent max-width="290">
+    <v-dialog v-model="dialogs.addingItem" scrollable persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-blue white--text">
         Add an item shared with others
@@ -137,7 +137,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogs.editingItem" persistent max-width="290">
+    <v-dialog v-model="dialogs.editingItem" scrollable persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-blue white--text">Edit the item shared with others</v-card-title>
         <v-card-text>

@@ -173,7 +173,7 @@
         Add people first at "EACH PERSON" tab
       </div>
     </template>
-    <v-dialog v-model="dialogs.settingTip" persistent max-width="290">
+    <v-dialog v-model="dialogs.settingTip" scrollable persistent max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title orange white--text">
           Tip Rate 
