@@ -10,6 +10,7 @@ import GetPosition from './plugins/get-position'
 import VueClipboard from 'vue-clipboard2'
 import Accounting from './plugins/accounting'
 import VueAnalytics from 'vue-analytics'
+import VueResource from 'vue-resource'
 
 // index.js or main.js
 import 'vuetify/dist/vuetify.min.css'
@@ -24,6 +25,7 @@ Vue.use(VueClipboard)
 Vue.use(Format)
 Vue.use(GetPosition)
 Vue.use(Accounting)
+Vue.use(VueResource)
 
 Vue.use(VueAnalytics, {
   id: ['UA-113181415-1', 'UA-112759985-1'],

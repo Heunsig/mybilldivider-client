@@ -24,6 +24,17 @@
             </v-list>      
           </v-card>
         </v-flex>
+        <v-flex xs12>
+          <v-btn @click="getAddress">
+            Get address
+          </v-btn><br/>
+          <template v-if="errorMsg == ''">
+          The sales tax where you are is {{ recommendedSalesTax }} %
+          </template>
+          <template v-else>
+            {{ errorMsg }}
+          </template>
+        </v-flex>
       </v-layout>
     </v-container>
     
@@ -129,9 +140,58 @@
       fixingModalBugInIphone,
       defaultSetting
     ],
+    data () {
+      return {
+        recommendedSalesTax: 0,
+        errorMsg: ''
+      }
+    },
     computed: {
       salesTax () {
         return this.$store.getters.getSalesTaxRate
+      }
+    },
+    methods: {
+      getAddress () {
+        let $this = this
+
+        let googleApi = ''
+        let googleKey = 'AIzaSyCl7fbULQdlwssMehDR9G0hrmyu11fOdXo'
+        let lat = 0
+        let lng = 0
+
+        let mybilldividerApi = 'https://api.mybilldivider.com/api/'
+        let state = ''
+        let zipcode = 0
+
+        if (!navigator.geolocation) {
+          this.errorMsg = '<p>Geolocation is not supported by your browser</p>'
+        } else {
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              lat = position.coords.latitude
+              lng = position.coords.longitude
+              googleApi = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${googleKey}`
+
+              $this.$http.get(googleApi)
+                .then(res => {
+                  console.log(res)
+
+                  state = res.body.results[0].address_components[5].short_name
+                  zipcode = res.body.results[0].address_components[7].short_name
+
+                  $this.$http.get(`${mybilldividerApi}getSalesTax/${state}/${zipcode}`).then(res => {
+                    $this.recommendedSalesTax = res.body.estimatedCombinedRate * 100
+                  }, err => {
+                    console.log(err)
+                  })
+                }, err => {
+                  console.log(err)
+                })
+            },
+            function () {}
+          )
+        }
       }
     }
   }
