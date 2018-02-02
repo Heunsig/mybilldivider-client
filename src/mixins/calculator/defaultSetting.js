@@ -43,9 +43,11 @@ export default {
     confirmToGetSalesTaxAuto () {
       let value = this.$format.precisionRound((((this.priceOfTax || 0) / (this.priceOfSubTotal || 0)) * 100), 2)
       if (typeof value === 'number' && value !== Infinity && !isNaN(value)) {
-        this.tempSalesTax = value
+        this.salesTax = value
+        // this.tempSalesTax = value
       } else {
-        this.tempSalesTax = 0
+        this.salesTax = 0
+        // this.tempSalesTax = 0
       }
 
       this.isGetSalesTaxMenuActive = false

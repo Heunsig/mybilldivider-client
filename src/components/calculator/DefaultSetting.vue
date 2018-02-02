@@ -4,7 +4,100 @@
       <v-layout row wrap>
         <v-flex xs12>
           <v-card class="ics-cardDecoration">
-            <v-list subheader>
+            <v-card-text>
+              <v-container fluid class="pa-0">
+                <v-layout wrap>
+                  <v-flex xs12>
+                    <div class="green--text">
+                      Sales Tax(%)
+                    </div>
+                  </v-flex>
+                  <v-flex xs12 class="ics-dashedBorder">
+                    <v-text-field
+                      placeholder="0"
+                      full-width
+                      hide-details
+                      clearable
+                      suffix="%"
+                      v-model="salesTax"
+                      class="pa-0 pt-2"
+                    ></v-text-field>
+                  </v-flex>
+                  <v-flex xs12>
+                    <div class="ics-box-address pa-2 text-xs-center">
+                      <div v-if="!errorMsg">
+                        <template v-if="progressCircle">
+                           <v-progress-circular indeterminate color="green"></v-progress-circular>
+                        </template>
+                        <template v-else>
+                          {{ currentLocationAddress }}
+                        </template>
+                      </div>
+                      <div v-else>
+                        <span class="red--text">{{ errorMsg }}</span>
+                      </div>
+                    </div>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn icon color="green" dark small fab absolute bottom right class="ma-0 mt-2" @click="getSalesTaxCurrentLocation">
+                <v-icon>location_on</v-icon>
+              </v-btn>
+              <v-menu
+                offset-x
+                left
+                max-width="230"
+                :close-on-content-click="false"
+                v-model="isGetSalesTaxMenuActive"
+                style="position:absolute;bottom:-20px;right:60px;"
+              >
+                <v-btn slot="activator" color="light-green" small icon dark fab class="ma-0 mt-2">
+                  <v-icon>
+                    fa-calculator
+                  </v-icon>
+                </v-btn>
+                <v-card>
+                  <v-card-title>
+                    <p class="subheading mb-1">Calculate sales tax</p>
+                    <div class="caption">
+                      This will calculate your sales tax if you can't find it. Input the sub total and tax on your bill into the form.
+                      <v-menu>
+                        <a href="#" slot="activator">See an example</a>
+                        <v-card>
+                          <div class="pa-1">
+                            <img :src="images.imageExampleSubtotalAndTax" alt="An example of subtotal and tax"/>
+                            <div class="caption grey--text text--darken-1">This picture is an example</div>
+                          </div>
+                        </v-card>
+                      </v-menu>
+                    </div>
+                  </v-card-title>
+                  <v-card-text class="pt-0">
+                    <v-text-field 
+                      label="Sub Total" 
+                      type="number" 
+                      clearable
+                      hide-details
+                      v-model="priceOfSubTotal"
+                    ></v-text-field>
+                    <v-text-field 
+                      label="Tax" 
+                      type="number" 
+                      clearable
+                      hide-details
+                      v-model="priceOfTax"
+                    ></v-text-field>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-btn block flat color="grey darken-2" @click="closeMenuGettingSalesTaxAuto">Cancel</v-btn>
+                    <v-btn block flat color="light-green" @click="confirmToGetSalesTaxAuto">Confirm</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-menu>
+            </v-card-actions>
+            <!-- <v-list subheader>
               <li class="ics-customSubheader">
                 <div class="green--text">Sales Tax</div>
                 <div>
@@ -13,7 +106,9 @@
               </li>
               <v-list-tile @click.native="openDialog">
                 <v-list-tile-content>
-                  <v-list-tile-title>{{ salesTax }} %</v-list-tile-title>
+                  <v-list-tile-title>
+                    {{ salesTax }} %
+                  </v-list-tile-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
                   <v-btn icon dark small fab color="orange" @click="openDialog">
@@ -21,24 +116,14 @@
                   </v-btn>
                 </v-list-tile-action>
               </v-list-tile>
-            </v-list>      
+            </v-list>       -->
+
           </v-card>
-        </v-flex>
-        <v-flex xs12>
-          <v-btn @click="getAddress">
-            Get address
-          </v-btn><br/>
-          <template v-if="errorMsg == ''">
-          The sales tax where you are is {{ recommendedSalesTax }} %
-          </template>
-          <template v-else>
-            {{ errorMsg }}
-          </template>
         </v-flex>
       </v-layout>
     </v-container>
     
-    <v-dialog v-model="dialogs.setSalesTax" persistent scrollable max-width="290">
+    <!-- <v-dialog v-model="dialogs.setSalesTax" persistent scrollable max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
           <v-container fluid class="pa-0">
@@ -64,7 +149,6 @@
                           <a href="#" slot="activator">See an example</a>
                           <v-card>
                             <div class="pa-1">
-                              <!-- <img src="http://icansplit.catchasoft.com/new/example_subtotalAndTax.gif" alt="An example of subtotal and tax"/> -->
                               <img :src="images.imageExampleSubtotalAndTax" alt="An example of subtotal and tax"/>
                               <div class="caption grey--text text--darken-1">This picture is an example</div>
                             </div>
@@ -128,7 +212,7 @@
           <v-btn color="light-green" block flat @click.native="confirmSalesTax('setSalesTaxRate')">Confirm</v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
   </div>
 </template>
 <script>
@@ -142,55 +226,59 @@
     ],
     data () {
       return {
-        recommendedSalesTax: 0,
+        currentLocationAddress: '',
+        progressCircle: false,
         errorMsg: ''
       }
     },
     computed: {
-      salesTax () {
-        return this.$store.getters.getSalesTaxRate
+      // salesTax () {
+      //   return this.$store.getters.getSalesTaxRate
+      // }
+      salesTax: {
+        get () {
+          return this.$store.getters.getSalesTaxRate
+        },
+        set (value) {
+          this.$store.commit('setSalesTaxRate', value)
+        }
       }
     },
     methods: {
-      getAddress () {
-        let $this = this
-
-        let googleApi = ''
+      getSalesTaxCurrentLocation () {
+        this.progressCircle = true
         let googleKey = 'AIzaSyCl7fbULQdlwssMehDR9G0hrmyu11fOdXo'
         let lat = 0
         let lng = 0
-
-        let mybilldividerApi = 'https://api.mybilldivider.com/api/'
         let state = ''
         let zipcode = 0
+        let address = ''
 
         if (!navigator.geolocation) {
-          this.errorMsg = '<p>Geolocation is not supported by your browser</p>'
+
         } else {
-          navigator.geolocation.getCurrentPosition(
-            function (position) {
-              lat = position.coords.latitude
-              lng = position.coords.longitude
-              googleApi = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${googleKey}`
+          navigator.geolocation.getCurrentPosition(position => {
+            lat = position.coords.latitude
+            lng = position.coords.longitude
 
-              $this.$http.get(googleApi)
-                .then(res => {
-                  console.log(res)
+            this.$http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${googleKey}&language=en`).then(res => {
+              address = res.body.results[0].formatted_address
+              state = res.body.results[0].address_components[5].short_name
+              zipcode = res.body.results[0].address_components[7].short_name
 
-                  state = res.body.results[0].address_components[5].short_name
-                  zipcode = res.body.results[0].address_components[7].short_name
-
-                  $this.$http.get(`${mybilldividerApi}getSalesTax/${state}/${zipcode}`).then(res => {
-                    $this.recommendedSalesTax = res.body.estimatedCombinedRate * 100
-                  }, err => {
-                    console.log(err)
-                  })
-                }, err => {
-                  console.log(err)
-                })
-            },
-            function () {}
-          )
+              this.$http.get(`https://api.mybilldivider.com/api/getSalesTax/${state}/${zipcode}`).then(res => {
+                this.currentLocationAddress = address
+                this.salesTax = res.body.estimatedCombinedRate * 100
+                this.progressCircle = false
+              }, () => {
+                this.errorMsg = 'Error: cannot take location data'
+              })
+            }, () => {
+              this.errorMsg = 'Error: cannot take lcation data'
+            })
+          }, err => {
+            this.errorMsg = 'Error: ' + err.message
+          })
         }
       }
     }
@@ -204,10 +292,13 @@
   .container.ics-grid > .layout > .flex{padding: 20px 8px 8px 8px;}
 
   .ics-customSubheader{
-    margin: 10px 0;
+    /*max-resolution: res;: 10px 0;*/
     color: rgba(0,0,0,.54);
     font-size: 14px;
     font-weight: 500;
     padding: 0 16px;
+  }
+  .ics-box-address {
+
   }
 </style>

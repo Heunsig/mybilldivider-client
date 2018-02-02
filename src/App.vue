@@ -188,4 +188,6 @@ export default {
   .ics-spacer-taxableSelector {
     flex-grow: 0.6!important;
   }
+
+  .ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}
 </style>
