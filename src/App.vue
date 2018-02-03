@@ -94,7 +94,7 @@ export default {
           icon: 'help',
           router: {
             name: 'tutorial',
-            params: { page: 'setting' }
+            params: { page: 'eachPerson' }
           }
         },
         {
@@ -102,7 +102,7 @@ export default {
           icon: 'star',
           router: {
             name: 'calculator',
-            params: { page: 'setting' }
+            params: { page: 'eachPerson' }
           }
         },
         {

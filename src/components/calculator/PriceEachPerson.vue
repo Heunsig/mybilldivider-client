@@ -95,7 +95,7 @@
     </template>
     
     <!-- Section for dialog -->
-    <v-dialog v-model="dialogs.addingPerson" lazy persistent scrollable max-width="290" content-class="test-a">
+    <v-dialog v-model="dialogs.addingPerson" lazy persistent scrollable max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">
           Add a person who ordered items
@@ -115,7 +115,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingPerson">Cancel</v-btn>
-          <v-btn color="light-green" flat block @click.native="confirmToAddPerson('addPerson')">Confirm</v-btn>
+          <v-btn color="light-green" flat block @click.native="confirmToAddPerson">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -199,7 +199,7 @@
         <v-card-actions>
           <template v-if="dialogMode == 'add'">
             <v-btn color="grey darken-2" flat block @click.native="closeDialogForItem">Cancel</v-btn>
-            <v-btn color="light-green" flat block @click.native="confirmToAddItem('addItemToPerson')">Confirm</v-btn>
+            <v-btn color="light-green" flat block @click.native="confirmToAddItem">Confirm</v-btn>
           </template>
           <template  v-else> 
             <v-btn color="grey darken-2" flat block @click.native="closeDialogForItem">Cancel</v-btn>
@@ -209,14 +209,14 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog persistent v-model="dialogs.deletingPerson">
+    <v-dialog persistent v-model="dialogs.deletingPerson" max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
         Do you want to delete the person?
         </v-card-title>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogDeletingPerson">Cancel</v-btn>
-          <v-btn color="red darken-1" flat block @click.native="confirmToDeletePerson('deletePersonFromPeople')">Confirm</v-btn>
+          <v-btn color="red darken-1" flat block @click.native="confirmToDeletePerson">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -225,16 +225,164 @@
 </template>
 <script>
   import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
-  import eachPerson from '@/mixins/calculator/eachPerson'
+  import clone from 'lodash.clone'
 
   export default {
     mixins: [
-      fixingModalBugInIphone,
-      eachPerson
+      fixingModalBugInIphone
     ],
+    data () {
+      return {
+        dialogs: {
+          addingPerson: false,
+          editingPerson: false,
+          deletingPerson: false,
+          item: false
+        },
+        dialogMode: 'add',
+        person: {},
+        tempPerson: {
+          name: '',
+          tip: '',
+          menu: []
+        },
+        item: {},
+        tempItem: {
+          name: '',
+          price: '',
+          taxable: true
+        },
+        orderForPerson: 0,
+        orderForItem: 0
+      }
+    },
     computed: {
       people () {
-        return this.$store.getters.getPeople
+        return this.$store.getters[this.$route.name + '/' + 'getPeople']
+      }
+    },
+    methods: {
+      totalPriceWithoutSalesTax (person) {
+        let total = 0
+
+        person.menu.forEach(item => {
+          total += item.price
+        })
+
+        return this.$format.precisionRound(total, 2)
+      },
+      openDialogAddingPerson () {
+        this.activeDialog = {type: 'addingPerson', bool: true, autofocus: 'personNameFormForAdding'}
+      },
+      closeDialogAddingPerson () {
+        this.person = {}
+        this.tempPerson = { name: '', tip: '', menu: [] }
+        this.activeDialog = {type: 'addingPerson', bool: false}
+      },
+      confirmToAddPerson () {
+        this.$store.commit(this.$route.name + '/' + 'addPerson', {person: this.__modifyPersonData(this.tempPerson)})
+
+        this.person = {}
+        this.tempPerson = { name: '', tip: '', menu: [] }
+        this.activeDialog = {type: 'addingPerson', bool: false}
+      },
+      openDialogEditingPerson (person) {
+        this.person = person
+        this.tempPerson = clone(person)
+        this.activeDialog = {type: 'editingPerson', bool: true, autofocus: 'personNameFormForEditing'}
+      },
+      closeDialogEditingPerson () {
+        this.person = {}
+        this.tempPerson = {name: '', tip: '', menu: []}
+        this.activeDialog = {type: 'editingPerson', bool: false}
+      },
+      confirmToEditPerson () {
+        Object.assign(this.person, this.__modifyPersonData(this.tempPerson))
+
+        this.person = {}
+        this.tempPerson = {name: '', tip: '', menu: []}
+        this.activeDialog = {type: 'editingPerson', bool: false}
+      },
+      openDialogDeletingPerson (person) {
+        this.person = person
+        this.activeDialog = {type: 'deletingPerson', bool: true}
+      },
+      confirmToDeletePerson () {
+        this.$store.commit(this.$route.name + '/' + 'deletePersonFromPeople', {person: this.person})
+
+        this.person = {}
+        this.tempPerson = {name: '', tip: '', menu: []}
+        this.activeDialog = {type: 'deletingPerson', bool: false}
+      },
+      closeDialogDeletingPerson () {
+        this.person = {}
+        this.tempPerson = {name: '', tip: '', menu: []}
+        this.activeDialog = {type: 'deletingPerson', bool: false}
+      },
+      openDialogForItem (person, item) {
+        if (typeof item !== 'undefined') {
+          this.dialogMode = 'edit'
+          this.tempItem = clone(item)
+          if (!this.tempItem.price) {
+            this.tempItem.price = ''
+          }
+        } else {
+          this.dialogMode = 'add'
+          this.tempItem = {name: '', price: '', taxable: true}
+        }
+
+        this.person = person
+        this.item = item
+        this.activeDialog = {type: 'item', bool: true, autofocus: 'itemPriceForm'}
+      },
+      closeDialogForItem () {
+        this.dialogMode = 'add'
+
+        this.person = {}
+        this.item = {}
+        this.tempItem = {name: '', price: '', taxable: true}
+        this.activeDialog = {type: 'item', bool: false}
+      },
+      confirmToAddItem () {
+        this.$store.commit(this.$route.name + '/' + 'addItemToPerson', {person: this.person, item: this.__modifyItemData(this.tempItem)})
+
+        this.person = {}
+        this.item = {}
+        this.tempItem = {name: '', price: '', taxable: true}
+        this.activeDialog = {type: 'item', bool: false}
+      },
+      confirmToEditItem () {
+        Object.assign(this.item, this.__modifyItemData(this.tempItem))
+
+        this.person = {}
+        this.item = {}
+        this.tempItem = {name: '', price: '', taxable: null}
+        this.activeDialog = {type: 'item', bool: false}
+      },
+      confirmToRemoveItem (person, item) {
+        person.menu.forEach((obj, i) => {
+          if (obj === item) {
+            person.menu.splice(i, 1)
+          }
+        })
+      },
+      __modifyPersonData (pureData) {
+        let modifiedData = clone(pureData)
+
+        modifiedData.name = modifiedData.name || 'Person ' + this.orderForPerson++
+        modifiedData.tip = modifiedData.tip || 0
+        modifiedData.menu = modifiedData.menu || []
+
+        return modifiedData
+      },
+      __modifyItemData (pureData) {
+        let modifiedData = clone(pureData)
+
+        modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
+        modifiedData.price = this.$format.precisionRound(modifiedData.price, 2) || 0.00
+        modifiedData.taxable = modifiedData.taxable
+
+        return modifiedData
       }
     }
   }
@@ -259,11 +407,7 @@
     font-weight: 500;
   }
   .ics-msgNoItems{
-    /*padding: 5px 16px;*/
-    /*color: #717171; */
     font-size: 14px;
-    /*font-weight: 500;*/
-    /*text-align:center;*/
   }
 
   .ics-textField-detail{

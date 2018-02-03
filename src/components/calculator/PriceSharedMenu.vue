@@ -133,7 +133,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingItem">Cancel</v-btn>
-          <v-btn color="light-green" flat block @click.native="confirmToAddItem('addItemToMenu')">Confirm</v-btn>
+          <v-btn color="light-green" flat block @click.native="confirmToAddItem">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -230,14 +230,14 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog persistent v-model="dialogs.deletingItem">
+    <v-dialog persistent v-model="dialogs.deletingItem" max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
           Do you want to delete the item?
         </v-card-title>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogDeletingItem">Cancel</v-btn>
-          <v-btn color="red darken-1" flat block @click.native="confirmToDeleteItem('deleteItemFromMenu')">Confirm</v-btn>
+          <v-btn color="red darken-1" flat block @click.native="confirmToDeleteItem">Confirm</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -245,19 +245,108 @@
 </template>
 <script>
   import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
-  import sharedItems from '@/mixins/calculator/sharedItems'
+  import clone from 'lodash.clone'
 
   export default {
     mixins: [
-      fixingModalBugInIphone,
-      sharedItems
+      fixingModalBugInIphone
     ],
+    data () {
+      return {
+        dialogs: {
+          addingItem: false,
+          editingPeopleList: false,
+          deletingItem: false,
+          editingItem: false
+        },
+        tempItem: {
+          name: '',
+          price: '',
+          taxable: true,
+          people: []
+        },
+        item: {},
+        orderForItem: 0
+      }
+    },
     computed: {
       menu () {
-        return this.$store.getters.getMenu
+        return this.$store.getters[this.$route.name + '/' + 'getMenu']
       },
       people () {
-        return this.$store.getters.getPeople
+        return this.$store.getters[this.$route.name + '/' + 'getPeople']
+      }
+    },
+    methods: {
+      openDialogAddingItem () {
+        this.activeDialog = {type: 'addingItem', bool: true, autofocus: 'itemPriceFormForAdding'}
+      },
+      confirmToAddItem () {
+        this.$store.commit(this.$route.name + '/' + 'addItemToMenu', {item: this.__modifyItemData(this.tempItem)})
+
+        this.__resetItemData()
+        this.activeDialog = {type: 'addingItem', bool: false}
+      },
+      openDialogEditingItem (item) {
+        this.item = item
+        this.tempItem = clone(item)
+        if (!this.tempItem.price) {
+          this.tempItem.price = ''
+        }
+        this.activeDialog = {type: 'editingItem', bool: true, autofocus: 'itemPriceFormForEditing'}
+      },
+      confirmToEditItem () {
+        Object.assign(this.item, this.__modifyItemData(this.tempItem))
+
+        this.__resetItemData()
+        this.activeDialog = {type: 'editingItem', bool: false}
+      },
+      openDialogDeletingItem (item) {
+        this.item = item
+        this.activeDialog = {type: 'deletingItem', bool: true}
+      },
+      confirmToDeleteItem () {
+        this.$store.commit(this.$route.name + '/' + 'deleteItemFromMenu', {item: this.item})
+
+        this.__resetItemData()
+        this.activeDialog = {type: 'deletingItem', bool: false}
+      },
+      confirmToEditPeopleList () {
+        this.__resetItemData()
+        this.activeDialog = {type: 'editingPeopleList', bool: false}
+      },
+      openDialogEditingPeopleList (item) {
+        this.tempItem = item
+        this.activeDialog = {type: 'editingPeopleList', bool: true}
+      },
+      closeDialogAddingItem () {
+        this.__resetItemData()
+        this.activeDialog = {type: 'addingItem', bool: false}
+      },
+      closeDialogDeletingItem () {
+        this.__resetItemData()
+        this.activeDialog = {type: 'deletingItem', bool: false}
+      },
+      closeDialogEditingItem () {
+        this.__resetItemData()
+        this.activeDialog = {type: 'editingItem', bool: false}
+      },
+      __resetItemData () {
+        this.item = {}
+        this.tempItem = { name: '', price: '', taxable: true, people: [] }
+      },
+      dividedPrice (item) {
+        return this.$format.precisionRound((item.price / (item.people.length || 1)), 2)
+      },
+      __modifyItemData (pureData) {
+        let modifiedData = clone(pureData)
+
+        modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
+        modifiedData.price = this.$format.precisionRound(modifiedData.price, 2) || 0.00
+        modifiedData.taxable = modifiedData.taxable
+        modifiedData.people = modifiedData.people || []
+
+        return modifiedData
       }
     }
   }
@@ -280,11 +369,7 @@
   .ics-floatingBtn{z-index: 1!important;}
 
   .ics-msgNoItems{
-    /*padding: 5px 16px;*/
-    /*color: #717171; */
     font-size: 14px;
-    /*font-weight: 500;*/
-    /*text-align:center;*/
   }
 
   .ics-msgNoItem-main{
