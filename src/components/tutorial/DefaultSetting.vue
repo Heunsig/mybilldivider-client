@@ -6,7 +6,7 @@
           <v-card class="ics-cardDecoration">
             <v-list subheader>
               <li class="ics-customSubheader">
-                <div class="green--text">Sales Tax</div>
+                <div class="green--text">Sales Tax2</div>
                 <div>
                   <span class="orange--text">Push the orange button</span> to set the sales tax.
                 </div>
