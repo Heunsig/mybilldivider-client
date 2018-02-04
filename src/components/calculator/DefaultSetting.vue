@@ -105,14 +105,12 @@
 </template>
 <script>
   import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
-  // import defaultSetting from '@/mixins/calculator/defaultSetting'
   import imageExampleSalesTax from '@/assets/example_salesTax.gif'
   import imageExampleSubtotalAndTax from '@/assets/example_subtotalAndTax.gif'
 
   export default {
     mixins: [
       fixingModalBugInIphone
-      // defaultSetting
     ],
     data () {
       return {

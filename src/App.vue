@@ -150,7 +150,7 @@ export default {
       this.activeDialog = {type: dialog, bool: true}
     },
     confirmToRefreshAll () {
-      this.$store.commit('refreshAll')
+      this.$store.commit('calculator/refreshAll')
       this.activeDialog = {type: 'refreshAll', bool: false}
       this.routerPush({name: 'main'})
     }

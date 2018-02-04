@@ -17,11 +17,6 @@ export default new Router({
       component: Home,
       name: 'main'
     },
-    // {
-    //   path: '/tutorial/:page',
-    //   component: Tutorial,
-    //   name: 'tutorial'
-    // },
     {
       path: '/tutorial/:page',
       component: Calculator,
