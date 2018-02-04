@@ -49,7 +49,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogs.tempDialog" max-width="290">
+    <v-dialog v-model="dialogs.checkingSalesTax" max-width="290">
       <v-card>
         <v-card-title class="light-green white--text ics-dialog-title">
           Are you sure {{ salesTax + '%' }} Sales tax?
@@ -59,7 +59,7 @@
           Do you want to go back to the tab to set it?
         </v-card-text>
         <v-card-actions>
-          <v-btn block flat color="grey darken-2" @click="activeDialog = {type: 'tempDialog', bool: false}">
+          <v-btn block flat color="grey darken-2" @click="activeDialog = {type: 'checkingSalesTax', bool: false}">
             No
           </v-btn>
           <v-btn block flat color="light-green" @click="goBackToTabToSetSalesTax">
@@ -163,13 +163,14 @@
     </v-dialog>
 
     <v-btn
+      v-if="isTutorial()"
       color="blue"
       dark
       fab
       fixed
       bottom
       right
-      @click="routerPush({name: 'calculator', params: {page: 'eachPerson'}})"
+      @click="routerPush({name: 'calculator', params: {page: 'setting'}})"
     >
       <v-icon>grade</v-icon>
     </v-btn>
@@ -204,12 +205,17 @@ export default {
       dialogs: {
         refreshPage: false,
         setSalesTax: false,
-        tempDialog: false
+        checkingSalesTax: false
       },
       refresh: false,
       refreshMode: 'eachPerson',
       currentTab: {},
       tabs: [
+        {
+          id: 'setting',
+          label: 'Settings',
+          component: 'DefaultSetting'
+        },
         {
           id: 'eachPerson',
           label: 'Each<br/>person',
@@ -221,11 +227,6 @@ export default {
           label: 'Shared<br/>Items',
           component: 'PriceSharedMenu',
           refresh: true
-        },
-        {
-          id: 'setting',
-          label: 'Settings',
-          component: 'DefaultSetting'
         },
         {
           id: 'result',
@@ -308,7 +309,7 @@ export default {
     },
     goBackToTabToSetSalesTax () {
       this.tabInMixin = 'setting'
-      this.activeDialog = {type: 'tempDialog', bool: false}
+      this.activeDialog = {type: 'checkingSalesTax', bool: false}
     },
     changeTab (tab) {
       this.tabs.forEach(obj => {
@@ -325,16 +326,18 @@ export default {
 
       if (tab === 'result') {
         if (this.salesTax === 0) {
-          this.activeDialog = {type: 'tempDialog', bool: true}
+          this.activeDialog = {type: 'checkingSalesTax', bool: true}
         }
       }
 
-      if (tab === 'eachPerson') {
-        this.tutorial.dialogs.intro = true
-        this.tutorial.dialogs.conclusion = false
-      } else if (tab === 'result') {
-        this.tutorial.dialogs.intro = false
-        this.tutorial.dialogs.conclusion = true
+      if (this.isTutorial()) {
+        if (tab === 'setting') {
+          this.tutorial.dialogs.intro = true
+          this.tutorial.dialogs.conclusion = false
+        } else if (tab === 'result') {
+          this.tutorial.dialogs.intro = false
+          this.tutorial.dialogs.conclusion = true
+        }
       }
     }
   }
