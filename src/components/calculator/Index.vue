@@ -146,7 +146,7 @@
                   <p>
                     Click 
                     <v-btn small dark icon color="blue" class="ma-1">
-                      <v-icon style="font-size:16px;">grade</v-icon>
+                      <v-icon style="font-size:16px;">fa-calculator</v-icon>
                     </v-btn> to start calculating.
                   </p>
                 </div>
@@ -174,7 +174,7 @@
       right
       @click="routerPush({name: 'calculator', params: {page: 'setting'}})"
     >
-      <v-icon>grade</v-icon>
+      <v-icon>fa-calculator</v-icon>
     </v-btn>
   </div>
 </template>

@@ -2,10 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Home from '@/components/Home'
-// import Tutorial from '@/components/tutorial'
-// import Tutorial from '@/components/calculator'
 import Calculator from '@/components/calculator'
-import AboutMe from '@/components/AboutMe'
+import Feedback from '@/components/Feedback'
+import AboutUs from '@/components/AboutUs'
 
 Vue.use(Router)
 
@@ -28,9 +27,14 @@ export default new Router({
       name: 'calculator'
     },
     {
-      path: '/aboutMe',
-      component: AboutMe,
-      name: 'aboutMe'
+      path: '/feedback',
+      component: Feedback,
+      name: 'feedback'
+    },
+    {
+      path: '/aboutUs',
+      component: AboutUs,
+      name: 'aboutUs'
     }
   ]
 })

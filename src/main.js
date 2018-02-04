@@ -32,6 +32,14 @@ Vue.use(VueAnalytics, {
   router
 })
 
+Vue.prototype.$PATH_API = 'https://api.mybilldivider.com/api/'
+
+Vue.prototype.$resetData = ($this, changingData, originalData) => {
+  if (typeof originalData === 'undefined') { originalData = changingData }
+
+  Object.assign($this.$data[changingData], $this.$options.data()[originalData])
+}
+
 // Formatting number - old
 // Vue.prototype.$formatNumber = (num) => {
 //   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')

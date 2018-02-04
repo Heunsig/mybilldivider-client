@@ -4,9 +4,9 @@ const Format = {
   // It takes the global Vue object as well as user-defined options.
   install (Vue, options) {
     Vue.prototype.$format = {
-      money (num) {
-        return num.toLocaleString()
-      },
+      // money (num) {
+      //   return num.toLocaleString()
+      // },
       precisionRound (number, precision) {
         var factor = Math.pow(10, precision)
         return Math.round(number * factor) / factor

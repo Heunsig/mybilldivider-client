@@ -30,10 +30,23 @@
           </v-list-tile>
         </template>
       </v-list>
+      <v-list class="pt-0">
+        <v-subheader>About us</v-subheader>
+        <template v-for="item in navForAboutUs">
+          <v-list-tile :key="item.label" @click="routerPush(item.router)">
+            <v-list-tile-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{ item.label }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+      </v-list>
       <v-list>
         <v-subheader>Function</v-subheader>
         <template v-for="item in navForFunction">
-          <v-divider></v-divider>
+          <!-- <v-divider></v-divider> -->
           <v-list-tile :key="item.label" @click="item.dialog ? openDialog(item.dialog) : ''">
             <v-list-tile-action>
               <v-icon class="light-green--text">{{ item.icon }}</v-icon>
@@ -99,17 +112,26 @@ export default {
         },
         {
           label: 'Calculator',
-          icon: 'star',
+          icon: 'fa-calculator',
           router: {
             name: 'calculator',
             params: { page: 'setting' }
           }
+        }
+      ],
+      navForAboutUs: [
+        {
+          label: 'Feedback',
+          icon: 'comment',
+          router: {
+            name: 'feedback'
+          }
         },
         {
-          label: 'About me',
+          label: 'About us',
           icon: 'info',
           router: {
-            name: 'aboutMe'
+            name: 'aboutUs'
           }
         }
       ],
@@ -190,4 +212,8 @@ export default {
   }
 
   .ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}
+  .ics-card-title {
+    font-size:15px;
+    font-weight:500;
+  }
 </style>
