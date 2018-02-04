@@ -166,42 +166,6 @@ const tutorial = {
       state.menu = []
       state.salesTax = 0
     }
-    // setSalesTaxRate (state, salesTax) {
-    //   state.salesTax = parseFloat(salesTax || 0)
-    // },
-    // addPerson (state, payload) {
-    //   state.people.push(payload.person)
-    // },
-    // addItemToPerson (state, payload) {
-    //   payload.person.menu.push(payload.item)
-    // },
-    // deletePersonFromPeople (state, payload) {
-    //   state.people.forEach((obj, i) => {
-    //     if (obj === payload.person) {
-    //       state.people.splice(i, 1)
-    //     }
-    //   })
-
-    //   // Delete person in Menu.people's array
-    //   // WARNNING: It might make the app slow
-    //   state.menu.forEach(obj => {
-    //     obj.people.forEach((name, i) => {
-    //       if (name === payload.person.name) {
-    //         obj.people.splice(i, 1)
-    //       }
-    //     })
-    //   })
-    // },
-    // addItemToMenu (state, payload) {
-    //   state.menu.push(payload.item)
-    // },
-    // deleteItemFromMenu (state, payload) {
-    //   state.menu.forEach((obj, i) => {
-    //     if (obj === payload.item) {
-    //       state.menu.splice(i, 1)
-    //     }
-    //   })
-    // }
   }
 }
 

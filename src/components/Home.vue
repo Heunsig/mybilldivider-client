@@ -54,12 +54,4 @@
     font-family: 'Inder', sans-serif; 
     font-size:25px;
   }
-  /*.ics-explanation {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .ics-explanation > li {
-    padding: 5px 0;
-  }*/
 </style>
