@@ -17,12 +17,23 @@
       <v-flex xs12>
         <div class="text-xs-center mt-5 pt-5">
           <div>
-            <v-btn color="yellow" outline dark @click="routerPush({name: 'tutorial', params:{page: 'setting'}})">
+            <v-btn 
+              color="yellow" 
+              outline 
+              dark
+              @click="routerPush({name: 'tutorial', params:{page: 'setting'}})"
+              class="ics-buttons-in-home"
+            >
               Start Tutorial
             </v-btn>
           </div>
           <div>
-            <v-btn dark outline @click="routerPush({name: 'calculator', params:{page: 'setting'}})">
+            <v-btn 
+              dark 
+              outline 
+              @click="routerPush({name: 'calculator', params:{page: 'setting'}})"
+              class="ics-buttons-in-home"
+            >
               Start Calculating
             </v-btn>
           </div>
@@ -53,5 +64,8 @@
   .ics-sub-title {
     font-family: 'Inder', sans-serif; 
     font-size:25px;
+  }
+  .ics-buttons-in-home {
+    width:170px!important;
   }
 </style>
