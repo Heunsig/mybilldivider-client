@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Home from '@/components/Home'
 import Calculator from '@/components/calculator'
+import Faq from '@/components/Faq'
 import Feedback from '@/components/Feedback'
 import AboutUs from '@/components/AboutUs'
 
@@ -25,6 +26,11 @@ export default new Router({
       path: '/calculator/:page',
       component: Calculator,
       name: 'calculator'
+    },
+    {
+      path: '/faq',
+      component: Faq,
+      name: 'faq'
     },
     {
       path: '/feedback',

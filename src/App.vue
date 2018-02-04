@@ -104,7 +104,7 @@ export default {
         },
         {
           label: 'Tutorial',
-          icon: 'help',
+          icon: 'directions_run',
           router: {
             name: 'tutorial',
             params: { page: 'setting' }
@@ -120,6 +120,13 @@ export default {
         }
       ],
       navForAboutUs: [
+        {
+          label: 'FAQ',
+          icon: 'help',
+          router: {
+            name: 'faq'
+          }
+        },
         {
           label: 'Feedback',
           icon: 'comment',
