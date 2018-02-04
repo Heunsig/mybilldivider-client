@@ -50,7 +50,7 @@
       <v-toolbar-title><span v-if="!isMain">My Bill Divider<span v-if="isTutorial" class="body-2">&nbsp;(Tutorial)</span></span></v-toolbar-title>
     </v-toolbar>
     <v-content class="grey lighten-4">
-      <router-view></router-view>
+      <router-view :key="$route.fullPath"></router-view>
     </v-content>
 
     <v-dialog persistent v-model="dialogs.refreshAll">

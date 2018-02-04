@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Home from '@/components/Home'
 // import Tutorial from '@/components/tutorial'
+// import Tutorial from '@/components/calculator'
 import Calculator from '@/components/calculator'
 import AboutMe from '@/components/AboutMe'
 
