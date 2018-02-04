@@ -341,7 +341,7 @@
       __modifyItemData (pureData) {
         let modifiedData = clone(pureData)
 
-        modifiedData.name = modifiedData.name || 'Item ' + this.orderForItem++
+        modifiedData.name = modifiedData.name || 'Shared item ' + this.orderForItem++
         modifiedData.price = this.$format.precisionRound(modifiedData.price, 2) || 0.00
         modifiedData.taxable = modifiedData.taxable
         modifiedData.people = modifiedData.people || []

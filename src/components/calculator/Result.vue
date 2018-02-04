@@ -4,9 +4,9 @@
     <v-container fluid class="ics-grid">
       <v-layout row wrap class="mb-5">
         <v-flex xs12>
-          <v-alert color="info" icon="info" dismissible v-model="alertInfo">
+          <!-- <v-alert color="info" icon="info" dismissible v-model="alertInfo">
             If you push the green button on the bottom left of the screen, you can see the sum of everybody's payments.
-          </v-alert>
+          </v-alert> -->
           <v-alert color="orange darken-1" icon="priority_high" dismissible v-model="alertWarning">
             These prices has been rounded, so It could be a little different.
           </v-alert>

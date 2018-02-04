@@ -55,8 +55,10 @@
           Are you sure {{ salesTax + '%' }} Sales tax?
         </v-card-title>
         <v-card-text>
-          You've set the sales tax.<br/>
-          Do you want to go back to the tab to set it?
+          <div class="body-2 grey--text text--darken-2">
+            You've set the sales tax.<br/>
+            Do you want to go back to the tab to set it?
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-btn block flat color="grey darken-2" @click="activeDialog = {type: 'checkingSalesTax', bool: false}">
