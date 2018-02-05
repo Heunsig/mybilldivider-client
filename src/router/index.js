@@ -2,8 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Home from '@/components/Home'
-import Calculator from '@/components/calculator'
-import Faq from '@/components/Faq'
+import Calculator from '@/components/calculator/index'
+
+import Faq from '@/components/faq/Index'
+import FaqList from '@/components/faq/List'
+import FaqShow from '@/components/faq/Show'
+
 import Feedback from '@/components/Feedback'
 import AboutUs from '@/components/AboutUs'
 
@@ -30,7 +34,18 @@ export default new Router({
     {
       path: '/faq',
       component: Faq,
-      name: 'faq'
+      children: [
+        {
+          path: '',
+          component: FaqList,
+          name: 'faq.list'
+        },
+        {
+          path: ':slug',
+          component: FaqShow,
+          name: 'faq.show'
+        }
+      ]
     },
     {
       path: '/feedback',

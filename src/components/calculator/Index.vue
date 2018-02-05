@@ -56,7 +56,7 @@
         </v-card-title>
         <v-card-text>
           <div class="body-2 grey--text text--darken-2">
-            You've set the sales tax.<br/>
+            You've not set the sales tax.<br/>
             Do you want to go back to the tab to set it?
           </div>
         </v-card-text>
@@ -172,7 +172,7 @@
       fixed
       bottom
       right
-      @click="routerPush({name: 'calculator', params: {page: 'setting'}})"
+      @click="$router.push({name: 'calculator', params: {page: 'setting'}})"
     >
       <v-icon>fa-calculator</v-icon>
     </v-btn>
@@ -278,9 +278,6 @@ export default {
     swiperSlide
   },
   methods: {
-    routerPush (option) {
-      this.$router.push(option)
-    },
     isTutorial () {
       if (this.$route.name === 'tutorial') {
         return true

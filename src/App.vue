@@ -124,7 +124,7 @@ export default {
           label: 'FAQ',
           icon: 'help',
           router: {
-            name: 'faq'
+            name: 'faq.list'
           }
         },
         {
