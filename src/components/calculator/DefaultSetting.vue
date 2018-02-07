@@ -35,7 +35,7 @@
                       </div>
                       <div v-else>
                         <span class="red--text">{{ error.message }}</span>
-                        <a v-if="error.router" href="#" @click="$router.push(error.router)">Lean more</a>
+                        <a v-if="error.router" @click="$router.push(error.router)">Lean more</a>
                       </div>
                     </div>
                   </v-flex>
@@ -65,7 +65,7 @@
                     <div class="caption">
                       This will calculate your sales tax if you can't find it. Input the sub total and tax on your bill into the form.
                       <v-menu>
-                        <a href="#" slot="activator">See an example</a>
+                        <a slot="activator">See an example</a>
                         <v-card>
                           <div class="pa-1">
                             <img :src="images.imageExampleSubtotalAndTax" alt="An example of subtotal and tax"/>

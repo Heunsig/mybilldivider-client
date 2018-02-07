@@ -7,8 +7,11 @@
           <!-- <v-alert color="info" icon="info" dismissible v-model="alertInfo">
             If you push the green button on the bottom left of the screen, you can see the sum of everybody's payments.
           </v-alert> -->
-          <v-alert color="orange darken-1" icon="priority_high" dismissible v-model="alertWarning">
+          <v-alert color="warning" icon="priority_high" dismissible v-model="alertWarning">
             These prices has been rounded, so It could be a little different.
+            <a @click.stop="$router.push({name: 'faq.show', params: {slug: 'why_is_a_total_of_payment_different'}})">
+              Lean more
+            </a>
           </v-alert>
         </v-flex>
         <template v-for="(person, i) in people">
