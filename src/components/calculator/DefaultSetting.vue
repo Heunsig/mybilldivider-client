@@ -140,6 +140,12 @@
         }
       }
     },
+    watch: {
+      error (value, oldValue) {
+        console.log('old', oldValue)
+        console.log('new', value)
+      }
+    },
     methods: {
       getSalesTaxCurrentLocation () {
         this.progressCircle = true
@@ -167,18 +173,15 @@
                 this.salesTax = res.body.estimatedCombinedRate * 100
                 this.progressCircle = false
               }, () => {
-                this.error = {
-                  message: 'Error: Cannot take lcation data',
-                  router: ''
-                }
+                this.$resetData(this, 'error')
+                this.error.message = 'Error: Cannot take lcation data'
               })
             }, () => {
-              this.error = {
-                message: 'Error: Cannot take lcation data',
-                router: ''
-              }
+              this.$resetData(this, 'error')
+              this.error.message = 'Error: Cannot take lcation data'
             })
           }, err => {
+            this.$resetData(this, 'error')
             this.error = {
               message: 'Error: ' + err.message,
               router: {
