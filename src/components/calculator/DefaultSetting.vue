@@ -15,6 +15,7 @@
                   <v-flex xs12 class="ics-dashedBorder">
                     <v-text-field
                       placeholder="0"
+                      type="number"
                       full-width
                       hide-details
                       clearable

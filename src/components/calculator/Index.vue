@@ -190,29 +190,29 @@ export default {
             `,
             `
             <div class="ics-font-patrick-hand ics-swiper-slide">
-              Daivd, Micheal, Mary and Rose had a lovely meal in a terrific restaurant. After eating dinner, Mary asks, "May I have the bill?" When the bill arrives, they encounter an annoying situation.
+              Daivd, Micheal and Mary had a lovely meal in a terrific restaurant. After eating dinner, Mary asks, "May I have the bill?" When the bill arrives, they encounter an annoying situation.
             </div>
             `,
             `
             <div class="ics-font-patrick-hand ics-swiper-slide">
-              They can't split the bill beause each person ordered different food. "How should we split the bill?" Michael asks. "I have no idea" Rose responds.
+              They can't split the bill beause each person ordered different food. "How should we split the bill?" Michael asks. "I have no idea" Mary responds.
             </div>
             `,
             `
             <div class="ics-font-patrick-hand ics-swiper-slide">
               "Don't worry, I can do it!" David takes out his phone and opens up My Bill Divider.
             </div>
-            `,
             `
-            <div class="ics-font-patrick-hand ics-swiper-slide">
-              "Okay, First, we need to set the sales tax. It should be listed on our receipts. If not, we can use the app's sales tax calculator. Umm... Here in L.A, The sales tax is 9.5%."
-            </div>
-            `,
-            `
-            <div class="ics-font-patrick-hand ics-swiper-slide">
-              After that, David goes to the next tab. He inputs items that each person has eaten on the 'EACH PERSON' page, and items that we've shared on the 'SHARED ITEMS' page.
-            </div>
-            `
+            // `
+            // <div class="ics-font-patrick-hand ics-swiper-slide">
+            //   "Okay, First, we need to set the sales tax. It should be listed on our receipts. If not, we can use the app's sales tax calculator. Umm... Here in L.A, The sales tax is 9.5%."
+            // </div>
+            // `,
+            // `
+            // <div class="ics-font-patrick-hand ics-swiper-slide">
+            //   After that, David goes to the next tab. He inputs items that each person has eaten on the 'EACH PERSON' page, and items that we've shared on the 'SHARED ITEMS' page.
+            // </div>
+            // `
           ],
           result: [
             `

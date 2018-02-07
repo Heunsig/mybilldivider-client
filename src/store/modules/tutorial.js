@@ -40,29 +40,13 @@ const tutorial = {
         tip: 18,
         menu: [
           {
-            name: 'Hot Dog',
+            name: 'Chili Hot Dog',
             price: 10.00,
             taxable: true
           },
           {
             name: 'Soda',
             price: 2.50,
-            taxable: true
-          }
-        ]
-      },
-      {
-        name: 'Rose',
-        tip: 20,
-        menu: [
-          {
-            name: 'Sandwich',
-            price: 8.00,
-            taxable: true
-          },
-          {
-            name: 'coffee',
-            price: 3.00,
             taxable: true
           }
         ]
@@ -76,16 +60,6 @@ const tutorial = {
         people: [
           'David',
           'Mary',
-          'Michael',
-          'Rose'
-        ]
-      },
-      {
-        name: 'Salmon Salad',
-        price: 6.99,
-        taxable: true,
-        people: [
-          'David',
           'Michael'
         ]
       }
