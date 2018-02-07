@@ -70,43 +70,27 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    
-    <v-dialog v-model="tutorial.dialogs.intro" persistent scrollable max-width="290">
+
+    <v-dialog v-model="tutorial.dialog" persistent scrollable max-width="290">
       <v-card>  
         <v-toolbar color="blue" dark dense flat>
           <v-toolbar-title>Tutorial</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn icon @click="tutorial.dialogs.intro = false">
+          <v-btn icon @click="tutorial.dialog = false">
             <v-icon>close</v-icon>
           </v-btn>
         </v-toolbar>
         <v-card-text>
-          <swiper :options="tutorial.swiperOptionsGroups.intro">
-            <swiper-slide>
-              <div>
-                <h3 class="pb-1">My Bill Divider is here to help!</h3>
-                <div style="font-size:15px;">
-                   <p>This app makes it easy to split the bill between friends.</p>
-                   <p>Simply input some information into this app, and it will tell you how much each person needs to pay for their meal.</p> 
-                   <p class="mb-0">Click "Next" to continue the tutorial.</p>
-                </div>
-              </div>
-            </swiper-slide>
-            <swiper-slide class="ics-font-patrick-hand ics-swiper-slide">
-              Daivd, Micheal, Mary and Rose had a lovely meal in a terrific restaurant. After eating dinner, Mary asks, "May I have the bill?" When the bill arrives, they encounter an annoying situation.
-            </swiper-slide>
-            <swiper-slide class="ics-font-patrick-hand ics-swiper-slide">
-              They can't split the bill beause each person ordered different food. "How should we split the bill?" Michael asks. "I have no idea" Rose responds.
-            </swiper-slide>
-            <swiper-slide class="ics-font-patrick-hand ics-swiper-slide">
-              "Don't worry, I can do it!" David takes out his phone and opens up My Bill Divider.
-            </swiper-slide>
-            <swiper-slide class="ics-font-patrick-hand ics-swiper-slide">
-              "Okay, First, we need to set the sales tax. It should be listed on our receipts. If not, we can use the app's sales tax calculator. Umm... Here in L.A, The sales tax is 9.5%."
-            </swiper-slide>
-            <swiper-slide class="ics-font-patrick-hand ics-swiper-slide">
-              After that, David goes to the next tab. He inputs items that each person has eaten on the 'EACH PERSON' page, and items that we've shared on the 'SHARED ITEMS' page.
-            </swiper-slide>
+          <swiper :options="tutorial.swiperOptions">
+            <template v-for="script in tutorial.scripts[tabInMixin]">
+              <swiper-slide>
+                <component
+                  :is="{
+                    template: '<div>' + script + '</div>'
+                  }">
+                </component>
+              </swiper-slide>
+            </template>
           </swiper>
           <div class="text-xs-right">
             <v-btn flat class="pa-0 ma-0 ics-swiper-button-next ics-font-patrick-hand" style="font-size:20px;">Next</v-btn>
@@ -115,51 +99,6 @@
         <v-card-actions class="pa-0 pb-3 pr-3">
           <v-spacer></v-spacer>
           <div class="ics-swiper-pagination"></div>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog v-model="tutorial.dialogs.conclusion" persistent scrollable max-width="290">
-      <v-card>  
-        <v-toolbar color="blue" dark dense flat>
-          <v-toolbar-title>Tutorial</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-btn icon @click="tutorial.dialogs.conclusion = false">
-            <v-icon>close</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-card-text>
-          <swiper :options="tutorial.swiperOptionsGroups.conclusion">
-            <swiper-slide class="ics-font-patrick-hand ics-swiper-slide">
-              "Here we are. It's our payments. I like this place, so I'll leave 25% tips.
-              Also, If click 
-              <v-btn fab dark color="green" class="ma-1 ics-button-smaller">
-                <v-icon style="font-size:15px;">attach_money</v-icon>
-              </v-btn>, 
-              we can see the sum of everybody's payments." David says as he feels proud.
-            </swiper-slide>
-            <swiper-slide>
-              <div>
-                <h3 class="pb-1">Are you ready to split the bill?</h3> 
-                <div style="font-size:15px;">
-                  <p>The tutorial is over. We hope you don't feel tired of calculating the bill.</p>
-                  <p>
-                    Click 
-                    <v-btn small dark icon color="blue" class="ma-1">
-                      <v-icon style="font-size:16px;">fa-calculator</v-icon>
-                    </v-btn> to start calculating.
-                  </p>
-                </div>
-              </div>
-            </swiper-slide>
-          </swiper>
-          <div class="text-xs-right">
-            <v-btn flat class="pa-0 ma-0 ics-swiper-button-next2 ics-font-patrick-hand" style="font-size:20px;">Next</v-btn>
-          </div>
-        </v-card-text>
-        <v-card-actions class="pa-0 pb-3 pr-3">
-          <v-spacer></v-spacer>
-          <div class="ics-swiper-pagination2"></div>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -237,28 +176,78 @@ export default {
         }
       ],
       tutorial: {
-        dialogs: {
-          intro: false,
-          conclusion: false
+        scripts: {
+          setting: [
+            `
+            <div>
+              <h3 class="pb-1">My Bill Divider is here to help!</h3>
+              <div style="font-size:15px;">
+                <p>This app makes it easy to split the bill between friends.</p>
+                <p>Simply input some information into this app, and it will tell you how much each person needs to pay for their meal.</p>
+                <p class="mb-0">Click "Next" to continue the tutorial.</p>
+              </div>
+            </div>
+            `,
+            `
+            <div class="ics-font-patrick-hand ics-swiper-slide">
+              Daivd, Micheal, Mary and Rose had a lovely meal in a terrific restaurant. After eating dinner, Mary asks, "May I have the bill?" When the bill arrives, they encounter an annoying situation.
+            </div>
+            `,
+            `
+            <div class="ics-font-patrick-hand ics-swiper-slide">
+              They can't split the bill beause each person ordered different food. "How should we split the bill?" Michael asks. "I have no idea" Rose responds.
+            </div>
+            `,
+            `
+            <div class="ics-font-patrick-hand ics-swiper-slide">
+              "Don't worry, I can do it!" David takes out his phone and opens up My Bill Divider.
+            </div>
+            `,
+            `
+            <div class="ics-font-patrick-hand ics-swiper-slide">
+              "Okay, First, we need to set the sales tax. It should be listed on our receipts. If not, we can use the app's sales tax calculator. Umm... Here in L.A, The sales tax is 9.5%."
+            </div>
+            `,
+            `
+            <div class="ics-font-patrick-hand ics-swiper-slide">
+              After that, David goes to the next tab. He inputs items that each person has eaten on the 'EACH PERSON' page, and items that we've shared on the 'SHARED ITEMS' page.
+            </div>
+            `
+          ],
+          result: [
+            `
+              <div class="ics-font-patrick-hand ics-swiper-slide">
+                "Here we are. It's our payments. I like this place, so I'll leave 25% tips. Also, If click
+                <v-btn fab dark color="green" class="ics-button-in-content">
+                  <v-icon>attach_money</v-icon>
+                </v-btn>, 
+                we can see the sum of everybody's payments." David says as he feels proud.
+              </div>
+            `,
+            `
+              <div>
+                <h3 class="pb-1">Are you ready to split the bill?</h3> 
+                <div style="font-size:15px;">
+                  <p>The tutorial is over. We hope you don't feel tired of calculating the bill.</p>
+                  <p>
+                    Click 
+                    <v-btn dark icon color="blue" class="ics-button-in-content">
+                      <v-icon>fa-calculator</v-icon>
+                    </v-btn> to start calculating.
+                  </p>
+                </div>
+              </div>
+            `
+          ]
         },
-        swiperOptionsGroups: {
-          intro: {
-            navigation: {
-              nextEl: '.ics-swiper-button-next'
-            },
-            pagination: {
-              el: '.ics-swiper-pagination',
-              clickable: true
-            }
+        dialog: false,
+        swiperOptions: {
+          navigation: {
+            nextEl: '.ics-swiper-button-next'
           },
-          conclusion: {
-            navigation: {
-              nextEl: '.ics-swiper-button-next2'
-            },
-            pagination: {
-              el: '.ics-swiper-pagination2',
-              clickable: true
-            }
+          pagination: {
+            el: '.ics-swiper-pagination',
+            clickable: true
           }
         }
       }
@@ -330,12 +319,8 @@ export default {
       }
 
       if (this.isTutorial()) {
-        if (tab === 'setting') {
-          this.tutorial.dialogs.intro = true
-          this.tutorial.dialogs.conclusion = false
-        } else if (tab === 'result') {
-          this.tutorial.dialogs.intro = false
-          this.tutorial.dialogs.conclusion = true
+        if (this.tutorial.scripts.hasOwnProperty(tab)) {
+          this.tutorial.dialog = true
         }
       }
     }
