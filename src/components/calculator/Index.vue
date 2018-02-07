@@ -57,7 +57,7 @@
         <v-card-text>
           <div class="body-2 grey--text text--darken-2">
             You've not set the sales tax.<br/>
-            Do you want to go back to the tab to set it?
+            Do you want to go back to the tab to set the sales tax?
           </div>
         </v-card-text>
         <v-card-actions>

@@ -9,7 +9,7 @@
                 <v-layout wrap>
                   <v-flex xs12>
                     <div class="green--text">
-                      Sales Tax(%)
+                      Sales Tax(%) <a @click="$router.push({name: 'faq.show', params: {slug: 'how_to_know_the_sales_tax'}})">Lean more</a>
                     </div>
                   </v-flex>
                   <v-flex xs12 class="ics-dashedBorder">
