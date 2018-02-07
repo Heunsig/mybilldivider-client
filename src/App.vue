@@ -30,23 +30,23 @@
           </v-list-tile>
         </template>
       </v-list>
-      <v-list class="pt-0">
+      <v-divider></v-divider>
+      <v-list dense class="pt-0">
         <v-subheader>About us</v-subheader>
         <template v-for="item in navForAboutUs">
           <v-list-tile :key="item.label" @click="routerPush(item.router)">
             <v-list-tile-action>
-              <v-icon>{{ item.icon }}</v-icon>
+              <v-icon color="grey">{{ item.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>{{ item.label }}</v-list-tile-title>
+              <v-list-tile-title class="grey--text">{{ item.label }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </template>
       </v-list>
-      <v-list>
+      <v-list dense>
         <v-subheader>Function</v-subheader>
         <template v-for="item in navForFunction">
-          <!-- <v-divider></v-divider> -->
           <v-list-tile :key="item.label" @click="item.dialog ? openDialog(item.dialog) : ''">
             <v-list-tile-action>
               <v-icon class="light-green--text">{{ item.icon }}</v-icon>
