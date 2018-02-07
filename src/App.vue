@@ -223,4 +223,20 @@ export default {
     font-size:15px;
     font-weight:500;
   }
+
+  .ics-button-in-content {
+    width: 22px!important;
+    height: 22px!important;
+    margin:2px!important;
+  }
+  .ics-button-in-content > .btn__content {
+    height: auto!important;
+  }
+  .ics-button-in-content > .btn__content > i {
+    font-size:12px!important;
+  }
+
+  .ics-ol > li{
+    margin:5px 0;
+  }
 </style>
