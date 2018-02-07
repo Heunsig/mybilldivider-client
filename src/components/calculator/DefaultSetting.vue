@@ -25,7 +25,7 @@
                   </v-flex>
                   <v-flex xs12>
                     <div class="ics-box-address pa-2 text-xs-center">
-                      <div v-if="!errorMsg">
+                      <div v-if="!error.message">
                         <template v-if="progressCircle">
                            <v-progress-circular indeterminate color="green"></v-progress-circular>
                         </template>
@@ -34,7 +34,8 @@
                         </template>
                       </div>
                       <div v-else>
-                        <span class="red--text">{{ errorMsg }}</span>
+                        <span class="red--text">{{ error.message }}</span>
+                        <a v-if="error.router" href="#" @click="$router.push(error.router)">Lean more</a>
                       </div>
                     </div>
                   </v-flex>
@@ -116,7 +117,6 @@
       return {
         currentLocationAddress: '',
         progressCircle: false,
-        errorMsg: '',
         isGetSalesTaxMenuActive: false,
         priceOfTax: '',
         priceOfSubTotal: '',
@@ -124,7 +124,10 @@
           imageExampleSalesTax,
           imageExampleSubtotalAndTax
         },
-        path: ''
+        error: {
+          message: '',
+          router: ''
+        }
       }
     },
     computed: {
@@ -164,13 +167,27 @@
                 this.salesTax = res.body.estimatedCombinedRate * 100
                 this.progressCircle = false
               }, () => {
-                this.errorMsg = 'Error: cannot take location data'
+                this.error = {
+                  message: 'Error: Cannot take lcation data',
+                  router: ''
+                }
               })
             }, () => {
-              this.errorMsg = 'Error: cannot take lcation data'
+              this.error = {
+                message: 'Error: Cannot take lcation data',
+                router: ''
+              }
             })
           }, err => {
-            this.errorMsg = 'Error: ' + err.message
+            this.error = {
+              message: 'Error: ' + err.message,
+              router: {
+                name: 'faq.show',
+                params: {
+                  slug: 'how_to_turn_a_location_service_on'
+                }
+              }
+            }
           })
         }
       },
