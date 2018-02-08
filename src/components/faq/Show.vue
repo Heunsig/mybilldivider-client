@@ -5,10 +5,10 @@
     </v-card-title>
     <v-card-text>
       <template v-if="item.content">
-           <component :is="{
-              template: item.content
-            }"
-          > </component>
+        <component :is="{
+            template: item.content
+          }"
+        ></component>
       </template>
     </v-card-text>
   </v-card>
