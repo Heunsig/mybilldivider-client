@@ -44,7 +44,7 @@
       </v-layout>
     </v-container>
     <v-snackbar
-        :timeout="1000"
+        :timeout="2000"
         bottom
         v-model="snackbar"
       >
@@ -59,7 +59,7 @@
         snackbar: false,
         name: 'Heunsig',
         email: 'heun3344@gmail.com',
-        version: 'v 0.5.10'
+        version: 'v 0.5.11'
       }
     },
     methods: {

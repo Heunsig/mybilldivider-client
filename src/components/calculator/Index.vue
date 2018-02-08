@@ -86,7 +86,12 @@
               <swiper-slide>
                 <component
                   :is="{
-                    template: '<div>' + script + '</div>'
+                    template: '<div>' + script + '</div>',
+                    data () {
+                      return {
+                        testMenu: true
+                      }
+                    }
                   }">
                 </component>
               </swiper-slide>
@@ -200,7 +205,7 @@ export default {
             `,
             `
             <div class="ics-font-patrick-hand ics-swiper-slide">
-              "Don't worry, I can do it!" David takes out his phone and opens up My Bill Divider.
+              "Don't worry, I can do it!" David takes out his phone and opens up My Bill Divider.<br/>
             </div>
             `
             // `

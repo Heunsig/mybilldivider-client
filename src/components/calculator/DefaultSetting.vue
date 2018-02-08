@@ -35,8 +35,8 @@
                         </template>
                       </div>
                       <div v-else>
-                        <span class="red--text">{{ error.message }}</span>
-                        <a v-if="error.router" @click="$router.push(error.router)">Lean more</a>
+                        <span class="red--text">Error: {{ error.message }}</span>
+                        <a v-if="error.link.label" @click="$router.push(error.link.router)">{{ error.link.label }}</a>
                       </div>
                     </div>
                   </v-flex>
@@ -127,7 +127,10 @@
         },
         error: {
           message: '',
-          router: ''
+          link: {
+            label: '',
+            router: {}
+          }
         }
       }
     },
@@ -139,12 +142,6 @@
         set (value) {
           this.$store.commit(this.$route.name + '/' + 'setSalesTax', value)
         }
-      }
-    },
-    watch: {
-      error (value, oldValue) {
-        console.log('old', oldValue)
-        console.log('new', value)
       }
     },
     methods: {
@@ -175,23 +172,65 @@
                 this.progressCircle = false
               }, () => {
                 this.$resetData(this, 'error')
-                this.error.message = 'Error: Cannot take lcation data'
+                this.error = {
+                  message: 'Can not get the location data as an api problem.',
+                  link: {
+                    label: 'Leave feedback',
+                    router: {
+                      name: 'feedback'
+                    }
+                  }
+                }
               })
             }, () => {
               this.$resetData(this, 'error')
-              this.error.message = 'Error: Cannot take lcation data'
+              this.error = {
+                message: 'Can not get the location data as a map api problem.',
+                link: {
+                  label: 'Leave feedback',
+                  router: {
+                    name: 'feedback'
+                  }
+                }
+              }
             })
           }, err => {
+            let errorMessage = ''
             this.$resetData(this, 'error')
+
+            switch (err.code) {
+              case 1:
+                errorMessage = 'Permission accessing location service is denied. Please allow location service.'
+                break
+              case 2:
+                errorMessage = 'The location where you are is unavailable. Please try it again.'
+                break
+              case 3:
+                errorMessage = 'Can not get the location as an unknown reason. Please try it again.'
+                break
+            }
+
             this.error = {
-              message: 'Error: ' + err.message,
-              router: {
-                name: 'faq.show',
-                params: {
-                  slug: 'how_to_turn_a_location_service_on'
+              message: errorMessage,
+              link: {
+                label: 'Lean more',
+                router: {
+                  name: 'faq.show',
+                  params: {
+                    slug: 'how_to_turn_a_location_service_on'
+                  }
                 }
               }
             }
+            // this.error = {
+            //   message: errorMessage,
+            //   router: {
+            //     name: 'faq.show',
+            //     params: {
+            //       slug: 'how_to_turn_a_location_service_on'
+            //     }
+            //   }
+            // }
           })
         }
       },
