@@ -11,6 +11,8 @@ import FaqShow from '@/components/faq/Show'
 import Feedback from '@/components/Feedback'
 import AboutUs from '@/components/AboutUs'
 
+import Page404 from '@/components/Page404'
+
 Vue.use(Router)
 
 export default new Router({
@@ -56,6 +58,10 @@ export default new Router({
       path: '/aboutUs',
       component: AboutUs,
       name: 'aboutUs'
+    },
+    {
+      path: '*',
+      component: Page404
     }
   ]
 })
