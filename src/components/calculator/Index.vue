@@ -387,8 +387,8 @@ export default {
   .ics-font-patrick-hand {
     font-family: 'Patrick Hand', cursive;
   }
-  .ics-font-roboto {
+  /*.ics-font-roboto {
     font-family: 'Roboto', sans-serif;
-  }
+  }*/
   .ics-msg-closeDialog {font-size:15px;}
 </style>
