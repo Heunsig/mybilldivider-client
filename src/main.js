@@ -41,32 +41,6 @@ Vue.prototype.$resetData = ($this, changingData, originalData) => {
   Object.assign($this.$data[changingData], $this.$options.data()[originalData])
 }
 
-// Formatting number - old
-// Vue.prototype.$formatNumber = (num) => {
-//   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-// }
-
-// Vue.prototype.$saveWindowPosition = () => {
-//   let supportPageOffset = window.pageXOffset !== undefined
-//   let isCSS1Compat = ((document.compatMode || '') === 'CSS1Compat')
-
-//   let scrollTop = supportPageOffset ? window.pageYOffset : isCSS1Compat ? document.documentElement.scrollTop : document.body.scrollTop
-
-//   return scrollTop
-// }
-
-// Vue.prototype.$fixToModalBugOnIphone = (bodyEle, bool, scrolledPosition) => {
-//   // console.log('1', scrolledPosition)
-//   if (bool === true) {
-//     bodyEle.className += 'modal-open'
-//     // window.scrollTo(0, scrolledPosition)
-//   } else {
-//     var reg = new RegExp('(\\s|^)' + 'modal-open' + '(\\s|$)')
-//     bodyEle.className = bodyEle.className.replace(reg, ' ')
-//     window.scrollTo(0, scrolledPosition)
-//   }
-// }
-
 router.afterEach((currentRoute) => {
   eventBus.currentRoute = currentRoute
 })
@@ -75,6 +49,15 @@ Vue.prototype.$window = window
 
 /* eslint-disable no-new */
 new Vue({
+  created () {
+    let bgList = [
+      'ics-home-background-01',
+      'ics-home-background-02',
+      'ics-home-background-03'
+    ]
+
+    this.$store.commit('base/setBackgroundMainCss', { css: bgList[Math.floor(Math.random() * 3)] })
+  },
   el: '#app',
   router,
   store,

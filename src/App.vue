@@ -58,11 +58,14 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app fixed flat dense :class="isTutorial ? 'blue':'green'" dark class="ics-toolbar">
+    <!-- <v-toolbar app fixed flat dense :class="isTutorial ? 'blue':'transparent'" dark class="ics-toolbar"> -->
+    <v-toolbar app fixed flat dense :class="backgroundSelector" dark class="ics-toolbar">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title><span v-if="!isMain">My Bill Divider<span v-if="isTutorial" class="body-2">&nbsp;(Tutorial)</span></span></v-toolbar-title>
     </v-toolbar>
+
     <v-content class="grey lighten-4">
+    <!-- <v-content class="transparent">   -->
       <router-view :key="$route.fullPath"></router-view>
     </v-content>
 
@@ -80,7 +83,6 @@
     </v-dialog>
   </v-app>
 </template>
-
 <script>
 import eventBus from '@/event-bus'
 import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
@@ -167,6 +169,16 @@ export default {
         return true
       } else {
         return false
+      }
+    },
+    backgroundSelector () {
+      switch (eventBus.currentRoute.name) {
+        case 'main':
+          return 'grey darken-4'
+        case 'tutorial':
+          return 'blue'
+        default:
+          return 'green'
       }
     }
   },
