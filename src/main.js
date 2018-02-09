@@ -28,8 +28,8 @@ Vue.use(Accounting)
 Vue.use(VueResource)
 
 Vue.use(VueAnalytics, {
-  id: 'UA-112759985-1',  // for real
-  // id: 'UA-113181415-1', // for test site
+  // id: 'UA-112759985-1',  // for real
+  id: 'UA-113181415-1', // for test site
   router
 })
 
