@@ -203,7 +203,7 @@ export default {
     },
     confirmToRefreshAll () {
       this.$store.commit('calculator/refreshAll')
-      this.$store.commit('base/setAllowToSeeResult', { bool: false })
+      this.$store.commit('base/setPermissionToSeeResult', { bool: false })
       this.activeDialog = {type: 'refreshAll', bool: false}
       this.routerPush({name: 'main'})
     }
