@@ -64,7 +64,7 @@
                   <v-card-title>
                     <p class="subheading mb-1">Search sales tax</p>
                     <div class="caption">
-                      Put an address on your receipt into form below. We'll find the sales tax.
+                      Put an address on your receipt into the form below. We'll find the sales tax.
                       <v-menu>
                         <a slot="activator">See an example</a>
                         <v-card>
