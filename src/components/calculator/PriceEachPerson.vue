@@ -290,7 +290,8 @@
       openDialogEditingPerson (person) {
         this.person = person
         this.tempPerson = clone(person)
-        this.activeDialog = {type: 'editingPerson', bool: true, autofocus: 'personNameFormForEditing'}
+        // this.activeDialog = {type: 'editingPerson', bool: true, autofocus: 'personNameFormForEditing'}
+        this.activeDialog = {type: 'editingPerson', bool: true}
       },
       closeDialogEditingPerson () {
         this.person = {}
