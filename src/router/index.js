@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Home from '@/components/Home'
 import Calculator from '@/components/calculator/index'
+import Result from '@/components/Result'
 
 import Faq from '@/components/faq/Index'
 import FaqList from '@/components/faq/List'
@@ -32,6 +33,11 @@ export default new Router({
       path: '/calculator/:page',
       component: Calculator,
       name: 'calculator'
+    },
+    {
+      path: '/result/:mode',
+      component: Result,
+      name: 'result'
     },
     {
       path: '/faq',

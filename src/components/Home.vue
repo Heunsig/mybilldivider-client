@@ -7,10 +7,24 @@
         </div>
       </v-flex>
       <v-flex xs12>
-        <v-card flat class="transparent mt-1">
+        <v-card flat class="transparent">
           <v-card-text class="text-xs-center">
             <p class="white--text ics-sub-title">It's the easiest way to split the bill</p>
-            <p class="white--text body-2">Last updated 01/28/2018</p>
+            <div>
+              <!-- <div class="white--text" style="font-size:25px;">Total</div>  -->
+              <ICountUp
+                class="white--text"
+                style="font-size:40px;"
+                :startVal="0"
+                :endVal="totalNumberOfUses"
+                :decimals="0"
+                :duration="2.5"
+                :options="{
+                  separator: ','
+                }"
+              /></ICountUp>
+              <div class="white--text" style="font-size:20px;">people have split the bill</div>
+            </div>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -42,7 +56,21 @@
   </v-container>
 </template>
 <script>
+  import ICountUp from 'vue-countup-v2'
+
   export default {
+    created () {
+      this.$http.get(this.$PATH_API + 'log').then(res => {
+        this.totalNumberOfUses = res.body.count
+      }, err => {
+        console.log(err)
+      })
+    },
+    data () {
+      return {
+        totalNumberOfUses: 0
+      }
+    },
     computed: {
       dynamicBackground () {
         return this.$store.getters['base/getBackgroundMainCss']
@@ -53,6 +81,9 @@
         this.$router.push(routerOptions)
         this.drawer = false
       }
+    },
+    components: {
+      ICountUp
     }
   }
 </script>

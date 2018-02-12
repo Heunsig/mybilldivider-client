@@ -158,26 +158,37 @@ export default {
   },
   computed: {
     isMain () {
-      if (eventBus.currentRoute.name === 'main') {
+      // if (eventBus.currentRoute.name === 'main') {
+      if (this.$route.name === 'main') {
         return true
       } else {
         return false
       }
     },
     isTutorial () {
-      if (eventBus.currentRoute.name === 'tutorial') {
+      // if (eventBus.currentRoute.name === 'tutorial') {
+      if (this.$route.name === 'tutorial') {
         return true
       } else {
+        // if (eventBus.currentRoute.name === 'result' && eventBus.currentRoute.params.mode === 'tutorial') {
+        if (this.$route.name === 'result' && this.$route.params.mode === 'tutorial') {
+          return true
+        }
         return false
       }
     },
     backgroundSelector () {
-      switch (eventBus.currentRoute.name) {
+      // switch (eventBus.currentRoute.name) {
+      switch (this.$route.name) {
         case 'main':
           return 'grey darken-4'
         case 'tutorial':
           return 'blue'
         default:
+          // if (eventBus.currentRoute.name === 'result' && eventBus.currentRoute.params.mode === 'tutorial') {
+          if (this.$route.name === 'result' && this.$route.params.mode === 'tutorial') {
+            return 'blue'
+          }
           return 'green'
       }
     }
@@ -192,6 +203,7 @@ export default {
     },
     confirmToRefreshAll () {
       this.$store.commit('calculator/refreshAll')
+      this.$store.commit('base/setAllowToSeeResult', { bool: false })
       this.activeDialog = {type: 'refreshAll', bool: false}
       this.routerPush({name: 'main'})
     }

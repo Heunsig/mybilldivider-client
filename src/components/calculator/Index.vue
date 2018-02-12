@@ -1,5 +1,8 @@
 <template>
   <div class="ics-warpper">
+    <!-- <v-btn flat class="testButton white--text">
+      Make Result
+    </v-btn> -->
     <v-btn icon flat class="ics-btn-refresh" v-if="refresh" @click="refreshPage">
       <v-icon color="white">refresh</v-icon>
     </v-btn>
@@ -14,6 +17,12 @@
         >
           <span v-html="tab.label"></span>
         </v-tabs-item>
+        <v-tabs-item
+          class="ics-tabItem-nav ics-tab-item-result yellow--text"
+          @click="seeResult"
+        >
+          <span>Result</span>
+        </v-tabs-item>
       </v-tabs-bar>
       <v-tabs-items class="ics-tabItems">
         <v-tabs-content
@@ -23,9 +32,8 @@
           class="ics-tabContent"
         >
           <v-card flat class="transparent">
-             
             <v-card-text>
-              <div :is="tab.component" :key="tab.id"></div>
+              <component :is="tab.component" :key="tab.id"></component>
             </v-card-text>
           </v-card>
         </v-tabs-content>
@@ -49,7 +57,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogs.checkingSalesTax" max-width="290">
+    <v-dialog v-model="dialogs.checkingSalesTax" persistent max-width="290">
       <v-card>
         <v-card-title class="light-green white--text ics-dialog-title">
           Are you sure {{ salesTax + '%' }} Sales tax?
@@ -61,11 +69,11 @@
           </div>
         </v-card-text>
         <v-card-actions>
-          <v-btn block flat color="grey darken-2" @click="activeDialog = {type: 'checkingSalesTax', bool: false}">
-            No
+          <v-btn block flat color="grey darken-2" @click="goBackToTabToSetSalesTax">
+            Go back
           </v-btn>
-          <v-btn block flat color="light-green" @click="goBackToTabToSetSalesTax">
-            Yes
+          <v-btn block flat color="light-green" @click="continueToSeeResult">
+            Continue
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -173,12 +181,12 @@ export default {
           label: 'Shared<br/>Items',
           component: 'PriceSharedMenu',
           refresh: true
-        },
-        {
-          id: 'result',
-          label: 'Result',
-          component: 'Result'
         }
+        // {
+        //   id: 'result',
+        //   label: 'Result',
+        //   component: 'Result'
+        // }
       ],
       tutorial: {
         scripts: {
@@ -208,16 +216,6 @@ export default {
               "Don't worry, I can do it!" David takes out his phone and opens up My Bill Divider.<br/>
             </div>
             `
-            // `
-            // <div class="ics-font-patrick-hand ics-swiper-slide">
-            //   "Okay, First, we need to set the sales tax. It should be listed on our receipts. If not, we can use the app's sales tax calculator. Umm... Here in L.A, The sales tax is 9.5%."
-            // </div>
-            // `,
-            // `
-            // <div class="ics-font-patrick-hand ics-swiper-slide">
-            //   After that, David goes to the next tab. He inputs items that each person has eaten on the 'EACH PERSON' page, and items that we've shared on the 'SHARED ITEMS' page.
-            // </div>
-            // `
           ],
           result: [
             `
@@ -272,6 +270,16 @@ export default {
     swiperSlide
   },
   methods: {
+    seeResult () {
+      if (this.salesTax === 0) {
+        this.activeDialog = {type: 'checkingSalesTax', bool: true}
+      } else {
+        this.$router.push({name: 'result', params: {mode: this.$route.name}})
+      }
+    },
+    continueToSeeResult () {
+      this.$router.push({name: 'result', params: {mode: this.$route.name}})
+    },
     isTutorial () {
       if (this.$route.name === 'tutorial') {
         return true
@@ -317,11 +325,12 @@ export default {
         }
       })
 
-      if (tab === 'result') {
-        if (this.salesTax === 0) {
-          this.activeDialog = {type: 'checkingSalesTax', bool: true}
-        }
-      }
+      // if (tab === 'result') {
+      //   if (this.salesTax === 0) {
+      //     this.activeDialog = {type: 'checkingSalesTax', bool: true}
+      //     this.testContinue = false
+      //   }
+      // }
 
       if (this.isTutorial()) {
         if (this.tutorial.scripts.hasOwnProperty(tab)) {
@@ -364,6 +373,13 @@ export default {
   right: 8px;
   z-index: 4;
 }
+/*.testButton{
+  position: fixed;
+  top: 0;
+  right: 40px;
+  z-index: 4; 
+}
+*/
 
 .ics-msg-setSalesTax{
   font-size: 14px;
@@ -371,6 +387,9 @@ export default {
 
 </style>
 <style>
+  .ics-tab-item-result > .tabs__item{
+    opacity: 1!important;
+  }
   .swiper-wrapper {}
 
   .swiper-pagination-bullet{
