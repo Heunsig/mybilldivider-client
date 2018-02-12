@@ -213,7 +213,7 @@
     <template v-else>
       <div class="ics-msgNoItem-main text-xs-center mt-5 grey--text" style="font-size:16px;">
         No result are listed yet<br/>
-        Add people first at "EACH PERSON" tab
+        Add people first at <a @click="$router.push({name: $route.params.mode, params: {page: 'eachPerson'}})">EACH PERSON</a> tab
       </div>
     </template>
 
@@ -234,13 +234,17 @@
       fixingModalBugInIphone
     ],
     created () {
-      if (this.people.length && !this.isAllowedToSee()) {
+      if (this.people.length) {
+        this.$store.commit('base/setPermissionToSeeResult', { bool: false })
         this.makeResult()
-      } else {
-        if (this.$route.params.mode !== 'tutorial') {
-          this.recordLog()
-        }
       }
+      // if (this.people.length && !this.isAllowedToSee()) {
+      //   this.makeResult()
+      // } else {
+      //   if (this.$route.params.mode !== 'tutorial') {
+      //     this.recordLog()
+      //   }
+      // }
     },
     data () {
       return {
@@ -274,7 +278,8 @@
     },
     methods: {
       isAllowedToSee () {
-        if (this.$route.params.mode === 'tutorial' || this.permissionToSeeResult) {
+        // if (this.$route.params.mode === 'tutorial' || this.permissionToSeeResult) {
+        if (this.permissionToSeeResult) {
           return true
         } else {
           return false
@@ -283,22 +288,29 @@
       makeResult () {
         this.activeDialog = { type: 'loading', bool: true }
 
-        this.$http.post(this.$PATH_API + 'log').then(res => {
+        if (this.$route.params.mode === 'tutorial') {
           setTimeout(() => {
             this.activeDialog = { type: 'loading', bool: false }
             this.$store.commit('base/setPermissionToSeeResult', { bool: true })
-          }, 3000)
-        }, err => {
-          console.log(err)
-        })
+          }, 1000)
+        } else {
+          this.$http.post(this.$PATH_API + 'log').then(res => {
+            setTimeout(() => {
+              this.activeDialog = { type: 'loading', bool: false }
+              this.$store.commit('base/setPermissionToSeeResult', { bool: true })
+            }, 1000)
+          }, err => {
+            console.log(err)
+          })
+        }
       },
-      recordLog () {
-        this.$http.post(this.$PATH_API + 'log').then(res => {
-          // console.log(res)
-        }, err => {
-          console.log(err)
-        })
-      },
+      // recordLog () {
+      //   this.$http.post(this.$PATH_API + 'log').then(res => {
+      //     // console.log(res)
+      //   }, err => {
+      //     console.log(err)
+      //   })
+      // },
       openDialogSettingTip (person) {
         this.person = person
         if (person.tip) {

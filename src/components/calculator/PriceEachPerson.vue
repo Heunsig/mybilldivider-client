@@ -109,9 +109,9 @@
             prepend-icon="person"
             v-model="tempPerson.name"
           ></v-text-field>
-          <div class="ics-textField-detail">
+          <!-- <div class="ics-textField-detail">
             If you don't input a name, it'll go by the number of the person.
-          </div>
+          </div> -->
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogAddingPerson">Cancel</v-btn>
@@ -128,15 +128,15 @@
         <v-card-text>
           <v-text-field 
             ref="personNameFormForEditing"
-            label="Input name"
+            label="Input name (Optional)"
             clearable
             hide-details
             prepend-icon="person"
             v-model="tempPerson.name"
           ></v-text-field>
-          <div class="ics-textField-detail">
+          <!-- <div class="ics-textField-detail">
             If you don't input a name, it'll go by the number of the person.
-          </div>
+          </div> -->
         </v-card-text>
         <v-card-actions>
           <v-btn color="grey darken-2" flat block @click.native="closeDialogEditingPerson">Cancel</v-btn>
@@ -159,9 +159,9 @@
             prepend-icon="check"
             v-model="tempItem.name"
           ></v-text-field>
-          <div class="ics-textField-detail">
+          <!-- <div class="ics-textField-detail">
             If you don't input a name, it'll go by the number of the person.
-          </div>
+          </div> -->
           <v-text-field 
             ref="itemPriceForm"
             label="Input price" 

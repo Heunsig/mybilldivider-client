@@ -94,9 +94,9 @@
             prepend-icon="check"
             v-model="tempItem.name"
           ></v-text-field>      
-          <div class="ics-textField-detail">
+          <!-- <div class="ics-textField-detail">
             If you don't input the name, it'll go by the item number.
-          </div>
+          </div> -->
           <v-text-field
             ref="itemPriceFormForAdding"
             label="Input price" 
@@ -143,7 +143,7 @@
         <v-card-title class="pb-3 pt-3 ics-dialog-title light-green white--text">Edit the item shared with others</v-card-title>
         <v-card-text>
           <v-text-field 
-            label="Item name" 
+            label="Item name (Optional)" 
             clearable
             hide-details
             prepend-icon="check"
