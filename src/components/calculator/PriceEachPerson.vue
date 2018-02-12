@@ -272,7 +272,8 @@
         return this.$format.precisionRound(total, 2)
       },
       openDialogAddingPerson () {
-        this.activeDialog = {type: 'addingPerson', bool: true, autofocus: 'personNameFormForAdding'}
+        // this.activeDialog = {type: 'addingPerson', bool: true, autofocus: 'personNameFormForAdding'}
+        this.activeDialog = {type: 'addingPerson', bool: true}
       },
       closeDialogAddingPerson () {
         this.person = {}
