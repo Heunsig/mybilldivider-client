@@ -9,6 +9,7 @@ import Format from './plugins/format'
 import GetPosition from './plugins/get-position'
 import VueClipboard from 'vue-clipboard2'
 import Accounting from './plugins/accounting'
+import States from './plugins/states'
 import VueAnalytics from 'vue-analytics'
 import VueResource from 'vue-resource'
 
@@ -26,6 +27,7 @@ Vue.use(Format)
 Vue.use(GetPosition)
 Vue.use(Accounting)
 Vue.use(VueResource)
+Vue.use(States)
 
 Vue.use(VueAnalytics, {
   // id: 'UA-112759985-1',  // for real
