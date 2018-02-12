@@ -214,34 +214,42 @@ export default {
             `
             <div class="ics-font-patrick-hand ics-swiper-slide">
               "Don't worry, I can do it!" David takes out his phone and opens up My Bill Divider.<br/>
+              <v-menu style="z-index:999">
+                <img width="80" slot="activator" :src="$PATH_IMAGE + 'example_receipt.gif'" alt="An example of receipt"/>
+                <v-card>
+                  <div class="pa-1">
+                    <img width="200" :src="$PATH_IMAGE + 'example_receipt.gif'" alt="An example of subtotal and tax"/>
+                  </div>
+                </v-card>
+              </v-menu>
             </div>
             `
-          ],
-          result: [
-            `
-              <div class="ics-font-patrick-hand ics-swiper-slide">
-                "Here we are. It's our payments. I like this place, so I'll leave 25% tips. Also, If click
-                <v-btn fab dark color="green" class="ics-button-in-content">
-                  <v-icon>attach_money</v-icon>
-                </v-btn>, 
-                we can see the sum of everybody's payments." David says as he feels proud.
-              </div>
-            `,
-            `
-              <div>
-                <h3 class="pb-1">Are you ready to split the bill?</h3> 
-                <div style="font-size:15px;">
-                  <p>The tutorial is over. We hope you don't feel tired of calculating the bill.</p>
-                  <p>
-                    Click 
-                    <v-btn dark icon color="blue" class="ics-button-in-content">
-                      <v-icon>fa-calculator</v-icon>
-                    </v-btn> to start calculating.
-                  </p>
-                </div>
-              </div>
-            `
           ]
+          // result: [
+          //   `
+          //     <div class="ics-font-patrick-hand ics-swiper-slide">
+          //       "Here we are. It's our payments. I like this place, so I'll leave 25% tips. Also, If click
+          //       <v-btn fab dark color="green" class="ics-button-in-content">
+          //         <v-icon>attach_money</v-icon>
+          //       </v-btn>,
+          //       we can see the sum of everybody's payments." David says as he feels proud.
+          //     </div>
+          //   `,
+          //   `
+          //     <div>
+          //       <h3 class="pb-1">Are you ready to split the bill?</h3>
+          //       <div style="font-size:15px;">
+          //         <p>The tutorial is over. We hope you don't feel tired of calculating the bill.</p>
+          //         <p>
+          //           Click
+          //           <v-btn dark icon color="blue" class="ics-button-in-content">
+          //             <v-icon>fa-calculator</v-icon>
+          //           </v-btn> to start calculating.
+          //         </p>
+          //       </div>
+          //     </div>
+          //   `
+          // ]
         },
         dialog: false,
         swiperOptions: {

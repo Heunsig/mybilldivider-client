@@ -33,6 +33,7 @@ Vue.use(VueAnalytics, {
   router
 })
 
+Vue.prototype.$PATH_IMAGE = 'https://mybilldivider.com/images/'
 Vue.prototype.$PATH_API = 'https://api.mybilldivider.com/api/'
 
 Vue.prototype.$resetData = ($this, changingData, originalData) => {
