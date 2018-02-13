@@ -259,7 +259,7 @@ export default {
   .ics-button-in-content > .btn__content > i {
     font-size:12px!important;
   }
-
+    
   .ics-ol > li{
     margin:5px 0;
   }

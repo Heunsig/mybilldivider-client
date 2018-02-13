@@ -62,9 +62,9 @@
                 </v-btn>
                 <v-card>
                   <v-card-title>
-                    <p class="subheading mb-1">Search sales tax</p>
+                    <p class="subheading mb-1">Search the sales tax</p>
                     <div class="caption">
-                      Put an address on your receipt into the form below. We'll find the sales tax.
+                      Put an address on your receipt into the form below
                       <v-menu>
                         <a slot="activator">See an example</a>
                         <v-card>
@@ -74,6 +74,7 @@
                           </div>
                         </v-card>
                       </v-menu>
+                      .
                     </div>
                   </v-card-title>
                   <v-card-text class="pt-0">
@@ -118,9 +119,9 @@
                 </v-btn>
                 <v-card>
                   <v-card-title>
-                    <p class="subheading mb-1">Calculate sales tax</p>
+                    <p class="subheading mb-1">Calculate the sales tax</p>
                     <div class="caption">
-                      This will calculate your sales tax if you can't find it. Input the sub total and tax on your bill into the form.
+                      This will calculate your sales tax if you can't find it. Input the sub total and tax on your bill into the form
                       <v-menu>
                         <a slot="activator">See an example</a>
                         <v-card>
@@ -129,7 +130,7 @@
                             <div class="caption grey--text text--darken-1">This picture is an example</div>
                           </div>
                         </v-card>
-                      </v-menu>
+                      </v-menu>.
                     </div>
                   </v-card-title>
                   <v-card-text class="pt-0">
