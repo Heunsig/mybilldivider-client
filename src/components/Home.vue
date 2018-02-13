@@ -2,14 +2,18 @@
   <v-container fluid class="ics-home-background" :class="dynamicBackground">
     <v-layout row wrap>
       <v-flex xs12>
-        <div class="text-xs-center mt-3 pt-5">
+        <div class="text-xs-center mt-2 pt-1">
+          <p class="white--text ics-sub-title">
+            {{ text[Math.floor(Math.random() * text.length)] }}
+          </p>
           <h1 class="white--text ics-main-title">My Bill Divider</h1>
         </div>
       </v-flex>
       <v-flex xs12>
         <v-card flat class="transparent">
           <v-card-text class="text-xs-center">
-            <p class="white--text ics-sub-title">It's the easiest way to split the bill</p>
+            <!-- <p class="white--text ics-sub-title">It's the easiest way to split the bill</p> -->
+            <!-- <p class="white--text ics-sub-title">How to split the bill when I didn't ordered any drink?</p> -->
             <div>
               <!-- <div class="white--text" style="font-size:25px;">Total</div>  -->
               <ICountUp
@@ -68,7 +72,13 @@
     },
     data () {
       return {
-        totalNumberOfUses: 0
+        totalNumberOfUses: 0,
+        text: [
+          'How to split the restaurant bill when I didn\'t order any drink?',
+          'How to split the restaurant bill when each person ordered different food?',
+          'How to split the restaurant bill when one friend ordered expensive food?',
+          'How to split the restaurant bill when I just want to eat the cheapest food?'
+        ]
       }
     },
     computed: {
@@ -91,7 +101,7 @@
   .ics-main-title {
     font-family: 'Open Sans Condensed', sans-serif;
     font-weight:normal;
-    font-size: 50px;
+    font-size: 55px;
   }
   .ics-home-background{
     background-position: center center;
@@ -103,7 +113,7 @@
   }
   .ics-sub-title {
     font-family: 'Inder', sans-serif; 
-    font-size:25px;
+    font-size:17px;
   }
   .ics-buttons-in-home {
     width:170px!important;
