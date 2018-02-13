@@ -186,7 +186,7 @@
               <v-btn slot="activator" class="ma-0 ml-1" dark small icon><v-icon>info</v-icon></v-btn>
               <v-card>
                 <v-card-text>
-                  A tip is calculated at a price that doesn't include a tax
+                  Subtotal x Tip rate = Tip
                 </v-card-text>
               </v-card>
             </v-menu>
