@@ -218,7 +218,7 @@ export default {
                 <img width="80" slot="activator" :src="$PATH_IMAGE + 'example_receipt.gif'" alt="An example of receipt"/>
                 <v-card>
                   <div class="pa-1">
-                    <img :src="$PATH_IMAGE + 'example_receipt.gif'" alt="An example of subtotal and tax"/>
+                    <img width="200" :src="$PATH_IMAGE + 'example_receipt.gif'" alt="An example of subtotal and tax"/>
                   </div>
                 </v-card>
               </v-menu>
