@@ -3,9 +3,9 @@
     <v-layout row wrap>
       <v-flex xs12>
         <div class="text-xs-center mt-2 pt-1">
-          <p class="white--text ics-sub-title">
+          <!-- <p class="white--text ics-sub-title">
             {{ text[Math.floor(Math.random() * text.length)] }}
-          </p>
+          </p> -->
           <h1 class="white--text ics-main-title">My Bill Divider</h1>
         </div>
       </v-flex>
@@ -26,8 +26,8 @@
                 :options="{
                   separator: ','
                 }"
-              /></ICountUp>
-              <div class="white--text" style="font-size:20px;">people have split the bill</div>
+              /></ICountUp> <span class="white--text" style="font-size:20px;">people</span>
+              <div class="white--text" style="font-size:20px;">have split the bill</div>
             </div>
           </v-card-text>
         </v-card>

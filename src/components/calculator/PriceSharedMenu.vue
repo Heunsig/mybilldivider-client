@@ -37,7 +37,7 @@
                 </v-list>
                 <v-card flat>
                   <div class="ics-customSubheader">
-                    <div class="green--text">Sharing people ({{item.people.length || 0}})</div>
+                    <div class="green--text">People who shared ({{item.people.length || 0}})</div>
                   </div>
                   <v-card-text v-if="item.people.length">
                     <div class="text-xs-left">

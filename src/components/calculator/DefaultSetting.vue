@@ -26,17 +26,48 @@
                   </v-flex>
                   <v-flex xs12>
                     <div class="ics-box-address pa-2 text-xs-center">
-                      <div v-if="!error.message">
+                      <div v-if="error.message">
+                        <span class="red--text">Error: {{ error.message }}</span>
+                        <a v-if="error.link.label" @click="$router.push(error.link.router)">{{ error.link.label }}</a>
+                      </div>
+                      <div v-else>
                         <template v-if="progressCircle">
                            <v-progress-circular indeterminate color="green"></v-progress-circular>
                         </template>
-                        <template v-else>
+                        <template v-else-if="currentLocationAddress">
                           {{ currentLocationAddress }}
                         </template>
-                      </div>
-                      <div v-else>
-                        <span class="red--text">Error: {{ error.message }}</span>
-                        <a v-if="error.link.label" @click="$router.push(error.link.router)">{{ error.link.label }}</a>
+                        <template v-else>
+                          Set the sales tax with tools below. <a @click="$router.push({name: 'faq.show', params: {slug: 'how_to_know_the_sales_tax'}})">Learn more.</a>
+                          <div class="mt-3">
+                            <ul class="text-xs-left ics-ul-explanation">
+                              <li>
+                                <div>
+                                  <v-btn fab small icon dark color="light-green" class="ics-button-in-content"><v-icon>fa-calculator</v-icon></v-btn>
+                                </div>
+                                <div>
+                                  It tells you the sales tax by calculating a subtotal and sales tax payment.
+                                </div>                                  
+                              </li>
+                              <li>
+                                <div>
+                                  <v-btn fab small icon dark color="light-green" class="ics-button-in-content"><v-icon>search</v-icon></v-btn>
+                                </div>
+                                <div>
+                                  It tells you the sales tax by searching a state and zip code.
+                                </div>
+                              </li>
+                              <li>
+                                <div>
+                                  <v-btn fab small icon dark color="green" class="ics-button-in-content"><v-icon>location_on</v-icon></v-btn>
+                                </div>
+                                <div>
+                                  It tells you the sales tax by a location service <span class="green--text">(the easiest way)</span>. 
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </template>
                       </div>
                     </div>
                   </v-flex>
@@ -382,6 +413,10 @@
   }
   .ics-box-address {
 
+  }
+  .ics-ul-explanation {
+    list-style: none;
+    display: inline-block;
   }
 </style>
 <style>
