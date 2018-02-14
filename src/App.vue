@@ -59,7 +59,7 @@
       </v-list>
     </v-navigation-drawer>
     <!-- <v-toolbar app fixed flat dense :class="isTutorial ? 'blue':'transparent'" dark class="ics-toolbar"> -->
-    <v-toolbar app fixed flat dense :class="backgroundSelector" dark class="ics-toolbar">
+    <v-toolbar app fixed flat dense :class="[backgroundSelector, shadowOnToolbar]" dark class="ics-toolbar">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title><span v-if="!isMain">My Bill Divider<span v-if="isTutorial" class="body-2">&nbsp;(Tutorial)</span></span></v-toolbar-title>
     </v-toolbar>
@@ -190,6 +190,11 @@ export default {
             return 'blue'
           }
           return 'green'
+      }
+    },
+    shadowOnToolbar () {
+      if (this.$route.name !== 'main' && this.$route.name !== 'tutorial' && this.$route.name !== 'calculator') {
+        return 'elevation-5'
       }
     }
   },
