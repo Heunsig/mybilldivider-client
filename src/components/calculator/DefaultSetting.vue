@@ -9,7 +9,7 @@
                 <v-layout wrap>
                   <v-flex xs12>
                     <div class="green--text">
-                      Sales Tax(%) <a @click="$router.push({name: 'faq.show', params: {slug: 'how_to_know_the_sales_tax'}})">Lean more</a>
+                      Sales Tax(%) <a @click="$router.push({name: 'faq.show', params: {slug: 'how_to_know_the_sales_tax'}})">Learn more.</a>
                     </div>
                   </v-flex>
                   <v-flex xs12 class="ics-dashedBorder">
@@ -222,6 +222,7 @@
     },
     methods: {
       getSalesTaxCurrentLocation () {
+        this.$resetData(this, 'error')
         this.salesTax = 0
         this.progressCircle = true
         let googleKey = 'AIzaSyCl7fbULQdlwssMehDR9G0hrmyu11fOdXo'
@@ -277,7 +278,7 @@
 
             switch (err.code) {
               case 1:
-                errorMessage = 'Permission accessing location service is denied. Please allow location service.'
+                errorMessage = 'Permission accessing a location service is denied. Please allow a location service.'
                 break
               case 2:
                 errorMessage = 'The location where you are is unavailable. Please try it again.'
@@ -290,7 +291,7 @@
             this.error = {
               message: errorMessage,
               link: {
-                label: 'Lean more',
+                label: 'Learn more.',
                 router: {
                   name: 'faq.show',
                   params: {

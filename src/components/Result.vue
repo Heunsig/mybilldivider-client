@@ -13,7 +13,7 @@
                 <v-alert color="orange" icon="priority_high" dismissible v-model="alertWarning">
                   These prices has been rounded, so It could be a little different.
                   <a @click.stop="$router.push({name: 'faq.show', params: {slug: 'why_is_a_total_of_payment_different'}})">
-                    Lean more
+                    Learn more.
                   </a>
                 </v-alert>
               </v-flex>

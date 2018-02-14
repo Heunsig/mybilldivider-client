@@ -69,7 +69,7 @@
       <router-view :key="$route.fullPath"></router-view>
     </v-content>
 
-    <v-dialog persistent v-model="dialogs.refreshAll">
+    <v-dialog persistent v-model="dialogs.refreshAll" max-width="290">
       <v-card>
         <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
           Do you want to refresh all?<br/>

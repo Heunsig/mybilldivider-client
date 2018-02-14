@@ -216,7 +216,7 @@
                   <template v-else>
                     <li class="ics-msgNoItems text-xs-center grey--text text--darken-2">
                       No people are listed yet<br/>
-                      Add people first at "EACH PERSON" tab
+                      Add people first at EACH PERSON tab
                     </li>
                   </template>
                 </v-list>
