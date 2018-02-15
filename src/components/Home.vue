@@ -38,7 +38,7 @@
             <v-btn 
               color="blue" 
               dark
-              @click="routerPush({name: 'tutorial', params:{page: 'setting'}})"
+              @click="routerPush({name: 'tutorial', params:{page: 'salesTax'}})"
               class="ics-buttons-in-home"
             >
               Start Tutorial
@@ -48,7 +48,7 @@
             <v-btn
               color="green" 
               dark 
-              @click="routerPush({name: 'calculator', params:{page: 'setting'}})"
+              @click="routerPush({name: 'calculator', params:{page: 'salesTax'}})"
               class="ics-buttons-in-home"
             >
               Start Calculating

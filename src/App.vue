@@ -109,7 +109,7 @@ export default {
           icon: 'directions_run',
           router: {
             name: 'tutorial',
-            params: { page: 'setting' }
+            params: { page: 'salesTax' }
           }
         },
         {
@@ -117,7 +117,7 @@ export default {
           icon: 'fa-calculator',
           router: {
             name: 'calculator',
-            params: { page: 'setting' }
+            params: { page: 'salesTax' }
           }
         }
       ],

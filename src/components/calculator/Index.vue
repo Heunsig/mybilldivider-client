@@ -17,11 +17,11 @@
         >
           <span v-html="tab.label"></span>
         </v-tabs-item>
-        <v-tabs-item
+        <!-- <v-tabs-item
           class="ics-tabItem-nav ics-tab-item-result yellow--text"
           @click="seeResult"
         >
-          <span>Result</span>
+          <span>Result</span> -->
         </v-tabs-item>
       </v-tabs-bar>
       <v-tabs-items class="ics-tabItems">
@@ -65,7 +65,7 @@
         <v-card-text>
           <div class="body-2 grey--text text--darken-2">
             You've not set the sales tax.<br/>
-            Do you want to go back to SETTINGS tab to set the sales tax?
+            Do you want to go back to SALES TAX tab to set the sales tax?
           </div>
         </v-card-text>
         <v-card-actions>
@@ -165,8 +165,8 @@ export default {
       currentTab: {},
       tabs: [
         {
-          id: 'setting',
-          label: 'Settings',
+          id: 'salesTax',
+          label: 'Sales Tax',
           component: 'DefaultSetting'
         },
         {
@@ -189,7 +189,7 @@ export default {
       ],
       tutorial: {
         scripts: {
-          setting: [
+          salesTax: [
             `
             <div>
               <h3 class="pb-1">My Bill Divider is here to help!</h3>
@@ -320,7 +320,7 @@ export default {
       this.activeDialog = {type: 'refreshPage', bool: false}
     },
     goBackToTabToSetSalesTax () {
-      this.tabInMixin = 'setting'
+      this.tabInMixin = 'salesTax'
       this.activeDialog = {type: 'checkingSalesTax', bool: false}
     },
     changeTab (tab) {
