@@ -117,7 +117,7 @@
     </v-dialog>
 
     <v-btn
-      :class="[isTutorial() ? 'blue' : 'green']"
+      color="blue"
       dark
       fab
       fixed
