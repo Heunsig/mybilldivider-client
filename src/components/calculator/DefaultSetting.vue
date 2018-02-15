@@ -45,10 +45,10 @@
                         <ul class="ics-ul-explanation">
                           <li>
                             <div class="ics-ul-explanation-icon">
-                              <v-btn fab small icon dark color="light-green" class="ics-button-in-content"><v-icon>fa-calculator</v-icon></v-btn>
+                              <v-btn fab small icon dark color="light-green" class="ics-button-in-content"><v-icon>attach_money</v-icon></v-btn>
                             </div>
                             <div class="ics-ul-explanation-content">
-                              Obtain the sales tax by calculating a subtotal and sales tax payment.
+                              Obtain the sales tax by calculating a subtotal and sales tax payment on your receipt.
                             </div>                                  
                           </li>
                           <li>
@@ -145,7 +145,7 @@
               >
                 <v-btn slot="activator" color="light-green" small icon dark fab class="ma-0 mt-2">
                   <v-icon>
-                    fa-calculator
+                    attach_money
                   </v-icon>
                 </v-btn>
                 <v-card>
