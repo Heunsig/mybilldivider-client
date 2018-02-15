@@ -117,14 +117,13 @@
     </v-dialog>
 
     <v-btn
-      v-if="isTutorial()"
-      color="blue"
+      :class="[isTutorial() ? 'blue' : 'green']"
       dark
       fab
       fixed
       bottom
       right
-      @click="$router.push({name: 'calculator', params: {page: 'setting'}})"
+      @click="$router.push({name: 'result', params: {mode: $route.name}})"
     >
       <v-icon>fa-calculator</v-icon>
     </v-btn>
