@@ -248,6 +248,7 @@ export default {
   }
 
   .ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}
+  .ics-dashedBorder-top{border-top:1px dashed #d6d6d6;}
   .ics-card-title {
     font-size:15px;
     font-weight:500;
