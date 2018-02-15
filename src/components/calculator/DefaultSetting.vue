@@ -48,7 +48,7 @@
                               <v-btn fab small icon dark color="light-green" class="ics-button-in-content"><v-icon>fa-calculator</v-icon></v-btn>
                             </div>
                             <div class="ics-ul-explanation-content">
-                              It tells you the sales tax by calculating a subtotal and sales tax payment.
+                              Obtain the sales tax by calculating a subtotal and sales tax payment.
                             </div>                                  
                           </li>
                           <li>
@@ -56,7 +56,7 @@
                               <v-btn fab small icon dark color="light-green" class="ics-button-in-content"><v-icon>search</v-icon></v-btn>
                             </div>
                             <div class="ics-ul-explanation-content">
-                              It tells you the sales tax by searching a state and zip code.
+                              Obtain the sales tax by searching a state and zip code.
                             </div>
                           </li>
                           <li>
@@ -64,7 +64,7 @@
                               <v-btn fab small icon dark color="green" class="ics-button-in-content"><v-icon>location_on</v-icon></v-btn>
                             </div>
                             <div class="ics-ul-explanation-content">
-                              It tells you the sales tax by a location service <span class="green--text">(the easiest way)</span>. 
+                              Obtain the sales tax by using a location service <span class="green--text">(the easiest way)</span>. 
                             </div>
                           </li>
                         </ul>
