@@ -35,8 +35,10 @@ Vue.use(VueAnalytics, {
   router
 })
 
-Vue.prototype.$PATH_IMAGE = 'https://mybilldivider.com/images/'
-Vue.prototype.$PATH_API = 'https://api.mybilldivider.com/api/'
+// Vue.prototype.$PATH_IMAGE = 'https://mybilldivider.com/images/'
+// Vue.prototype.$PATH_API = 'https://api.mybilldivider.com/api/'
+Vue.prototype.$PATH_IMAGE = 'http://api.mybilldivider.test/storage/images/'
+Vue.prototype.$PATH_API = 'http://api.mybilldivider.test/api/'
 
 Vue.prototype.$resetData = ($this, changingData, originalData) => {
   if (typeof originalData === 'undefined') { originalData = changingData }
