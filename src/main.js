@@ -37,7 +37,7 @@ Vue.use(VueAnalytics, {
 
 // Vue.prototype.$PATH_IMAGE = 'https://mybilldivider.com/images/'
 // Vue.prototype.$PATH_API = 'https://api.mybilldivider.com/api/'
-Vue.prototype.$PATH_IMAGE = 'http://api.mybilldivider.test/storage/images/'
+Vue.prototype.$PATH_IMAGE = 'http://mybilldivider.test/images/'
 Vue.prototype.$PATH_API = 'http://api.mybilldivider.test/api/'
 
 Vue.prototype.$resetData = ($this, changingData, originalData) => {
@@ -55,13 +55,13 @@ Vue.prototype.$window = window
 /* eslint-disable no-new */
 new Vue({
   created () {
-    let bgList = [
-      'ics-home-background-01',
-      'ics-home-background-02',
-      'ics-home-background-03'
-    ]
+    // let bgList = [
+    //   'ics-home-background-01',
+    //   'ics-home-background-02',
+    //   'ics-home-background-03'
+    // ]
 
-    this.$store.commit('base/setBackgroundMainCss', { css: bgList[Math.floor(Math.random() * 3)] })
+    // this.$store.commit('base/setBackgroundMainCss', { css: bgList[Math.floor(Math.random() * 3)] })
   },
   el: '#app',
   router,

@@ -1,5 +1,6 @@
 <template>
-  <v-container fluid class="ics-home-background" :class="dynamicBackground">
+  <v-container fluid class="ics-home-background">
+    <div id="responsibility_observer"></div>
     <v-layout row wrap>
       <v-flex xs12>
         <div class="text-xs-center mt-2 pt-1">
@@ -61,6 +62,13 @@
 </template>
 <script>
   import ICountUp from 'vue-countup-v2'
+  // import imageBgMain01PC from '@/assets/images/bg_main_01_pc.jpg'
+  // import imageBgMain02PC from '@/assets/images/bg_main_02_pc.jpg'
+  // import imageBgMain03PC from '@/assets/images/bg_main_03_pc.jpg'
+  // import imageBgMain01M from '@/assets/images/bg_main_01_m.jpg'
+  // import imageBgMain02M from '@/assets/images/bg_main_02_m.jpg'
+  // import imageBgMain03M from '@/assets/images/bg_main_03_m.jpg'
+  // import imageExampleSubtotalAndTax from '@/assets/example_subtotalAndTax.gif'
 
   export default {
     created () {
@@ -70,6 +78,15 @@
         console.log(err)
       })
     },
+    mounted () {
+      this.wall = document.querySelector('.ics-home-background')
+      this.selectedBgImage = this.backgroundImages[Math.floor(Math.random() * 3)]
+      window.addEventListener('resize', this.onResize)
+      this.onResize()
+    },
+    destroyed () {
+      window.removeEventListener('resize', this.onResize)
+    },
     data () {
       return {
         totalNumberOfUses: 0,
@@ -78,7 +95,23 @@
           'How to split the restaurant bill when each person ordered different food?',
           'How to split the restaurant bill when one friend ordered expensive food?',
           'How to split the restaurant bill when I just want to eat the cheapest food?'
-        ]
+        ],
+        wall: '',
+        backgroundImages: [
+          {
+            pc: 'bg_main_01_pc.jpg',
+            m: 'bg_main_01_m.jpg'
+          },
+          {
+            pc: 'bg_main_02_pc.jpg',
+            m: 'bg_main_02_m.jpg'
+          },
+          {
+            pc: 'bg_main_03_pc.jpg',
+            m: 'bg_main_03_m.jpg'
+          }
+        ],
+        selectedBgImage: {}
       }
     },
     computed: {
@@ -87,6 +120,18 @@
       }
     },
     methods: {
+      onResize () {
+        try {
+          let observer = document.querySelector('#responsibility_observer')
+          if (window.getComputedStyle(observer).getPropertyValue('display') === 'block') {
+            // PC
+            this.wall.style.backgroundImage = `url(${this.$PATH_IMAGE}${this.selectedBgImage.pc})`
+          } else {
+            // Mobile
+            this.wall.style.backgroundImage = `url(${this.$PATH_IMAGE}${this.selectedBgImage.m})`
+          }
+        } catch (e) { }
+      },
       routerPush (routerOptions) {
         this.$router.push(routerOptions)
         this.drawer = false
@@ -119,30 +164,41 @@
     width:170px!important;
   }
 
-   .ics-home-background-01 {
-    background-image: url('https://mybilldivider.com/images/bg_main_01_pc.jpg');
+   /*.ics-home-background-01 {
+    background-image: url('/images/bg_main_01_pc.jpg');
   }
 
   .ics-home-background-02 {
-    background-image: url('https://mybilldivider.com/images/bg_main_02_pc.jpg');
+    background-image: url('/images/bg_main_02_pc.jpg');
   }
 
   .ics-home-background-03 {
-    background-image: url('https://mybilldivider.com/images/bg_main_03_pc.jpg');
+    background-image: url('/images/bg_main_03_pc.jpg');
+  }*/
+  
+  #responsibility_observer {
+    width:0;
+    height:0;
+    visibility: hidden;
+    display: block;
   }
 
   @media only screen and (max-width: 767px) {
-    .ics-home-background-01 {
-      background-image: url('https://mybilldivider.com/images/bg_main_01_m.jpg');
+    #responsibility_observer {
+      display: none;
+    }
+
+    /*.ics-home-background-01 {
+      background-image: url('/images/bg_main_01_m.jpg');
     }
 
     .ics-home-background-02 {
-      background-image: url('https://mybilldivider.com/images/bg_main_02_m.jpg');
+      background-image: url('/images/bg_main_02_m.jpg');
     }
 
     .ics-home-background-03 {
-      background-image: url('https://mybilldivider.com/images/bg_main_03_m.jpg');
-    }
+      background-image: url('/images/bg_main_03_m.jpg');
+    }*/
   }
 
 </style>
