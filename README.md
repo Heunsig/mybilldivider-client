@@ -1,9 +1,5 @@
 # My Bill Divder Client Page
-<<<<<<< HEAD
-Version 0.6.28 by Windows
-=======
-Version 0.6.28
->>>>>>> 8992fadd1811ed109986e7e135cee6f2ee81df0a
+Version 0.6.28 made by Windows
 
 1. Should change $PATH_IMAGE, $PATH_API values which are "image url" and "api url".
 
