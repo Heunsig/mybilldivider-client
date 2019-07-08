@@ -1,4 +1,4 @@
-# My Bill Divder Client Page
+# Mybilldivder Client
 
 ## Version
 0.6.28
