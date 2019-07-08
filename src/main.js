@@ -37,8 +37,10 @@ Vue.use(VueAnalytics, {
 
 // Vue.prototype.$PATH_IMAGE = 'https://mybilldivider.com/images/'
 // Vue.prototype.$PATH_API = 'https://api.mybilldivider.com/api/'
-Vue.prototype.$PATH_IMAGE = 'http://mybilldivider.test/images/'
-Vue.prototype.$PATH_API = 'http://api.mybilldivider.test/api/'
+Vue.prototype.$PATH_IMAGE = 'http://mybilldivider.com/images/'
+Vue.prototype.$PATH_API = 'http://api.mybilldivider.com/api/'
+// Vue.prototype.$PATH_IMAGE = 'http://mybilldivider.test/images/'
+// Vue.prototype.$PATH_API = 'http://api.mybilldivider.test/api/'
 
 Vue.prototype.$resetData = ($this, changingData, originalData) => {
   if (typeof originalData === 'undefined') { originalData = changingData }
