@@ -100,9 +100,9 @@
           typeof value === 'number' &&
           value !== Infinity && !isNaN(value)
         ) {
-          this.$store.commit('setSalesTax', value)
+          this.$store.commit('calculator/setSalesTax', value)
         } else {
-          this.$store.commit('setSalesTax', 0)
+          this.$store.commit('calculator/setSalesTax', 0)
         }
 
         this.close()

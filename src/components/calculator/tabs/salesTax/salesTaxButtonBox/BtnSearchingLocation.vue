@@ -88,7 +88,7 @@
         this.$http.get(apiURL).then(res => {
           EventBus.$emit('CURRENT_ADDRESS', 'Gyuju')
           EventBus.$emit('PROGRESS_ICON_FOR_SALESTAX', false)
-          this.$store.commit(this.$route.name + '/' + 'setSalesTax', res.body.estimatedCombinedRate * 100)
+          this.$store.commit('calculator/setSalesTax', res.body.estimatedCombinedRate * 100)
         }, () => {
           // To components/calculator/tabs/salesTax/salesTaxToolsInfo/StatusBar.vue
           EventBus.$emit('ERROR_ON_SALESTAX', {
