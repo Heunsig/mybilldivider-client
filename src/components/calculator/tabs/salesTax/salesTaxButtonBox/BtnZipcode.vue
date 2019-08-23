@@ -8,9 +8,7 @@
     style="position:absolute;bottom:-20px;right:60px;"
   >
     <v-btn slot="activator" color="light-green" small icon dark fab class="ma-0 mt-2">
-      <v-icon>
-        search
-      </v-icon>
+      <v-icon>search</v-icon>
     </v-btn>
     <v-card>
       <v-card-title>
@@ -21,7 +19,7 @@
             <a slot="activator">See an example</a>
             <v-card>
               <div class="pa-1">
-                <img :src="$PATH_IMAGE + 'example_address.gif'" alt="An example of address on a receipt."/>
+                <img :src="imageExampleSalesTax" alt="An example of address on a receipt."/>
                 <div class="caption grey--text text--darken-1">
                   This picture is an example
                 </div>
@@ -35,8 +33,8 @@
           <v-select
             label="State" 
             v-bind:items="$states"
-            v-model="search.state.value"
-            :rules="search.state.rule"
+            v-model="state"
+            :rules="stateRule"
             required
             clearable
             bottom
@@ -44,70 +42,80 @@
           <v-text-field
             label="Zipcode"
             type="number"
-            v-model="search.zipcode.value"
-            :rules="search.zipcode.rule"
+            v-model="zipcode"
+            :rules="zipcodeRule"
             required
             clearable
           ></v-text-field>
         </v-form>
       </v-card-text>
       <v-card-actions>
-        <v-btn block flat color="grey darken-2" @click="closeMenuSearchingSalesTax">Cancel</v-btn>
-        <v-btn block flat color="light-green" :loading="loadingForSearch" @click="getSearchedLocationSalesTax">Confirm</v-btn>
+        <v-btn 
+          block 
+          flat 
+          color="grey darken-2" 
+          @click="closeMenu"
+        >
+          Cancel
+        </v-btn>
+        <v-btn 
+          block 
+          flat 
+          color="light-green" 
+          :loading="loading" 
+          @click="getSalexTax"
+        >
+          Confirm
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-menu>
 </template>
 <script>
-  // import imageExampleSalesTax from '@/assets/example_salesTax.gif'
+  import imageExampleSalesTax from '@/assets/example_salesTax.gif'
+  import EventBus from '@/event-bus'
 
   export default {
     data () {
       return {
         menu: false,
         valid: true,
-        search: {
-          state: {
-            value: '',
-            rule: [
-              (v) => !!v || 'State is required'
-            ]
-          },
-          zipcode: {
-            value: '',
-            rule: [
-              (v) => !!v || 'Zipcode is required'
-            ]
-          }
-        },
-        loadingForSearch: false
+        loading: false,
+        state: '',
+        stateRule: [
+          (v) => !!v || 'State is required'
+        ],
+        zipcode: '',
+        zipcodeRule: [
+          (v) => !!v || 'Zipcode is required'
+        ],
+        imageExampleSalesTax
       }
     },
     methods: {
-      closeMenuSearchingSalesTax () {
-        this.search.state.value = ''
-        this.search.zipcode.value = ''
-        this.activeSearchSalesTax = false
+      closeMenu () {
+        this.state = ''
+        this.zipcode = ''
+        this.menu = false
         this.$refs.test.reset()
       },
-      getSearchedLocationSalesTax () {
+      getSalexTax () {
         if (this.$refs.test.validate()) {
-          this.salesTax = 0
-          this.loadingForSearch = true
+          this.$store.commit(this.$route.name + '/' + 'setSalesTax', 0)
+          this.loading = true
 
-          let state = this.search.state.value
-          let zipcode = this.search.zipcode.value
-          this.$http.get(`${this.$PATH_API}getSalesTax/${state}/${zipcode}`).then(res => {
-            this.currentLocationAddress = ''
-            this.salesTax = res.body.estimatedCombinedRate * 100
-            this.search.state.value = ''
-            this.search.zipcode.value = ''
-            this.$refs.test.reset()
-            this.activeSearchSalesTax = false
-            this.loadingForSearch = false
+          const state = this.state
+          const zipcode = this.zipcode
+          const apiURL = `${this.$PATH_API}getSalesTax/${state}/${zipcode}`
+
+          this.$http.get(apiURL).then(res => {
+            EventBus.$emit('CURRENT_ADDRESS', '')
+            this.$store.commit(this.$route.name + '/' + 'setSalesTax', res.body.estimatedCombinedRate * 100)
+            this.loading = false
+            this.closeMenu()
           }, () => {
-            this.$resetData(this, 'error')
-            this.error = {
+            // To components/calculator/tabs/salesTax/salesTaxToolsInfo/StatusBar.vue
+            EventBus.$emit('ERROR_ON_SALESTAX', {
               message: 'Can not get the location data as an api problem.',
               link: {
                 label: 'Leave feedback',
@@ -115,7 +123,7 @@
                   name: 'feedback'
                 }
               }
-            }
+            })
           })
         }
       }
