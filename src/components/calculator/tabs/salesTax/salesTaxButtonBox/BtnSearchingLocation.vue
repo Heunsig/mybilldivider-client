@@ -64,14 +64,11 @@
           }, () => {
             // To components/calculator/tabs/salesTax/salesTaxToolsInfo/StatusBar.vue
             EventBus.$emit('ERROR_ON_SALESTAX', {
-              message: 'Can not get the location data from the map api.',
+              message: 'Can not get the location data as an api problem.',
               link: {
-                label: 'Learn more.',
+                label: 'Leave feedback',
                 router: {
-                  name: 'faq.show',
-                  params: {
-                    slug: 'how_to_turn_a_location_service_on'
-                  }
+                  name: 'feedback'
                 }
               }
             })
@@ -95,14 +92,11 @@
         }, () => {
           // To components/calculator/tabs/salesTax/salesTaxToolsInfo/StatusBar.vue
           EventBus.$emit('ERROR_ON_SALESTAX', {
-            message: 'Can not get the location data from the map api.',
+            message: 'Can not get the location data as an api problem.',
             link: {
-              label: 'Learn more.',
+              label: 'Leave feedback',
               router: {
-                name: 'faq.show',
-                params: {
-                  slug: 'how_to_turn_a_location_service_on'
-                }
+                name: 'feedback'
               }
             }
           })
