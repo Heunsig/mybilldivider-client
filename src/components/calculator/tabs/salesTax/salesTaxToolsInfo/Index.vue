@@ -17,9 +17,6 @@
     components: {
       StatusBar,
       ToolsInfo
-    },
-    data () {
-      return { }
     }
   }
 </script>
