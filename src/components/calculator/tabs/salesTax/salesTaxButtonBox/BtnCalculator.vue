@@ -101,10 +101,8 @@
           value !== Infinity && !isNaN(value)
         ) {
           this.$store.commit('setSalesTax', value)
-          // this.salesTax = value
         } else {
           this.$store.commit('setSalesTax', 0)
-          // this.salesTax = 0
         }
 
         this.close()
