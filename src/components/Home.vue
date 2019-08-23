@@ -7,7 +7,7 @@
           <!-- <p class="white--text ics-sub-title">
             {{ text[Math.floor(Math.random() * text.length)] }}
           </p> -->
-          <h1 class="white--text ics-main-title">My Bill Divider</h1>
+          <h1 class="white--text ics-main-title">{{ APP_NAME }}</h1>
         </div>
       </v-flex>
       <v-flex xs12>
@@ -27,8 +27,9 @@
                 :options="{
                   separator: ','
                 }"
-              /></ICountUp> <span class="white--text" style="font-size:20px;">people</span>
-              <div class="white--text" style="font-size:20px;">have split the bill</div>
+              />
+              <span class="white--text" style="font-size:20px;">people</span>
+              <div class="white--text" style="font-size:20px;">have split the bill.</div>
             </div>
           </v-card-text>
         </v-card>
@@ -39,7 +40,7 @@
             <v-btn 
               color="blue" 
               dark
-              @click="routerPush({name: 'tutorial', params:{page: 'salesTax'}})"
+              @click="$router.push({name: 'tutorial', params:{page: 'salesTax'}})"
               class="ics-buttons-in-home"
             >
               Start Tutorial
@@ -49,7 +50,7 @@
             <v-btn
               color="green" 
               dark 
-              @click="routerPush({name: 'calculator', params:{page: 'salesTax'}})"
+              @click="$router.push({name: 'calculator', params:{page: 'salesTax'}})"
               class="ics-buttons-in-home"
             >
               Start Calculating
@@ -62,30 +63,10 @@
 </template>
 <script>
   import ICountUp from 'vue-countup-v2'
-  // import imageBgMain01PC from '@/assets/images/bg_main_01_pc.jpg'
-  // import imageBgMain02PC from '@/assets/images/bg_main_02_pc.jpg'
-  // import imageBgMain03PC from '@/assets/images/bg_main_03_pc.jpg'
-  // import imageBgMain01M from '@/assets/images/bg_main_01_m.jpg'
-  // import imageBgMain02M from '@/assets/images/bg_main_02_m.jpg'
-  // import imageBgMain03M from '@/assets/images/bg_main_03_m.jpg'
-  // import imageExampleSubtotalAndTax from '@/assets/example_subtotalAndTax.gif'
 
   export default {
-    created () {
-      this.$http.get(this.$PATH_API + 'log').then(res => {
-        this.totalNumberOfUses = res.body.count
-      }, err => {
-        console.log(err)
-      })
-    },
-    mounted () {
-      this.wall = document.querySelector('.ics-home-background')
-      this.selectedBgImage = this.backgroundImages[Math.floor(Math.random() * 3)]
-      window.addEventListener('resize', this.onResize)
-      this.onResize()
-    },
-    destroyed () {
-      window.removeEventListener('resize', this.onResize)
+    components: {
+      ICountUp
     },
     data () {
       return {
@@ -131,14 +112,23 @@
             this.wall.style.backgroundImage = `url(${this.$PATH_IMAGE}${this.selectedBgImage.m})`
           }
         } catch (e) { }
-      },
-      routerPush (routerOptions) {
-        this.$router.push(routerOptions)
-        this.drawer = false
       }
     },
-    components: {
-      ICountUp
+    created () {
+      this.$http.get(this.$PATH_API + 'log').then(res => {
+        this.totalNumberOfUses = res.body.count
+      }, err => {
+        console.log(err)
+      })
+    },
+    mounted () {
+      this.wall = document.querySelector('.ics-home-background')
+      this.selectedBgImage = this.backgroundImages[Math.floor(Math.random() * 3)]
+      window.addEventListener('resize', this.onResize)
+      this.onResize()
+    },
+    destroyed () {
+      window.removeEventListener('resize', this.onResize)
     }
   }
 </script>

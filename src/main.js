@@ -1,5 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -13,9 +11,7 @@ import States from './plugins/states'
 import VueAnalytics from 'vue-analytics'
 import VueResource from 'vue-resource'
 
-// index.js or main.js
 import 'vuetify/dist/vuetify.min.css'
-// import 'swiper/dist/css/swiper.css'
 
 import eventBus from './event-bus'
 
@@ -35,6 +31,7 @@ Vue.use(VueAnalytics, {
   router
 })
 
+Vue.prototype.APP_NAME = 'My Bill Divider'
 // Vue.prototype.$PATH_IMAGE = 'https://mybilldivider.com/images/'
 // Vue.prototype.$PATH_API = 'https://api.mybilldivider.com/api/'
 Vue.prototype.$PATH_IMAGE = 'http://mybilldivider.com/images/'
@@ -56,15 +53,6 @@ Vue.prototype.$window = window
 
 /* eslint-disable no-new */
 new Vue({
-  created () {
-    // let bgList = [
-    //   'ics-home-background-01',
-    //   'ics-home-background-02',
-    //   'ics-home-background-03'
-    // ]
-
-    // this.$store.commit('base/setBackgroundMainCss', { css: bgList[Math.floor(Math.random() * 3)] })
-  },
   el: '#app',
   router,
   store,

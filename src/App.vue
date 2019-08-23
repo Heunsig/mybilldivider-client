@@ -9,217 +9,71 @@
       <v-list>
         <v-list-tile tag="div">
           <v-list-tile-content>
-            <v-list-tile-title>My Bill Divider</v-list-tile-title>
+            <v-list-tile-title>{{ APP_NAME }}</v-list-tile-title>
           </v-list-tile-content>
           <v-list-tile-action>
-            <v-btn icon @click.stop="drawer = !drawer">
+            <v-btn 
+              icon
+              @click.stop="toggleDrawer"
+            >
               <v-icon>chevron_left</v-icon>
             </v-btn>
           </v-list-tile-action>
         </v-list-tile>
       </v-list>
-      <v-list class="pt-0">
-        <template v-for="item in nav">
-          <v-list-tile :key="item.label" @click="routerPush(item.router)">
-            <v-list-tile-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ item.label }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </template>
-      </v-list>
+
+      <NavMain />
+
       <v-divider></v-divider>
-      <v-list dense class="pt-0">
-        <v-subheader>About us</v-subheader>
-        <template v-for="item in navForAboutUs">
-          <v-list-tile :key="item.label" @click="routerPush(item.router)">
-            <v-list-tile-action>
-              <v-icon color="grey">{{ item.icon }}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="grey--text">{{ item.label }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </template>
-      </v-list>
-      <v-list dense>
-        <v-subheader>Function</v-subheader>
-        <template v-for="item in navForFunction">
-          <v-list-tile :key="item.label" @click="item.dialog ? openDialog(item.dialog) : ''">
-            <v-list-tile-action>
-              <v-icon class="light-green--text">{{ item.icon }}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-action>
-              <v-list-tile-title class="light-green--text text--darken-1">{{ item.label }}</v-list-tile-title>
-            </v-list-tile-action>
-          </v-list-tile>
-        </template>
-      </v-list>
+
+      <NavInfo />
+
+      <NavFunctions />
+
     </v-navigation-drawer>
-    <!-- <v-toolbar app fixed flat dense :class="isTutorial ? 'blue':'transparent'" dark class="ics-toolbar"> -->
-    <v-toolbar app fixed flat dense :class="[backgroundSelector, shadowOnToolbar]" dark class="ics-toolbar">
-      <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title><span v-if="!isMain">My Bill Divider<span v-if="isTutorial" class="body-2">&nbsp;(Tutorial)</span></span></v-toolbar-title>
-    </v-toolbar>
+
+    <Toolbar 
+      :toggleDrawer="toggleDrawer"
+    />
 
     <v-content class="grey lighten-4">
-    <!-- <v-content class="transparent">   -->
       <router-view :key="$route.fullPath"></router-view>
     </v-content>
-
-    <v-dialog persistent v-model="dialogs.refreshAll" max-width="290">
-      <v-card>
-        <v-card-title class="pb-3 pt-3 ics-dialog-title red darken-1 white--text">
-          Do you want to refresh all?<br/>
-          It makes the app first state.
-        </v-card-title>
-        <v-card-actions>
-          <v-btn color="grey darken-2" flat block @click.native="activeDialog = {type: 'refreshAll', bool: false}">Cancel</v-btn>
-          <v-btn color="red darken-1" flat block @click.native="confirmToRefreshAll">Confirm</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    
+    <DialogRefresh />
   </v-app>
 </template>
 <script>
-import eventBus from '@/event-bus'
-import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
+  import Toolbar from './components/frame/Toolbar'
+  import NavMain from './components/frame/NavMain'
+  import NavInfo from './components/frame/NavInfo'
+  import NavFunctions from './components/frame/NavFunctions'
+  import DialogRefresh from './components/frame/DialogRefresh'
+  import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
 
-export default {
-  mixins: [fixingModalBugInIphone],
-  mounted () {
-    let body = document.querySelector('body')
-    eventBus.bodyElement = body
-  },
-  data () {
-    return {
-      drawer: false,
-      nav: [
-        {
-          label: 'Main',
-          icon: 'home',
-          router: {
-            name: 'main'
-          }
-        },
-        {
-          label: 'Tutorial',
-          icon: 'directions_run',
-          router: {
-            name: 'tutorial',
-            params: { page: 'salesTax' }
-          }
-        },
-        {
-          label: 'Calculator',
-          icon: 'fa-calculator',
-          router: {
-            name: 'calculator',
-            params: { page: 'salesTax' }
-          }
-        }
-      ],
-      navForAboutUs: [
-        {
-          label: 'FAQ',
-          icon: 'help',
-          router: {
-            name: 'faq.list'
-          }
-        },
-        {
-          label: 'Feedback',
-          icon: 'comment',
-          router: {
-            name: 'feedback'
-          }
-        },
-        {
-          label: 'About us',
-          icon: 'info',
-          router: {
-            name: 'aboutUs'
-          }
-        }
-      ],
-      navForFunction: [
-        {
-          label: 'Refresh',
-          icon: 'refresh',
-          dialog: 'refreshAll'
-        }
-      ],
-      dialogs: {
-        refreshAll: false
-      }
-    }
-  },
-  computed: {
-    isMain () {
-      // if (eventBus.currentRoute.name === 'main') {
-      if (this.$route.name === 'main') {
-        return true
-      } else {
-        return false
+  export default {
+    mixins: [
+      fixingModalBugInIphone
+    ],
+    components: {
+      Toolbar,
+      NavMain,
+      NavInfo,
+      NavFunctions,
+      DialogRefresh
+    },
+    data () {
+      return {
+        drawer: false
       }
     },
-    isTutorial () {
-      // if (eventBus.currentRoute.name === 'tutorial') {
-      if (this.$route.name === 'tutorial') {
-        return true
-      } else {
-        // if (eventBus.currentRoute.name === 'result' && eventBus.currentRoute.params.mode === 'tutorial') {
-        if (this.$route.name === 'result' && this.$route.params.mode === 'tutorial') {
-          return true
-        }
-        return false
+    methods: {
+      toggleDrawer (e) {
+        this.drawer = !this.drawer
       }
-    },
-    backgroundSelector () {
-      // switch (eventBus.currentRoute.name) {
-      switch (this.$route.name) {
-        case 'main':
-          return 'grey darken-4'
-        case 'tutorial':
-          return 'blue'
-        default:
-          // if (eventBus.currentRoute.name === 'result' && eventBus.currentRoute.params.mode === 'tutorial') {
-          if (this.$route.name === 'result' && this.$route.params.mode === 'tutorial') {
-            return 'blue'
-          }
-          return 'green'
-      }
-    },
-    shadowOnToolbar () {
-      if (this.$route.name !== 'main' && this.$route.name !== 'tutorial' && this.$route.name !== 'calculator') {
-        return 'elevation-5'
-      }
-    }
-  },
-  methods: {
-    routerPush (routerOptions) {
-      this.$router.push(routerOptions)
-      this.drawer = false
-    },
-    openDialog (dialog) {
-      this.activeDialog = {type: dialog, bool: true}
-    },
-    confirmToRefreshAll () {
-      this.$store.commit('calculator/refreshAll')
-      this.$store.commit('base/setPermissionToSeeResult', { bool: false })
-      this.activeDialog = {type: 'refreshAll', bool: false}
-      this.routerPush({name: 'main'})
     }
   }
-}
 </script>
-<style scoped>
-  .ics-toolbar{
-    z-index: 4;
-  }
-</style>
 <style>
   .ics-cardDecoration{border-top:3px solid #4caf50;}
 
@@ -268,5 +122,9 @@ export default {
     
   .ics-ol > li{
     margin:10px 0;
+  }
+
+  .ics-button-nav {
+    z-index: 2!important;
   }
 </style>

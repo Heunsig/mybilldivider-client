@@ -1,14 +1,27 @@
 <template>
   <div class="ics-warpper">
-    <!-- <v-btn flat class="testButton white--text">
-      Make Result
-    </v-btn> -->
-    <v-btn icon flat class="ics-btn-refresh" v-if="refresh" @click="refreshPage">
+    <v-btn 
+      icon 
+      flat 
+      class="ics-btn-refresh" 
+      v-if="refresh" 
+      @click="refreshPage"
+    >
       <v-icon color="white">refresh</v-icon>
     </v-btn>
-    <v-tabs dark grow class="ics-tabs" @input="changeTab" v-model="tabInMixin">
-      <v-tabs-bar dark class="ics-tabsBar elevation-5" :class="[isTutorial() ? 'blue':'green']">
-        <v-tabs-slider color="yellow"></v-tabs-slider>
+    <v-tabs
+      dark 
+      grow 
+      class="ics-tabs" 
+      @input="changeTab" 
+      v-model="tabInMixin"
+    >
+      <v-tabs-bar 
+        dark 
+        class="ics-tabsBar elevation-5" 
+        :class="[ isTutorial() ? 'blue':'green' ]"
+      >
+        <v-tabs-slider color="yellow" />
         <v-tabs-item
           v-for="(tab, i) in tabs"
           :key="i"
@@ -17,14 +30,10 @@
         >
           <span v-html="tab.label"></span>
         </v-tabs-item>
-        <!-- <v-tabs-item
-          class="ics-tabItem-nav ics-tab-item-result yellow--text"
-          @click="seeResult"
-        >
-          <span>Result</span> -->
-        </v-tabs-item>
       </v-tabs-bar>
-      <v-tabs-items class="ics-tabItems">
+      <v-tabs-items 
+        class="ics-tabItems"
+      >
         <v-tabs-content
           v-for="(tab, i) in tabs"
           :key="i"
@@ -33,7 +42,10 @@
         >
           <v-card flat class="transparent">
             <v-card-text>
-              <component :is="tab.component" :key="tab.id"></component>
+              <component 
+                :is="tab.component" 
+                :key="tab.id" 
+              />
             </v-card-text>
           </v-card>
         </v-tabs-content>
@@ -131,7 +143,7 @@
 </template>
 
 <script>
-import DefaultSetting from './DefaultSetting'
+import DefaultSetting from './tabs/salesTax/Index'
 import PriceEachPerson from './PriceEachPerson'
 import PriceSharedMenu from './PriceSharedMenu'
 import Result from './Result'
@@ -181,11 +193,6 @@ export default {
           component: 'PriceSharedMenu',
           refresh: true
         }
-        // {
-        //   id: 'result',
-        //   label: 'Result',
-        //   component: 'Result'
-        // }
       ],
       tutorial: {
         scripts: {

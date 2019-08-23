@@ -14,16 +14,7 @@
                   </v-flex>
                   <v-flex xs12 class="ics-dashedBorder">
 
-                    <v-text-field
-                      placeholder="0"
-                      type="number"
-                      full-width
-                      hide-details
-                      clearable
-                      suffix="%"
-                      v-model="salesTax"
-                      class="pa-0 pt-2"
-                    />
+                    <SalesTaxInput />
 
                   </v-flex>
                   <v-flex xs12>
@@ -46,14 +37,16 @@
   </div>
 </template>
 <script>
+  import SalesTaxInput from './SalesTaxInput'
   import SalesTaxSectionTitle from './SalesTaxSectionTitle'
-  import SalesTaxToolsInfo from './salesTaxToolsInfo/Index'
-  import SalesTaxButtonBox from './salesTaxButtonBox/Index'
+  import SalesTaxToolsInfo from './salesTaxToolsInfo'
+  import SalesTaxButtonBox from './salesTaxButtonBox'
 
   import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
 
   export default {
     components: {
+      SalesTaxInput,
       SalesTaxSectionTitle,
       SalesTaxToolsInfo,
       SalesTaxButtonBox
@@ -61,56 +54,6 @@
     mixins: [
       fixingModalBugInIphone
     ],
-    data () {
-      return {
-        // currentLocationAddress: '',
-        // progressCircle: false,
-        // isGetSalesTaxMenuActive: false,
-        // activeSearchSalesTax: false,
-        // priceOfTax: '',
-        // priceOfSubTotal: '',
-        // images: {
-        //   imageExampleSalesTax,
-        //   imageExampleSubtotalAndTax
-        // },
-        // error: {
-        //   message: '',
-        //   link: {
-        //     label: '',
-        //     router: {}
-        //   }
-        // },
-        // valid: true,
-        // search: {
-        //   state: {
-        //     value: '',
-        //     rule: [
-        //       (v) => !!v || 'State is required'
-        //     ]
-        //   },
-        //   zipcode: {
-        //     value: '',
-        //     rule: [
-        //       (v) => !!v || 'Zipcode is required'
-        //     ]
-        //   }
-        // },
-        // loadingForSearch: false
-      }
-    },
-    computed: {
-      salesTax () {
-        return this.$store.getters[this.$route.name + '/' + 'getSalesTax']
-      }
-      // salesTax: {
-      //   get () {
-      //     return this.$store.getters[this.$route.name + '/' + 'getSalesTax']
-      //   },
-      //   set (value) {
-      //     this.$store.commit(this.$route.name + '/' + 'setSalesTax', value)
-      //   }
-      // }
-    }
   }
 </script>
 <style scoped>
