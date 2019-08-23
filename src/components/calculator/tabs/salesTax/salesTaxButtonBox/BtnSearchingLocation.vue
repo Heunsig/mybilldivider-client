@@ -83,8 +83,11 @@
         // const currentLocation = await this.getCurrentLocation()
         // const currentAddress = await this.getCurrentAddress(currentLocation.lat, currentLocation.lng)
         // const apiURL = `${this.$PATH_API}getSalesTax/${currentAddress.state}/${currentAddress.zipcode}`
+
         // TEMP
         const apiURL = `${this.$PATH_API}getSalesTax/CA/90028`
+        // TEMP
+
         this.$http.get(apiURL).then(res => {
           EventBus.$emit('CURRENT_ADDRESS', 'Gyuju')
           EventBus.$emit('PROGRESS_ICON_FOR_SALESTAX', false)
@@ -105,97 +108,6 @@
           })
         })
       },
-      // getSalesTax_old () {
-      //   this.$resetData(this, 'error')
-      //   this.salesTax = 0
-      //   this.progressCircle = true
-      //   let googleKey = 'AIzaSyCl7fbULQdlwssMehDR9G0hrmyu11fOdXo'
-      //   let lat = 0
-      //   let lng = 0
-      //   let state = ''
-      //   let zipcode = 0
-      //   let address = ''
-
-      //   if (!navigator.geolocation) {
-
-      //   } else {
-      //     navigator.geolocation.getCurrentPosition(position => {
-      //       lat = position.coords.latitude
-      //       lng = position.coords.longitude
-
-      //       this.$http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${googleKey}&language=en`).then(res => {
-      //         address = res.body.results[0].formatted_address
-      //         state = res.body.results[0].address_components[5].short_name
-      //         zipcode = res.body.results[0].address_components[7].short_name
-
-      //         this.$http.get(`${this.$PATH_API}getSalesTax/${state}/${zipcode}`).then(res => {
-      //           this.currentLocationAddress = address
-      //           this.salesTax = res.body.estimatedCombinedRate * 100
-      //           this.progressCircle = false
-      //         }, () => {
-      //           this.$resetData(this, 'error')
-      //           this.error = {
-      //             message: 'Can not get the location data as an api problem.',
-      //             link: {
-      //               label: 'Leave feedback',
-      //               router: {
-      //                 name: 'feedback'
-      //               }
-      //             }
-      //           }
-      //         })
-      //       }, () => {
-      //         this.$resetData(this, 'error')
-      //         this.error = {
-      //           message: 'Can not get the location data as a map api problem.',
-      //           link: {
-      //             label: 'Leave feedback',
-      //             router: {
-      //               name: 'feedback'
-      //             }
-      //           }
-      //         }
-      //       })
-      //     }, err => {
-      //       let errorMessage = ''
-      //       this.$resetData(this, 'error')
-
-      //       switch (err.code) {
-      //         case 1:
-      //           errorMessage = 'Permission accessing a location service is denied. Please allow a location service.'
-      //           break
-      //         case 2:
-      //           errorMessage = 'The location where you are is unavailable. Please try it again.'
-      //           break
-      //         case 3:
-      //           errorMessage = 'Can not get the location as an unknown reason. Please try it again.'
-      //           break
-      //       }
-
-      //       this.error = {
-      //         message: errorMessage,
-      //         link: {
-      //           label: 'Learn more.',
-      //           router: {
-      //             name: 'faq.show',
-      //             params: {
-      //               slug: 'how_to_turn_a_location_service_on'
-      //             }
-      //           }
-      //         }
-      //       }
-      //       // this.error = {
-      //       //   message: errorMessage,
-      //       //   router: {
-      //       //     name: 'faq.show',
-      //       //     params: {
-      //       //       slug: 'how_to_turn_a_location_service_on'
-      //       //     }
-      //       //   }
-      //       // }
-      //     })
-      //   }
-      // },
       convertErrorCodeToMsg (errCode) {
         switch (errCode) {
           case 1:
