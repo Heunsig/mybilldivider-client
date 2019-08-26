@@ -38,13 +38,15 @@
 </template>
 <script>
   export default {
-    // props: [
-    //   'modifyPersonData'
-    // ],
     data () {
       return {
         dialog: false,
         name: ''
+      }
+    },
+    computed: {
+      orderForPeople () {
+        return this.$store.getters['calculator/getOrderForPeople']
       }
     },
     methods: {
@@ -54,31 +56,16 @@
       closeDialog () {
         this.name = ''
         this.dialog = false
-        // this.person = {}
-        // this.tempPerson = { name: '', tip: '', menu: [] }
-        // this.activeDialog = {type: 'addingPerson', bool: false}
       },
       confirm () {
         this.$store.commit('calculator/addPerson', {
-          name: this.name ? this.name : `Person ${this.$store.getters['calculator/getPeople'].length + 1}`,
+          name: this.name ? this.name : `Person ${this.orderForPeople}`,
           tip: 0,
           menu: []
         })
 
         this.closeDialog()
-        // this.person = {}
-        // this.tempPerson = { name: '', tip: '', menu: [] }
-        // this.activeDialog = {type: 'addingPerson', bool: false}
       }
-      // __modifyPersonData (pureData) {
-      //   let modifiedData = clone(pureData)
-
-      //   modifiedData.name = modifiedData.name || 'Person ' + this.orderForPerson++
-      //   modifiedData.tip = modifiedData.tip || 0
-      //   modifiedData.menu = modifiedData.menu || []
-
-      //   return modifiedData
-      // },
     }
   }
 </script>

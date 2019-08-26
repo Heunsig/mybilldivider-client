@@ -3,7 +3,9 @@ const calculator = {
   state: {
     salesTax: 0,
     people: [],
-    menu: []
+    menu: [],
+    orderForPeople: 0,
+    orderForItem: 0
   },
   getters: {
     getSalesTax (state) {
@@ -14,6 +16,12 @@ const calculator = {
     },
     getMenu (state) {
       return state.menu
+    },
+    getOrderForPeople (state) {
+      return state.orderForPeople
+    },
+    getOrderForItem (state) {
+      return state.orderForItem
     }
   },
   mutations: {
@@ -21,18 +29,23 @@ const calculator = {
       state.salesTax = parseFloat(salesTax || 0)
     },
     addPerson (state, payload) {
-      state.people.push(payload.person)
+      state.people = [...state.people, payload]
+      state.orderForPeople++
     },
     addItemToPerson (state, payload) {
-      payload.person.menu.push(payload.item)
+      payload.person.menu = [...payload.person.menu, payload.item]
+      state.orderForItem++
+      // payload.person.menu.push(payload.item)
     },
     addItemToMenu (state, payload) {
-      state.menu.push(payload.item)
+      state.menu = [...state.menu, payload]
+      state.orderForItem++
     },
     deleteItemFromMenu (state, payload) {
       state.menu.forEach((obj, i) => {
-        if (obj === payload.item) {
+        if (obj === payload) {
           state.menu.splice(i, 1)
+          return false
         }
       })
     },
@@ -45,8 +58,9 @@ const calculator = {
     },
     deletePersonFromPeople (state, payload) {
       state.people.forEach((obj, i) => {
-        if (obj === payload.person) {
+        if (obj === payload) {
           state.people.splice(i, 1)
+          return false
         }
       })
 
@@ -54,7 +68,7 @@ const calculator = {
       // WARNNING: It might make the app slow
       state.menu.forEach(obj => {
         obj.people.forEach((name, i) => {
-          if (name === payload.person.name) {
+          if (name === payload.name) {
             obj.people.splice(i, 1)
           }
         })

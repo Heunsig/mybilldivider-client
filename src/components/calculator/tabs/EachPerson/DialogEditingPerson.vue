@@ -44,7 +44,7 @@
       confirm () {
         this.person.name = this.name
         this.closeDialog()
-      },
+      }
     }
   }
 </script>

@@ -6,6 +6,7 @@
           :person="person"
           :openDialogEditingPerson="openDialogEditingPerson"
           :openDialogDeletingPerson="openDialogDeletingPerson"
+          :openDialogAddingItem="openDialogAddingItem"
         />
       </template>
     </v-layout>
@@ -17,7 +18,8 @@
   export default {
     props: [
       'openDialogEditingPerson',
-      'openDialogDeletingPerson'
+      'openDialogDeletingPerson',
+      'openDialogAddingItem'
     ],
     components: {
       Person
@@ -29,3 +31,8 @@
     }
   }
 </script>
+<style scoped>
+  .ics-grid{padding: 3px;}
+  .ics-grid > .layout:only-child{margin: -8px;}
+  .ics-grid > .layout > .flex{padding: 20px 8px 8px 8px;}
+</style>

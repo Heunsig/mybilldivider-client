@@ -28,7 +28,7 @@
         <template v-if="person.menu.length">
           <v-list-tile v-for="(item, i) in person.menu" :key="i">
             <v-list-tile-action class="ics-listActions">
-              <v-btn icon small @click="confirmToRemoveItem(person, item)">
+              <v-btn icon small @click="removeItem(person, item)">
                 <v-icon small color="red lighten-3">close</v-icon>
               </v-btn>
             </v-list-tile-action>
@@ -39,7 +39,7 @@
               {{ $accounting.formatMoney(item.price) }}
             </v-list-tile-action>
             <v-list-tile-action class="ics-listActions">
-              <v-btn icon small @click="openDialogForItem(person, item)">
+              <v-btn icon small @click="openDialogAddingItem(person, item)">
                 <v-icon small color="grey lighten-2">edit</v-icon>
               </v-btn>
             </v-list-tile-action>
@@ -59,7 +59,7 @@
         </v-card-text>
       </v-card>
       <v-card-actions>
-        <v-btn icon small absolute bottom right dark fab color="orange" @click="openDialogForItem(person)" class="ics-floatingBtn">
+        <v-btn icon small absolute bottom right dark fab color="orange" @click="openDialogAddingItem(person)" class="ics-floatingBtn">
           <v-icon>add</v-icon>
         </v-btn>
       </v-card-actions>
@@ -71,7 +71,8 @@
     props: [
       'person',
       'openDialogEditingPerson',
-      'openDialogDeletingPerson'
+      'openDialogDeletingPerson',
+      'openDialogAddingItem'
     ],
     methods: {
       getTotalPriceWithoutSalesTax (person) {
@@ -82,7 +83,19 @@
         })
 
         return this.$format.precisionRound(total, 2)
+      },
+      removeItem (person, item) {
+        person.menu.forEach((obj, i) => {
+          if (obj === item) {
+            person.menu.splice(i, 1)
+          }
+        })
       }
     }
   }
 </script>
+<style scoped>
+  .ics-floatingBtn{
+    z-index: 1!important;
+  }
+</style>

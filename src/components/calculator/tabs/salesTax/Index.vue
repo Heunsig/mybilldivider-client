@@ -53,7 +53,7 @@
     },
     mixins: [
       fixingModalBugInIphone
-    ],
+    ]
   }
 </script>
 <style scoped>

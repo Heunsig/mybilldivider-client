@@ -143,9 +143,9 @@
 </template>
 
 <script>
-import DefaultSetting from './tabs/salesTax/Index'
-import PriceEachPerson from './PriceEachPerson'
-import PriceSharedMenu from './PriceSharedMenu'
+import DefaultSetting from './tabs/salesTax'
+import PriceEachPerson from './tabs/EachPerson'
+import PriceSharedMenu from './tabs/SharedMenu'
 import Result from './Result'
 import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
 import routingForTab from '@/mixins/routingForTab'

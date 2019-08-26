@@ -1,0 +1,114 @@
+  .ics-cardDecoration{border-top:3px solid #4caf50;}
+
+  .ics-dialog-title{
+    font-weight: 500;
+    font-size: 17px;
+  }
+
+  body.modal-open{
+    position: fixed;
+    width: 100%;
+  }
+
+  .overlay--active:before{opacity: 0.9;}
+
+  .ics-button-smaller {
+    width: 25px!important;
+    height: 25px!important;;
+  }
+  .ics-align-center {
+    align-items: center;
+  }
+
+  .ics-spacer-taxableSelector {
+    flex-grow: 0.6!important;
+  }
+
+  .ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}
+  .ics-dashedBorder-top{border-top:1px dashed #d6d6d6;}
+  .ics-card-title {
+    font-size:15px;
+    font-weight:500;
+  }
+
+  .ics-button-in-content {
+    width: 22px!important;
+    height: 22px!important;
+    margin:2px!important;
+  }
+  .ics-button-in-content > .btn__content {
+    height: auto!important;
+  }
+  .ics-button-in-content > .btn__content > i {
+    font-size:12px!important;
+  }
+    
+  .ics-ol > li{
+    margin:10px 0;
+  }
+
+  .ics-button-nav {
+    z-index: 2!important;
+  }
+
+.ics-main-title {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight:normal;
+    font-size: 55px;
+  }
+  .ics-home-background{
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: #212121;
+    height: 100%;
+  }
+  .ics-sub-title {
+    font-family: 'Inder', sans-serif; 
+    font-size:17px;
+  }
+  .ics-buttons-in-home {
+    width:170px!important;
+  }
+
+   /*.ics-home-background-01 {
+    background-image: url('/images/bg_main_01_pc.jpg');
+  }
+
+  .ics-home-background-02 {
+    background-image: url('/images/bg_main_02_pc.jpg');
+  }
+
+  .ics-home-background-03 {
+    background-image: url('/images/bg_main_03_pc.jpg');
+  }*/
+  
+  #responsibility_observer {
+    width:0;
+    height:0;
+    visibility: hidden;
+    display: block;
+  }
+
+  @media only screen and (max-width: 767px) {
+    #responsibility_observer {
+      display: none;
+    }
+
+    /*.ics-home-background-01 {
+      background-image: url('/images/bg_main_01_m.jpg');
+    }
+
+    .ics-home-background-02 {
+      background-image: url('/images/bg_main_02_m.jpg');
+    }
+
+    .ics-home-background-03 {
+      background-image: url('/images/bg_main_03_m.jpg');
+    }*/
+  }
+
+    .ics-message-404 {
+    font-size: 20px;
+  }
