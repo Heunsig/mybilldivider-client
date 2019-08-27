@@ -48,7 +48,6 @@
       ref="dialogAddingItem"
     />
   </div>
-  <!-- /Section for dialog -->
 </template>
 <script>
   import PeopleList from './PeopleList'

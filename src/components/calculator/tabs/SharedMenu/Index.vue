@@ -29,7 +29,6 @@
       </div>
     </template>
     
-    <!-- Section for dialog -->
     
     <DialogAddingItem
       :convertItemData="convertItemData"
