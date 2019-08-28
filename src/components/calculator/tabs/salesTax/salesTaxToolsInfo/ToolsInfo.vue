@@ -35,7 +35,7 @@
           Obtain the sales tax by searching a state and zip code.
         </div>
       </li>
-      <li>
+      <!-- <li>
         <div class="ics-ul-explanation-icon">
           <v-btn 
             fab 
@@ -51,7 +51,7 @@
         <div class="ics-ul-explanation-content">
           Obtain the sales tax by using a location service <span class="green--text">(the easiest way)</span>. 
         </div>
-      </li>
+      </li> -->
     </ul>
   </div>
 </template>

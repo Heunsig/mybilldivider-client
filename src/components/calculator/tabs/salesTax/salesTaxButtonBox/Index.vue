@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <BtnSearchingLocation />
+    <!-- <BtnSearchingLocation /> -->
 
     <BtnZipcode />
     
