@@ -30,9 +30,9 @@
       },
       confirm () {
         if (this.activeTab === 'eachPerson') {
-          this.$store.commit('calculator/clearPeople')
+          this.$store.commit(`${this.$route.name}/clearPeople`)
         } else if (this.activeTab === 'sharedItem') {
-          this.$store.commit('calculator/clearMenu')
+          this.$store.commit(`${this.$route.name}/clearMenu`)
         }
 
         this.closeDialog()

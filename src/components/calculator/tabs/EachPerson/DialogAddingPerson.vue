@@ -38,15 +38,13 @@
 </template>
 <script>
   export default {
+    props: [
+      'orderForPeople'
+    ],
     data () {
       return {
         dialog: false,
         name: ''
-      }
-    },
-    computed: {
-      orderForPeople () {
-        return this.$store.getters['calculator/getOrderForPeople']
       }
     },
     methods: {
@@ -58,7 +56,8 @@
         this.dialog = false
       },
       confirm () {
-        this.$store.commit('calculator/addPerson', {
+        const commit = `${this.$route.name}/addPerson`
+        this.$store.commit(commit, {
           name: this.name ? this.name : `Person ${this.orderForPeople}`,
           tip: 0,
           menu: []

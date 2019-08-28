@@ -9,9 +9,10 @@
     <template v-if="menu.length">
 
       <ItemList 
-        :openDialogEditingItem="$refs.dialogEditingItem.openDialog"
-        :openDialogEditingPeopleList="$refs.dialogEditingPeopleList.openDialog"
-        :openDialogDeletingItem="$refs.dialogDeletingItem.openDialog"
+        :menu="menu"
+        :openDialogEditingItem="openDialogEditingItem"
+        :openDialogEditingPeopleList="openDialogEditingPeopleList"
+        :openDialogDeletingItem="openDialogDeletingItem"
       />
       
       <v-btn 
@@ -31,17 +32,18 @@
     
     
     <DialogAddingItem
-      :convertItemData="convertItemData"
       ref="dialogAddingItem"
+      :convertItemData="convertItemData"
     />
   
     <DialogEditingItem 
-      :convertItemData="convertItemData"
       ref="dialogEditingItem"
+      :convertItemData="convertItemData"
     />
 
     <DialogEditingPeopleList 
       ref="dialogEditingPeopleList"
+      :people="people"
     />
     
     <DialogDeletingItem 
@@ -73,18 +75,27 @@
     ],
     computed: {
       menu () {
-        return this.$store.getters['calculator/getMenu']
+        return this.$store.getters[`${this.$route.name}/getMenu`]
       },
       people () {
-        return this.$store.getters['calculator/getPeople']
+        return this.$store.getters[`${this.$route.name}/getPeople`]
       },
       orderForItem () {
-        return this.$store.getters['calculator/getOrderForItem']
+        return this.$store.getters[`${this.$route.name}/getOrderForItem`]
       }
     },
     methods: {
       openDialogAddingItem () {
         this.$refs.dialogAddingItem.openDialog()
+      },
+      openDialogEditingItem (item) {
+        this.$refs.dialogEditingItem.openDialog(item)
+      },
+      openDialogEditingPeopleList (item) {
+        this.$refs.dialogEditingPeopleList.openDialog(item)
+      },
+      openDialogDeletingItem (item) {
+        this.$refs.dialogDeletingItem.openDialog(item)
       },
       convertItemData (pureData) {
         let modifiedData = clone(pureData)
@@ -104,19 +115,19 @@
   .container.ics-grid > .layout:only-child{margin: -8px;}
   .container.ics-grid > .layout > .flex{padding: 20px 8px 8px 8px;}*/
   
-  .ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}
-  .ics-customSubheader{
+  /*.ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}*/
+  /*.ics-customSubheader{
     margin: 10px 0;
     color: rgba(0,0,0,.54);
     font-size: 14px;
     font-weight: 500;
     padding: 0 16px;
-  }
+  }*/
 
-  .ics-listActions{min-width: 35px;}
-  .ics-floatingBtn{z-index: 1!important;}
+  /*.ics-listActions{min-width: 35px;}*/
+  /*.ics-floatingBtn{z-index: 1!important;}*/
 
-  .ics-msgNoItems{
+  /*.ics-msgNoItems{
     font-size: 14px;
   }
 
@@ -135,7 +146,11 @@
   .ics-totalPrice{
     font-size: 17px;
     font-weight: 500;
+  }*/
+  
+  .ics-msgNoItem-main {
+    font-size:16px;
+    color: #717171;
   }
-
 
 </style>

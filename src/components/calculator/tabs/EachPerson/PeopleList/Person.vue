@@ -24,7 +24,9 @@
         </v-list-tile>
       </v-list>
       <v-list>
-        <v-subheader class="ics-subheader green--text">Added items ({{person.menu.length || 0}})</v-subheader>
+        <v-subheader class="ics-subheader green--text">
+          Added items ({{person.menu.length || 0}})
+        </v-subheader>
         <template v-if="person.menu.length">
           <v-list-tile v-for="(item, i) in person.menu" :key="i">
             <v-list-tile-action class="ics-listActions">
@@ -97,5 +99,15 @@
 <style scoped>
   .ics-floatingBtn{
     z-index: 1!important;
+  }
+  .ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}
+  .ics-subheader{height: 22px;}
+  .ics-listActions{min-width: 35px;}
+  .ics-totalPrice{
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .ics-msgNoItems{
+    font-size: 14px;
   }
 </style>

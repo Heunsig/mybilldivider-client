@@ -13,8 +13,13 @@
 <script>
   export default {
     computed: {
-      salesTax () {
-        return this.$store.getters['calculator/getSalesTax']
+      salesTax: {
+        get () {
+          return this.$store.getters[`${this.$route.name}/getSalesTax`]
+        },
+        set (value) {
+          this.$store.commit(`${this.route.name}/setSalesTax`, value)
+        }
       }
     }
   }

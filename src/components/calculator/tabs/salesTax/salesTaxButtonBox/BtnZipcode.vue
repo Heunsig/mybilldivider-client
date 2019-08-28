@@ -100,8 +100,10 @@
         this.$refs.test.reset()
       },
       getSalexTax () {
+        const commit = `${this.$route.name}/setSalesTax`
+
         if (this.$refs.test.validate()) {
-          this.$store.commit('calculator/setSalesTax', 0)
+          this.$store.commit(commit, 0)
           this.loading = true
 
           const state = this.state
@@ -110,7 +112,7 @@
 
           this.$http.get(apiURL).then(res => {
             EventBus.$emit('CURRENT_ADDRESS', '')
-            this.$store.commit('calculator/setSalesTax', res.body.estimatedCombinedRate * 100)
+            this.$store.commit(commit, res.body.estimatedCombinedRate * 100)
             this.loading = false
             this.closeMenu()
           }, () => {

@@ -15,7 +15,7 @@ import 'vuetify/dist/vuetify.min.css'
 
 import eventBus from './event-bus'
 
-Vue.config.productionTip = false
+// Vue.config.productionTip = false
 Vue.use(Vuetify)
 
 Vue.use(VueClipboard)

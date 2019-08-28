@@ -17,17 +17,13 @@
 
   export default {
     props: [
+      'people',
       'openDialogEditingPerson',
       'openDialogDeletingPerson',
       'openDialogAddingItem'
     ],
     components: {
       Person
-    },
-    computed: {
-      people () {
-        return this.$store.getters['calculator/getPeople']
-      }
     }
   }
 </script>

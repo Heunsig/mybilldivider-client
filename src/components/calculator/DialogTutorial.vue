@@ -10,7 +10,7 @@
       </v-toolbar>
       <v-card-text>
         <swiper :options="swiperOptions">
-          <template v-for="script in scripts[tabInMixin]">
+          <template v-for="script in scripts[activeTab]">
             <swiper-slide>
               <component
                 :is="{
@@ -37,19 +37,22 @@
   </v-dialog>
 </template>
 <script>
-  import routingForTab from '@/mixins/routingForTab'
+  // import routingForTab from '@/mixins/routingForTab'
 
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
   import 'swiper/dist/css/swiper.css'
 
   export default {
+    props: [
+      'activeTab'
+    ],
     components: {
       swiper,
       swiperSlide
     },
-    mixins: [
-      routingForTab
-    ],
+    // mixins: [
+    //   routingForTab
+    // ],
     data () {
       return {
         dialog: false,

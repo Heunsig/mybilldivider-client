@@ -94,15 +94,16 @@
         this.menu = false
       },
       confirm () {
+        const commit = `${this.$route.name}/setSalesTax`
         let value = this.$format.precisionRound((((this.tax || 0) / (this.subTotal || 0)) * 100), 2)
 
         if (
           typeof value === 'number' &&
           value !== Infinity && !isNaN(value)
         ) {
-          this.$store.commit('calculator/setSalesTax', value)
+          this.$store.commit(commit, value)
         } else {
-          this.$store.commit('calculator/setSalesTax', 0)
+          this.$store.commit(commit, 0)
         }
 
         this.close()

@@ -3,7 +3,7 @@
 Client page - http://mybilldivider.com 
 
 ## Version
-0.6.28
+0.7.0
 
 ## Memo
 

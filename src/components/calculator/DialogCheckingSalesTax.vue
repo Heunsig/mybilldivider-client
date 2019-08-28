@@ -24,16 +24,12 @@
 <script>
   export default {
     props: [
+      'salesTax',
       'moveTabTo'
     ],
     data () {
       return {
         dialog: false
-      }
-    },
-    computed: {
-      salesTax () {
-        return this.$store.getters['calculator/getSalesTax']
       }
     },
     methods: {

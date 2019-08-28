@@ -2,12 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Home from '@/components/Home'
-import Calculator from '@/components/calculator/index'
+import Calculator from '@/components/Calculator'
 import Result from '@/components/Result'
 
 import Faq from '@/components/faq/Index'
-import FaqList from '@/components/faq/List'
-import FaqShow from '@/components/faq/Show'
+import FaqList from '@/components/Faq/List'
+import FaqShow from '@/components/Faq/Show'
 
 import Feedback from '@/components/Feedback'
 import AboutUs from '@/components/AboutUs'

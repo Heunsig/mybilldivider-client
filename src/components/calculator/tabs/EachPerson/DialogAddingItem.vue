@@ -89,6 +89,7 @@
         } else {
           this.mode = 'add'
         }
+
         this.person = person
         this.dialog = true
       },
@@ -102,7 +103,8 @@
         this.dialog = false
       },
       confirmToAddItem () {
-        this.$store.commit('calculator/addItemToPerson', {
+        const commit = `${this.$route.name}/addItemToPerson`
+        this.$store.commit(commit, {
           person: this.person,
           item: this.__modifyItemData({
             name: this.name,

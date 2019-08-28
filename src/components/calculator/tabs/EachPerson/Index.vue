@@ -10,9 +10,10 @@
     </v-btn>
     <template v-if="people.length">
       <PeopleList 
-        :openDialogEditingPerson="$refs.dialogEditingPerson.openDialog"
-        :openDialogDeletingPerson="$refs.dialogDeletingPerson.openDialog"
-        :openDialogAddingItem="$refs.dialogAddingItem.openDialog"
+        :people="people"
+        :openDialogEditingPerson="openDialogEditingPerson"
+        :openDialogDeletingPerson="openDialogDeletingPerson"
+        :openDialogAddingItem="openDialogAddingItem"
       />
 
       <v-btn
@@ -34,6 +35,7 @@
     
     <DialogAddingPerson 
       ref="dialogAddingPerson"
+      :orderForPeople="orderForPeople"
     />
 
     <DialogEditingPerson 
@@ -69,17 +71,26 @@
     mixins: [
       fixingModalBugInIphone
     ],
-    data () {
-      return {}
-    },
     computed: {
       people () {
-        return this.$store.getters['calculator/getPeople']
+        return this.$store.getters[`${this.$route.name}/getPeople`]
+      },
+      orderForPeople () {
+        return this.$store.getters[`${this.$route.name}/getOrderForPeople`]
       }
     },
     methods: {
       openDialogAddingPerson () {
         this.$refs.dialogAddingPerson.openDialog()
+      },
+      openDialogEditingPerson (person) {
+        this.$refs.dialogEditingPerson.openDialog(person)
+      },
+      openDialogDeletingPerson (person) {
+        this.$refs.dialogDeletingPerson.openDialog(person)
+      },
+      openDialogAddingItem (person, item) {
+        this.$refs.dialogAddingItem.openDialog(person, item)
       }
     }
   }
@@ -89,37 +100,37 @@
   .container.ics-grid > .layout:only-child{margin: -8px;}
   .container.ics-grid > .layout > .flex{padding: 20px 8px 8px 8px;}*/
 
-  .ics-buttonEditingName{width: auto; height: auto;}
-  .ics-buttonEditingName .icon{font-size: 17px;}
+  /*.ics-buttonEditingName{width: auto; height: auto;}
+  .ics-buttonEditingName .icon{font-size: 17px;}*/
 
-  .ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}
-  .ics-subheader{height: 22px;}
-  .ics-listActions{min-width: 35px;}
+  /*.ics-dashedBorder{border-bottom:1px dashed #d6d6d6;}*/
+  /*.ics-subheader{height: 22px;}*/
+  /*.ics-listActions{min-width: 35px;}*/
 
   /*.ics-floatingBtn{
     z-index: 1!important;
   }*/
-  .ics-totalPrice{
+  /*.ics-totalPrice{
     font-size: 17px;
     font-weight: 500;
-  }
-  .ics-msgNoItems{
+  }*/
+  /*.ics-msgNoItems{
     font-size: 14px;
-  }
+  }*/
 
-  .ics-textField-detail{
+  /*.ics-textField-detail{
     padding-left:40px;
     padding-top: 5px;
     font-size: 13px;
     color: #717171;
-  }
+  }*/
   
-  .ics-msgNoItem-main{
+  .ics-msgNoItem-main {
     font-size:16px;
     color: #717171;
   }
-  .test-a{
-    /*position: absolute;*/
+  /*.test-a{
+    position: absolute;
     border:1px solid red;
-  }
+  }*/
 </style>

@@ -17,7 +17,7 @@ const base = {
       state.backgroundMainCss = payload.css
     },
     setPermissionToSeeResult (state, payload) {
-      state.permissionToSeeResult = payload.bool
+      state.permissionToSeeResult = payload
     }
   }
 }

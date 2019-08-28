@@ -45,6 +45,9 @@
   import fixingModalBugInIphone from '@/mixins/fixingModalBugInIphone'
 
   export default {
+    props: [
+      'isTutorial'
+    ],
     components: {
       SalesTaxInput,
       SalesTaxSectionTitle,
@@ -53,36 +56,25 @@
     },
     mixins: [
       fixingModalBugInIphone
-    ]
+    ],
+    mounted () {
+      if (this.isTutorial()) {
+        console.log('hi')
+      }
+    }
   }
 </script>
 <style scoped>
-  .container.ics-grid{
+  .ics-grid{
     padding: 3px;
   }
-  .container.ics-grid > .layout:only-child{margin: -8px;}
-  .container.ics-grid > .layout > .flex{padding: 20px 8px 8px 8px;}
+  .ics-grid > .layout:only-child{margin: -8px;}
+  .ics-grid > .layout > .flex{padding: 20px 8px 8px 8px;}
 
-  .ics-customSubheader{
+  /*.ics-customSubheader{
     color: rgba(0,0,0,.54);
     font-size: 14px;
     font-weight: 500;
     padding: 0 16px;
-  }
-  .ics-box-address {
-
-  }
-  /*.ics-ul-explanation {
-    list-style: none;
-    display: inline-block;
-  }
-  .ics-ul-explanation > li {
-    display: flex;
-    margin: 6px 0;
-  }
-
-  .ics-ul-explanation > li > .ics-ul-explanation-content {
-    text-align: left;
-    padding-left: 9px;
   }*/
 </style>

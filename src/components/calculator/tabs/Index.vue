@@ -47,6 +47,9 @@
   import PriceSharedMenu from './SharedMenu'
 
   export default {
+    props: [
+      'isTutorial'
+    ],
     components: {
       DefaultSetting,
       PriceEachPerson,
@@ -104,27 +107,6 @@
             }
           }
         })
-
-        // // if (tab === 'result') {
-        // //   if (this.salesTax === 0) {
-        // //     this.activeDialog = {type: 'checkingSalesTax', bool: true}
-        // //     this.testContinue = false
-        // //   }
-        // // }
-
-        // if (this.isTutorial()) {
-        //   this.openDialogTutorial()
-        //   // if (this.tutorial.scripts.hasOwnProperty(tab)) {
-        //     // this.tutorial.dialog = true
-        //   // }
-        // }
-      },
-      isTutorial () {
-        if (this.$route.name === 'tutorial') {
-          return true
-        }
-
-        return false
       },
       moveTabTo (tabId) {
         this.activeTab = tabId
@@ -135,3 +117,25 @@
     }
   }
 </script>
+<style scoped>
+.ics-tabItem-nav {
+  font-size: 13px;
+  font-weight: 500;
+}
+.ics-tabsBar {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  z-index: 3;
+}
+.ics-tabItems {
+  height: 100%;
+}
+.ics-tabContent {
+  padding-top: 48px;
+  height: 100%;
+}
+.ics-tabs {
+  height: 100%;
+}
+</style>

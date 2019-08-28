@@ -25,7 +25,9 @@
               <v-menu
                 offset-y
               >
-                <v-btn slot="activator" class="ma-0" small icon><v-icon color="grey">info</v-icon></v-btn>
+                <v-btn slot="activator" class="ma-0" small icon>
+                  <v-icon color="grey">info</v-icon>
+                </v-btn>
                 <v-card>
                   <v-card-text>
                     Select item is taxable or non-taxable.

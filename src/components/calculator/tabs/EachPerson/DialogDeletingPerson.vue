@@ -29,7 +29,8 @@
         this.dialog = false
       },
       confirm () {
-        this.$store.commit('calculator/deletePersonFromPeople', this.person)
+        const commit = `${this.$route.name}/deletePersonFromPeople`
+        this.$store.commit(commit, this.person)
 
         this.closeDialog()
       }

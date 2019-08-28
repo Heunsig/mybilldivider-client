@@ -17,17 +17,13 @@
 
   export default {
     props: [
+      'menu',
       'openDialogEditingItem',
       'openDialogEditingPeopleList',
       'openDialogDeletingItem'
     ],
     components: {
       Item
-    },
-    computed: {
-      menu () {
-        return this.$store.getters['calculator/getMenu']
-      }
     }
   }
 </script>

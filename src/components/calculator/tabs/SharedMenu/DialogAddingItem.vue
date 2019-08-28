@@ -82,7 +82,8 @@
         this.taxable = true
       },
       confirm () {
-        this.$store.commit('calculator/addItemToMenu', this.convertItemData({
+        const commit = `${this.$route.name}/addItemToMenu`
+        this.$store.commit(commit, this.convertItemData({
           name: this.name,
           price: this.price,
           taxable: this.taxable

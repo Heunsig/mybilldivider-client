@@ -14,6 +14,7 @@
       ref="tabs"
       @activeTab="activeTab = $event"
       @beAbleToRefresh="refresh = $event"
+      :isTutorial="isTutorial"
     />
 
     <DialogRefreshingPage
@@ -23,11 +24,13 @@
 
     <DialogCheckingSalesTax 
       ref="dialogCheckingSalesTax"
+      :salesTax="salesTax"
       :moveTabTo="moveTabTo"
     />
 
     <DialogTutorial 
       ref="dialogTutorial"
+      :activeTab="activeTab"
     />
 
     <v-btn
@@ -70,7 +73,7 @@ export default {
   },
   computed: {
     salesTax () {
-      return this.$store.getters['calculator/getSalesTax']
+      return this.$store.getters[`${this.$route.name}/getSalesTax`]
     }
   },
   methods: {
@@ -91,6 +94,18 @@ export default {
     },
     moveTabTo (tabId) {
       return this.$refs.tabs.moveTabTo(tabId)
+    },
+    isTutorial () {
+      if (this.$route.name === 'tutorial') {
+        return true
+      }
+
+      return false
+    }
+  },
+  mounted () {
+    if (this.isTutorial() && (this.$route.params.page === 'salesTax')) {
+      this.$refs.dialogTutorial.openDialog()
     }
   }
 }
@@ -99,29 +114,29 @@ export default {
 .ics-warpper{
   height: 100%;
 }
-.ics-toolbar{
+/*.ics-toolbar{
   position: fixed;
   z-index: 5;
-}
-.ics-tabItem-nav{
+}*/
+/*.ics-tabItem-nav{
   font-size: 13px;
   font-weight: 500;
-}
-.ics-tabsBar{
+}*/
+/*.ics-tabsBar{
   position: fixed;
   top: 48px;
   left: 0;
   z-index: 3;
-}
-.ics-tabItems{
+}*/
+/*.ics-tabItems{
   height: 100%;
-}
-.ics-tabContent{
+}*/
+/*.ics-tabContent{
   padding-top: 48px;
   height: 100%;
-}
-.ics-tabs{height: 100%;}
-.ics-btn-refresh{
+}*/
+/*.ics-tabs{height: 100%;}*/
+.ics-btn-refresh {
   position: fixed;
   top: 0;
   right: 8px;
@@ -135,9 +150,9 @@ export default {
 }
 */
 
-.ics-msg-setSalesTax{
+/*.ics-msg-setSalesTax{
   font-size: 14px;
-}
+}*/
 
 </style>
 <style>

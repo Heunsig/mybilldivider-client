@@ -29,7 +29,8 @@
         this.item = {}
       },
       confirm () {
-        this.$store.commit('calculator/deleteItemFromMenu', this.item)
+        const commit = `${this.$route.name}/deleteItemFromMenu`
+        this.$store.commit(commit, this.item)
 
         this.closeDialog()
       }

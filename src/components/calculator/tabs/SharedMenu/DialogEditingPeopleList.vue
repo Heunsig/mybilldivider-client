@@ -42,16 +42,14 @@
 </template>
 <script>
   export default {
+    props: [
+      'people'
+    ],
     data () {
       return {
         dialog: false,
         item: {},
         peopleInList: []
-      }
-    },
-    computed: {
-      people () {
-        return this.$store.getters['calculator/getPeople']
       }
     },
     methods: {
@@ -71,3 +69,8 @@
     }
   }
 </script>
+<style scoped>
+  .ics-msgNoItems {
+    font-size: 14px;
+  }
+</style>

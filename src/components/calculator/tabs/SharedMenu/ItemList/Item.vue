@@ -67,3 +67,39 @@
     }
   }
 </script>
+<style scoped>
+  .ics-dashedBorder {
+    border-bottom:1px dashed #d6d6d6;
+  }
+  .ics-customSubheader{
+    margin: 10px 0;
+    color: rgba(0,0,0,.54);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0 16px;
+  }
+  .ics-listActions {
+    min-width: 35px;
+  }
+  .ics-floatingBtn{z-index: 1!important;}
+  .ics-msgNoItems{
+    font-size: 14px;
+  }
+
+  /*.ics-msgNoItem-main{
+    font-size:16px;
+    color: #717171;
+  }*/
+
+  /*.ics-textField-detail{
+    padding-left:40px;
+    padding-top: 5px;
+    font-size: 13px;
+    color: #717171;
+  }*/
+
+  .ics-totalPrice {
+    font-size: 17px;
+    font-weight: 500;
+  }
+</style>
