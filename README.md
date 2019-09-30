@@ -4,7 +4,7 @@ When we have a meal with our friends, usually we order different food. In the ca
 However, this application makes it easy. Just put your food and price in Mybilldivider. It will tell you how much to pay.  
 
 
-<b>[My Bill Divider](http://mybilldivider.com)</b>
+<b>[Go to My Bill Divider](http://mybilldivider.com)</b>
 
 ## Version
 0.7.1
